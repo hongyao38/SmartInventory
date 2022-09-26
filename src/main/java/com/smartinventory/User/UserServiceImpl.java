@@ -5,48 +5,50 @@ import java.util.*;
 import org.springframework.stereotype.Service;
 
 @Service
-public class UserServiceImpl implements UserService{
-    private UserRepository users;
+public class UserServiceImpl implements UserService {
+    
+    private final UserRepository userRepository;
 
-    public UserServiceImpl(UserRepository users) {
-        this.users = users;
+    public UserServiceImpl(UserRepository userRepository) {
+        this.userRepository = userRepository;
     }
 
     @Override
     public List<User> listUsers() {
-        return users.findAll();
+        return userRepository.findAll();
     }
 
     @Override
     public User getUser(String email) {
-        return users.findById(email).orElse(null);
+        return userRepository.findById(email).orElse(null);
     }
 
     @Override
     public String getEmail(String username) {
-        return users.findEmailByUsername(username);
-    }
-
-    @Override
-    public User addUser(User user) {
-        if (getUser(user.getEmail()) == null) {
-            return users.save(user);
-        } else {
-            return null;
-        }
+        return userRepository.findEmailByUsername(username);
     }
 
     @Override
     public User updateUser(String email, User newUser) {
-        return users.findById(email).map(user -> {user.setPassword(newUser.getPassword());
-            return users.save(user);
+        return userRepository.findById(email).map(user -> {user.setPassword(newUser.getPassword());
+            return userRepository.save(user);
         }).orElse(null);
     }
 
     @Override
     public void deleteUser(String email) {
-        users.deleteById(email);
+        userRepository.deleteById(email);
     }
 
-    
+    /*
+     * Create new exceptions to throw for cases 
+     * where users are not added successfully
+     * Update UserServiceImpl accordingly
+     */
+    public User addUser(User user) {
+        if (!userRepository.findByUsername(user.getUsername()).isEmpty()) {
+            return null;
+        }
+        return userRepository.save(user);
+    }
 }
