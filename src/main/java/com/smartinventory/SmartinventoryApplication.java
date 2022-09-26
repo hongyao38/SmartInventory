@@ -6,15 +6,17 @@ import java.util.*;
 import org.springframework.context.ApplicationContext;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
+// import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
 
-@SpringBootApplication(exclude = {DataSourceAutoConfiguration.class })
+@SpringBootApplication //(exclude = {DataSourceAutoConfiguration.class })
 public class SmartinventoryApplication {
 
 	public static void main(String[] args) {
 		ApplicationContext ctx = SpringApplication.run(SmartinventoryApplication.class, args);
 
 		UserController controller = ctx.getBean(UserController.class);
+
+		controller.addUser(new User("hello@live.com.sg", "Bobby", "123456"));
 
 		List<User> users = controller.getUsers();
 		for (User u : users) {
