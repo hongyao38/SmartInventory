@@ -2,17 +2,12 @@ package com.smartinventory.user;
 
 import java.util.*;
 
-import org.springframework.stereotype.Service;
+public interface UserService {
+    List<User> listUsers();
+    User getUser(String email);
+    String getEmail(String username);
+    User addUser(String email, String username, String password);
+    User updateUser(String email, String password);
+    void deleteUser(String email);
 
-@Service
-public class UserService {
-    private List<User> users = new ArrayList<>();
-
-    public UserService() {
-        users.add(new User("me@live.com.sg", "Bobby", "1234"));
-    }
-
-    public List<User> listUsers() {
-        return users;
-    }
 }

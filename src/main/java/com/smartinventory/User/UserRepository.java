@@ -1,4 +1,4 @@
-package com.smartinventory.User;
+package com.smartinventory.user;
 
 import java.util.*;
 
