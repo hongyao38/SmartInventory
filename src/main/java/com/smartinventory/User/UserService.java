@@ -6,8 +6,8 @@ public interface UserService {
     List<User> listUsers();
     User getUser(String email);
     String getEmail(String username);
-    User addUser(String email, String username, String password);
-    User updateUser(String email, String password);
+    User addUser(User user);
+    User updateUser(String email, User user);
     void deleteUser(String email);
-
+    
 }
