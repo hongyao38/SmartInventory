@@ -6,6 +6,9 @@ import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 
+import lombok.*;
+
+@NoArgsConstructor
 @Service("emailSenderService")
 public class EmailSenderService {
 

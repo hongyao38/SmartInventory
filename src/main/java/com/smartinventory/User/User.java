@@ -10,6 +10,7 @@ import lombok.*;
 @Entity
 @Setter
 @Getter
+@NoArgsConstructor
 public class User {
 
     @Id @NotNull @Email
@@ -26,8 +27,4 @@ public class User {
         this.username = username;
         this.password = password;
     }
-
-    public User() {}
-
-    
 }
