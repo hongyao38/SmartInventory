@@ -35,7 +35,6 @@ public class ResetPasswordTest {
 	@LocalServerPort
 	private int port;
 
-
 	@InjectMocks
 	private UserServiceImpl userService;
 
@@ -48,15 +47,13 @@ public class ResetPasswordTest {
 	// @Autowired
 	// private BCryptPasswordEncoder encoder;
 
-
-
 	@Test
 	public void sendEmail_Success() throws Exception {
 		// URI uri = new URI(baseUrl + port + "/forgetPassword");
 
 		User user = new User("geraldng1999@gmail.com", "geraldng", "password123");
-	
-		// ResponseEntity<User> 
+
+		// ResponseEntity<User>
 
 		// userService.addUser(user1);
 		Optional<User> userOptional = Optional.of(user);
@@ -79,7 +76,7 @@ public class ResetPasswordTest {
 
 		when(tokens.findByConfirmationToken("d6bde77a-6efa-4a2d-86d5-a2aef368f03b")).thenReturn(tokenOptional);
 		when(users.findByEmailIgnoreCase("geraldng1999@gmail.com")).thenReturn(userOptional);
-
+		when(userService.updateUser("geraldng1999@gmail.com",  new User("geraldng1999@gmail.com","geraldng", "newPassword"))).thenReturn(user);
 		User verifyUser = userService.validateResetToken("d6bde77a-6efa-4a2d-86d5-a2aef368f03b", "newpassword");
 		assertNotNull(verifyUser);
 		verify(tokens).findByConfirmationToken(tokenTest.getConfirmationToken());
