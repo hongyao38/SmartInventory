@@ -39,7 +39,7 @@ public class UserController {
     // BCryptPasswordEncoder encoder = new BCryptPasswordEncoder(12);
     
     @RequestMapping(value="/forget-password", method=RequestMethod.POST)
-    public ModelAndView forgotUserPassword(ModelAndView modeAndView, User user){
-        return userService.forgetUserPassword(modeAndView, user);
+    public void forgotUserPassword(User user){
+        userService.forgetUserPassword(user);
     }
 }
