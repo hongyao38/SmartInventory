@@ -50,7 +50,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User updateUser(String email, User newUser) {
-        return userRepository.findById(email).map(user -> {
+        return userRepository.findByEmailIgnoreCase(email).map(user -> {
             user.setPassword(newUser.getPassword());
             return userRepository.save(user);
         }).orElse(null);
@@ -153,8 +153,14 @@ public class UserServiceImpl implements UserService {
         Optional<ConfirmationToken> token = tokenRepository.findByConfirmationToken(confirmationToken);
         if (!token.isEmpty()) {
             Optional<User> user = userRepository.findByEmailIgnoreCase(token.get().getUser().getEmail());
+            if(!user.isEmpty()){
+                User updatedUser = updateUser(user.get().getEmail(), new User(user.get().getUsername(), user.get().getUsername(), password));
+                return updatedUser;
 
-            return user.get();
+            }else{
+                return null;
+            }
+            
         } else {
             return null;
         }
