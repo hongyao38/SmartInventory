@@ -1,5 +1,6 @@
 package com.smartinventory;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.verify;
@@ -64,6 +65,7 @@ public class ResetPasswordTest {
         assertThrows(UserEmailNotFoundException.class,
                     () -> userService.forgetUserPassword(user));
         
+        // Verify that email was looked through by mock repo
         verify(users).findByEmailIgnoreCase(email);
     }
 
@@ -81,13 +83,15 @@ public class ResetPasswordTest {
 
         // Mock return object for updateUserPassword a
         String email = user.getEmail();
+        String newPassword = "newPassword";
         when(tokens.findByConfirmationToken("d6bde77a-6efa-4a2d-86d5-a2aef368f03b")).thenReturn(tokenOptional);
         when(users.findByEmailIgnoreCase(email)).thenReturn(Optional.of(user));
-        when(userService.updateUserPassword(email, new User(email, "geraldng", "newPassword"))).thenReturn(user);
+        when(userService.updateUserPassword(email, newPassword)).thenReturn(user);
 
         // Assertion
-        User verifyUser = userService.validateResetToken("d6bde77a-6efa-4a2d-86d5-a2aef368f03b", "newpassword");
+        User verifyUser = userService.validateResetToken("d6bde77a-6efa-4a2d-86d5-a2aef368f03b", newPassword);
         assertNotNull(verifyUser);
+        assertEquals(newPassword, verifyUser.getPassword());
         verify(tokens).findByConfirmationToken(tokenTest.getConfirmationToken());
     }
 }

@@ -1,0 +1,29 @@
+version: '3.0'
+services:
+  smart-inventory-db:
+
+    container_name: smart-inventory-db
+    image: mysql
+    env_file:
+      - ./main.env
+    volumes:
+      - mysql_data:/var/lib/mysql/data/
+    ports:
+      - 3306:3306
+
+  smart-inventory-spring-backened:
+
+    container_name: smart-inventory-spring-backened
+    image: hongyao38/smart-inventory:latest
+    build: .
+    env_file:
+      - ./main.env
+    depends_on:
+      - smart-inventory-db
+    volumes:
+      - .:/opt/app
+    ports:
+      - 8080:8080
+
+volumes:
+  mysql_data:

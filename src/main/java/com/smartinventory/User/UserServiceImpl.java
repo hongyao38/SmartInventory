@@ -1,14 +1,9 @@
 package com.smartinventory.user;
 
-import java.util.*;
-import com.smartinventory.exceptions.user.*;
+import java.util.List;
+import java.util.Optional;
+import java.util.Properties;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.servlet.ModelAndView;
 import javax.mail.Message;
 import javax.mail.MessagingException;
 import javax.mail.PasswordAuthentication;
@@ -17,6 +12,14 @@ import javax.mail.Transport;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 
+import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+
+import com.smartinventory.exceptions.token.InvalidTokenException;
+import com.smartinventory.exceptions.user.UserEmailNotFoundException;
+import com.smartinventory.exceptions.user.UsernameTakenException;
 import com.smartinventory.security.ConfirmationToken;
 import com.smartinventory.security.ConfirmationTokenRepository;
 
@@ -58,17 +61,12 @@ public class UserServiceImpl implements UserService {
      * throws UserEmailNotFoundException
      */
     @Override
-    public User updateUserPassword(String email, User newUser) throws UserEmailNotFoundException {
-        // return userRepository.findByEmailIgnoreCase(email).map(user -> {
-        //     user.setPassword(newUser.getPassword());
-        //     return userRepository.save(user);
-        // }).orElseThrow(() -> new UserEmailNotFoundException(email));
-
+    public User updateUserPassword(String email, String password) throws UserEmailNotFoundException {
         User user = userRepository.findByEmailIgnoreCase(email).get();
         if (user == null) {
             throw new UserEmailNotFoundException(email);
         }
-        user.setPassword(newUser.getPassword());
+        user.setPassword(password);
         return userRepository.save(user);
     }
 
@@ -93,7 +91,6 @@ public class UserServiceImpl implements UserService {
 
     
     /*
-     * NOTE: DO WE WANT TO TAKE IN USER OBJECT?
      * Takes in user object, looks for user via user email
      * Sends reset password email if user found
      * If user not found,
@@ -101,6 +98,7 @@ public class UserServiceImpl implements UserService {
      */
     @RequestMapping(value = "/forgot-password", method = RequestMethod.POST)
     public User forgetUserPassword(User user) throws UserEmailNotFoundException {
+
         Optional<User> existingUser = userRepository.findByEmailIgnoreCase(user.getEmail());
 
         if (existingUser.isEmpty()) {
@@ -168,23 +166,19 @@ public class UserServiceImpl implements UserService {
         return existingUser.get();
     }
 
+
     @RequestMapping(value = "/confirm-reset", method = { RequestMethod.GET, RequestMethod.POST })
     public User validateResetToken(@RequestParam("token") String confirmationToken, String password) {
         Optional<ConfirmationToken> token = tokenRepository.findByConfirmationToken(confirmationToken);
-        if (!token.isEmpty()) {
-            Optional<User> user = userRepository.findByEmailIgnoreCase(token.get().getUser().getEmail());
-            if(!user.isEmpty()){
-                User updatedUser = updateUserPassword(user.get().getEmail(), new User(user.get().getUsername(), user.get().getUsername(), password));
-                return updatedUser;
-
-            }else{
-                return null;
-            }
-            
-        } else {
-            return null;
+        if (token.isEmpty()) {
+            throw new InvalidTokenException("Invalid confirmation token!");
         }
-
+        String email = token.get().getUser().getEmail();
+        Optional<User> user = userRepository.findByEmailIgnoreCase(email);
+        if(user.isEmpty()){
+            throw new UserEmailNotFoundException(email);
+        }
+        return updateUserPassword(email, password);
     }
 
 }
