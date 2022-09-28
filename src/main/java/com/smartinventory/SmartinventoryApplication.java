@@ -13,14 +13,14 @@ public class SmartinventoryApplication {
 	public static void main(String[] args) {
 		ApplicationContext ctx = SpringApplication.run(SmartinventoryApplication.class, args);
 
-		UserController controller = ctx.getBean(UserController.class);
+		// UserController controller = ctx.getBean(UserController.class);
 
-		controller.addUser(new User("hello@live.com.sg", "Bobby", "123456"));
+		// controller.addUser(new User("hello@live.com.sg", "Bobby", "123456"));
 
-		List<User> users = controller.getUsers();
-		for (User u : users) {
-			System.out.println(u.getUsername());
-		}
+		// List<User> users = controller.getUsers();
+		// for (User u : users) {
+		// 	System.out.println(u.getUsername());
+		// }
 	}
 
 }

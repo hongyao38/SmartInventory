@@ -1,21 +1,24 @@
 package com.smartinventory.user;
 
-import java.util.*;
+import java.util.List;
 
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.servlet.ModelAndView;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.http.HttpStatus;
 
 @CrossOrigin
 @RestController
+@RequestMapping("/api/v1")
 public class UserController {
 
     private UserServiceImpl userService;
@@ -30,13 +33,16 @@ public class UserController {
         return userService.listUsers();
     }
 
-    @PostMapping("/users")
-    public User addUser(@Valid User user) {
-        return userService.addUser(user);
+    @GetMapping("/users/{id}")
+    public User getUser(@PathVariable Long id) {
+        return userService.getUserById(id);
     }
 
-    //new stuff 
-    // BCryptPasswordEncoder encoder = new BCryptPasswordEncoder(12);
+    @ResponseStatus(HttpStatus.CREATED)
+    @PostMapping("/users")
+    public User addUser(@Valid @RequestBody User user) {
+        return userService.addUser(user);
+    }
     
     @RequestMapping(value="/forget-password", method=RequestMethod.POST)
     public void forgotUserPassword(User user){

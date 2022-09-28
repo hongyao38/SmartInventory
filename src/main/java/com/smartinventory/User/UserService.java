@@ -2,8 +2,11 @@ package com.smartinventory.user;
 
 import java.util.*;
 
-public interface UserService {
+import org.springframework.security.core.userdetails.UserDetailsService;
+
+public interface UserService extends UserDetailsService {
     List<User> listUsers();
+    User getUserById(Long id);
     User getUserByEmail(String email);
     String getEmail(String username);
     User addUser(User user);

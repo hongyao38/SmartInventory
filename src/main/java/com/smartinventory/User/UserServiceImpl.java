@@ -12,6 +12,8 @@ import javax.mail.Transport;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -19,6 +21,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import com.smartinventory.exceptions.token.InvalidTokenException;
 import com.smartinventory.exceptions.user.UserEmailNotFoundException;
+import com.smartinventory.exceptions.user.UserIdNotFoundException;
 import com.smartinventory.exceptions.user.UsernameTakenException;
 import com.smartinventory.security.ConfirmationToken;
 import com.smartinventory.security.ConfirmationTokenRepository;
@@ -36,6 +39,21 @@ public class UserServiceImpl implements UserService {
     @Override
     public List<User> listUsers() {
         return userRepository.findAll();
+    }
+
+    @Override
+    public User getUserById(Long id) {
+        return userRepository.findById(id)
+            .orElseThrow(() -> new UserIdNotFoundException("ID: " + id));
+    }
+
+    /*
+     * Create new exception for username not found
+     */
+    @Override
+    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+        return userRepository.findByUsername(username)
+            .orElseThrow(() -> new UserEmailNotFoundException(username));
     }
 
     /*
@@ -83,7 +101,7 @@ public class UserServiceImpl implements UserService {
     public User addUser(User user) throws UsernameTakenException {
         String newUsername = user.getUsername();
 
-        if (!userRepository.findByUsername(newUsername).isEmpty()) {
+        if (userRepository.findByUsername(newUsername).isPresent()) {
             throw new UsernameTakenException(newUsername);
         }
         return userRepository.save(user);

@@ -1,0 +1,20 @@
+GET http://localhost:8080/api/v1/users
+Accept: application/json
+
+###
+GET http://localhost:8080/api/v1/users/1
+Accept: application/json
+
+###
+GET http://localhost:8080/api/v1/users/5
+Accept: application/json
+
+###
+POST http://localhost:8080/api/v1/users
+Content-Type: application/json
+
+{
+    "email": "newEmail@gmail.com",
+    "username": "dragonBoi23",
+    "password": "baby123!"
+}
