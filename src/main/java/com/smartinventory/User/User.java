@@ -69,7 +69,4 @@ public class User implements UserDetails {
     public boolean isEnabled() {
         return true;
     }
-    System.out.println("hello");
-    System.out.println("hello");
-    System.out.println("hello");
 }
