@@ -25,16 +25,17 @@ Content-Type: application/json
     "password": "baby123!"
 }
 
-### CONFIRM TOKEN
-GET http://localhost:8080/api/v1/registration/confirm?token=f077f1f0-f0d8-4e28-8427-8fc172d3de88
+### CONFIRM REGISTRATION TOKEN
+GET http://localhost:8080/api/v1/registration/confirm?token=e73eb5be-41f9-4ab5-9079-0e9357cc9e78
 
 
-###
-POST http://localhost:8080/api/v1/forget-password
+### FORGET PASSWORD
+POST http://localhost:8080/api/v1/forget-password?email=me40@live.com.sg
+
+### RESET PASSWORD
+PUT http://localhost:8080/api/v1/forget-password/reset?token=4f663b31-343a-4a23-babb-bcd9e1301056
 Content-Type: application/json
 
 {
-    "email": "me4033@gmail.com",
-    "username": "xiaodidi",
-    "password": "baby123!"
+    "password": "newPassword"
 }

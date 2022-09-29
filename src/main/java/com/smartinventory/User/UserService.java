@@ -2,28 +2,17 @@ package com.smartinventory.user;
 
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.Optional;
-import java.util.Properties;
-
-import javax.mail.Message;
-import javax.mail.MessagingException;
-import javax.mail.PasswordAuthentication;
-import javax.mail.Session;
-import javax.mail.Transport;
-import javax.mail.internet.InternetAddress;
-import javax.mail.internet.MimeMessage;
 
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
 
-import com.smartinventory.exceptions.token.InvalidTokenException;
-import com.smartinventory.exceptions.user.*;
+import com.smartinventory.exceptions.user.UserEmailNotFoundException;
+import com.smartinventory.exceptions.user.UserEmailTakenException;
+import com.smartinventory.exceptions.user.UserIdNotFoundException;
+import com.smartinventory.exceptions.user.UsernameTakenException;
 import com.smartinventory.security.token.ConfirmationToken;
 import com.smartinventory.security.token.ConfirmationTokenService;
 
@@ -118,20 +107,14 @@ public class UserService implements UserDetailsService {
      * If email does not exist,
      * throws UserEmailNotFoundException
      */
-    public User updateUserPassword(String email, String password) throws UserEmailNotFoundException {
-        User user = userRepository.findByEmailIgnoreCase(email).get();
-        if (user == null) {
-            throw new UserEmailNotFoundException(email);
-        }
-        user.setPassword(password);
-        return userRepository.save(user);
+    public int updateUserPassword(String email, String password) throws UserEmailNotFoundException {
+        password = bCryptPasswordEncoder.encode(password);
+        return userRepository.resetPassword(email, password);
     }
 
     public void deleteUser(String email) {
         userRepository.deleteByEmail(email);
     }
-
-
     
     /*
      * Takes in user object, looks for user via user email
@@ -139,96 +122,17 @@ public class UserService implements UserDetailsService {
      * If user not found,
      * throws UserEmailNotFoundException
      */
-    @RequestMapping(value = "/forgot-password", method = RequestMethod.POST)
-    public User forgetUserPassword(User user) throws UserEmailNotFoundException {
+    public String forgetUserPassword(User user) throws UserEmailNotFoundException {
 
-        // Look for user by email
-        Optional<User> existingUser = userRepository.findByEmailIgnoreCase(user.getEmail());
-        if (existingUser.isEmpty()) {
-            throw new UserEmailNotFoundException(user.getEmail());
-        }
-
-        // Recipient's email ID needs to be mentioned.
-        String to = existingUser.get().getEmail();
-
-        // Sender's email ID needs to be mentioned
-        String from = "smartinventoryCS203@gmail.com";
-
-        // Assuming you are sending email from through gmails smtp
-        String host = "smtp.gmail.com";
-
-        // Get system properties
-        Properties properties = System.getProperties();
-
-        // Setup mail server
-        properties.put("mail.smtp.host", host);
-        properties.put("mail.smtp.port", "465");
-        properties.put("mail.smtp.ssl.enable", "true");
-        properties.put("mail.smtp.auth", "true");
-
-        // Get the Session object.// and pass username and password
-        Session session = Session.getInstance(properties, new javax.mail.Authenticator() {
-
-            protected PasswordAuthentication getPasswordAuthentication() {
-
-                return new PasswordAuthentication("smartinventoryCS203@gmail.com", "cdnurpquapkwlvtz");
-
-            }
-
-        });
-
+        // Creates a confirmation token
         ConfirmationToken confirmationToken = new ConfirmationToken(
             LocalDateTime.now(),
             LocalDateTime.now().plusMinutes(15),
             user
         );
-        System.out.println(confirmationToken.getToken());
 
-        try {
-            // Create a default MimeMessage object.
-            MimeMessage message = new MimeMessage(session);
-
-            // Set From: header field of the header.
-            message.setFrom(new InternetAddress(from));
-
-            // Set To: header field of the header.
-            message.addRecipient(Message.RecipientType.TO, new InternetAddress(to));
-
-            // Set Subject: header field
-            message.setSubject("Complete Password Reset!");
-
-            // Now set the actual message
-            // Need to change the html page to the actual page
-            message.setText("To complete the password reset process, please click here: "
-                    + "localhost:8080/confirm-reset?token="
-                    + confirmationToken.getToken());
-
-            System.out.println("sending...");
-            // Send message
-            Transport.send(message);
-            System.out.println("Sent message successfully....");
-        } catch (MessagingException mex) {
-            mex.printStackTrace();
-        }
-        return existingUser.get();
+        // Saves confirmation token to database
+        tokenService.saveConfirmationToken(confirmationToken);
+        return confirmationToken.getToken();
     }
-
-
-    @RequestMapping(value = "/confirm-reset", method = { RequestMethod.GET, RequestMethod.POST })
-    public User validateResetToken(@RequestParam("token") String token, String password) {
-        
-        // Find token from 
-        Optional<ConfirmationToken> confirmationToken = tokenService.getToken(token);
-        if (confirmationToken.isEmpty()) {
-            throw new InvalidTokenException("Invalid confirmation token!");
-        }
-
-        String email = confirmationToken.get().getUser().getEmail();
-        Optional<User> user = userRepository.findByEmailIgnoreCase(email);
-        if(user.isEmpty()){
-            throw new UserEmailNotFoundException(email);
-        }
-        return updateUserPassword(email, password);
-    }
-
 }

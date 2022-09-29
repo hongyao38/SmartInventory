@@ -10,7 +10,8 @@ import com.smartinventory.exceptions.token.EmailAlreadyVerifiedException;
 import com.smartinventory.exceptions.token.InvalidTokenException;
 import com.smartinventory.security.token.ConfirmationToken;
 import com.smartinventory.security.token.ConfirmationTokenService;
-import com.smartinventory.user.*;
+import com.smartinventory.user.User;
+import com.smartinventory.user.UserService;
 
 import lombok.AllArgsConstructor;
 
@@ -80,9 +81,49 @@ public class AuthService {
     /*
      * 
      */
-    public User forgetUserPassword(AuthRequest request) {
-        return userService.forgetUserPassword(
-            new User(request.getEmail(), request.getUsername(), request.getPassword()));
+    public String forgetUserPassword(String reqEmail) {
+        
+        // Finds the user from the email entered
+        User user = userService.getUserByEmail(reqEmail);
+
+        // Get token for resetting password
+        String token = userService.forgetUserPassword(user);
+        String reqUsername = user.getUsername();
+
+        // Form email body
+        String confirmationLink = "localhost:8080/api/v1/forget-password/reset?token=" + token;
+        String emailBody = String.format("Hi, %s!%n%n" +
+                                        "Reset your password: %s\n\n" + 
+                                        "Link will expire in 15 minutes.%n", reqUsername, confirmationLink);
+
+        // Send email
+        emailSender.send(reqEmail, emailBody, "SmartInventory: Reset Password");
+        System.out.println("Reset password email sent");
+        return token;
+    }
+
+    /*
+     * 
+     */
+    public String resetPassword(String token, String password) {
+        
+        // Retrieve confirmation token from db (if exists)
+        ConfirmationToken confirmationToken = tokenService.getToken(token)
+            .orElseThrow(() -> new InvalidTokenException("Token not found!"));
+
+        // Check if token has expired
+        LocalDateTime expiresAt = confirmationToken.getExpiresAt();
+        if (expiresAt.isBefore(LocalDateTime.now())) {
+            throw new InvalidTokenException("Token not found, already expired!");
+        }
+
+        // Confirm token
+        tokenService.setConfirmedAt(token);
+
+        // Retrieve email to look for user
+        String email = confirmationToken.getUser().getEmail();
+        userService.updateUserPassword(email, password);
+        return "Reset password";
     }
     
 }
