@@ -20,7 +20,7 @@ import com.smartinventory.security.ConfirmationToken;
 import com.smartinventory.security.ConfirmationTokenRepository;
 import com.smartinventory.user.User;
 import com.smartinventory.user.UserRepository;
-import com.smartinventory.user.UserServiceImpl;
+import com.smartinventory.user.UserService;
 
 @SpringBootTest(webEnvironment = WebEnvironment.RANDOM_PORT)
 public class ResetPasswordTest {
@@ -28,7 +28,7 @@ public class ResetPasswordTest {
     private int port;
 
     @InjectMocks
-    private UserServiceImpl userService;
+    private UserService userService;
 
     @Mock
     private UserRepository users;

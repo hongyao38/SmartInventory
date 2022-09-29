@@ -39,6 +39,8 @@ public class User implements UserDetails {
     @NotNull
     private String authorities;
 
+    private Boolean isEnabled = false;
+
     public User(String email, String username, String password) {
         this.email = email;
         this.username = username;
@@ -51,22 +53,17 @@ public class User implements UserDetails {
     }
 
     @Override
-    public boolean isAccountNonExpired() {
-        return true;
-    }
-
-    @Override
-    public boolean isAccountNonLocked() {
-        return true;
-    }
-
-    @Override
-    public boolean isCredentialsNonExpired() {
-        return true;
-    }
-
-    @Override
     public boolean isEnabled() {
-        return true;
+        return isEnabled;
     }
+
+    @Override
+    public boolean isAccountNonLocked() { return true; }
+
+    @Override
+    public boolean isAccountNonExpired() { return true; }
+
+    @Override
+    public boolean isCredentialsNonExpired() { return true; }
+   
 }
