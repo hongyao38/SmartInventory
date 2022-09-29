@@ -52,7 +52,8 @@ public class UserService implements UserDetailsService {
 
 
     /*
-     * Takes in new user request, add user to DB if no user foudn
+     * Takes in new user request, add user to DB if no user found
+     * Confirmation email will be sent out to user
      * If existing user found,
      * throws UserEmailTakenException OR UsernameTakenException
      */
@@ -85,9 +86,8 @@ public class UserService implements UserDetailsService {
             user
         );
 
+        // Save token to database
         tokenService.saveConfirmationToken(confirmationToken);
-
-        // TODO: Send email
 
         return confirmationToken.getToken();
     }
