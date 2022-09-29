@@ -14,7 +14,7 @@ public class persistent_logins {
     @Column(nullable = false)
     private String username;
 
-    @Column(nullable = faslse)
+    @Column(nullable = false)
     private String token;
 
     @Column(nullable = false)
