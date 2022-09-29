@@ -30,13 +30,4 @@ public class UserController {
     public User getUser(@PathVariable Long id) {
         return userService.getUserById(id);
     }
-
-    /*
-     * SHOULD BE REDUNDANT NOW AFTER IMPLEMENTING REGISTRATION
-     */
-    // @ResponseStatus(HttpStatus.CREATED)
-    // @PostMapping("/users")
-    // public User addUser(@Valid @RequestBody User user) {
-    //     return userService.addUser(user);
-    // }
 }
