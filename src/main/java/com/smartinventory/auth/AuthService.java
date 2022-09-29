@@ -22,6 +22,11 @@ public class AuthService {
     private final ConfirmationTokenService tokenService;
     private final EmailSenderService emailSender;
 
+    /*
+     * Takes in AuthRequest object and converts it to new User
+     * Registers the new user, and sends out a confirmation email
+     * Return token string for new user
+     */
     public String register(AuthRequest request) {
 
         String reqEmail = request.getEmail();
@@ -43,6 +48,11 @@ public class AuthService {
         return token;
     }
 
+    /*
+     * Takes in token string, looks for confirmation token 
+     * Uses confirmation token to enable User (verify email)
+     * returns "confirmed" if successful
+     */
     @Transactional
     public String confirmToken(String token) {
 
@@ -58,7 +68,7 @@ public class AuthService {
         // Check if token has expired
         LocalDateTime expiresAt = confirmationToken.getExpiresAt();
         if (expiresAt.isBefore(LocalDateTime.now())) {
-            throw new InvalidTokenException("Token has already expired!");
+            throw new InvalidTokenException("Token not found, already expired!");
         }
 
         tokenService.setConfirmedAt(token);
@@ -66,6 +76,10 @@ public class AuthService {
         return "confirmed";
     }
 
+
+    /*
+     * 
+     */
     public User forgetUserPassword(AuthRequest request) {
         return userService.forgetUserPassword(
             new User(request.getEmail(), request.getUsername(), request.getPassword()));

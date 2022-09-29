@@ -66,7 +66,6 @@ public class UserService implements UserDetailsService {
         if (userRepository.findByEmailIgnoreCase(email).isPresent()) {
             throw new UserEmailTakenException(email);
         }
-
         // If username is taken, throw exception
         if (userRepository.findByUsername(username).isPresent()) {
             throw new UsernameTakenException(username);
@@ -143,8 +142,8 @@ public class UserService implements UserDetailsService {
     @RequestMapping(value = "/forgot-password", method = RequestMethod.POST)
     public User forgetUserPassword(User user) throws UserEmailNotFoundException {
 
+        // Look for user by email
         Optional<User> existingUser = userRepository.findByEmailIgnoreCase(user.getEmail());
-
         if (existingUser.isEmpty()) {
             throw new UserEmailNotFoundException(user.getEmail());
         }
