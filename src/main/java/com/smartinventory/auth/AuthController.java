@@ -19,23 +19,35 @@ public class AuthController {
 
     private final AuthService authService;
     
+    // REGISTRATION
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping("/registration")
-    public String register(@RequestBody AuthRequest request) {
+    public String register(@RequestBody RegistrationDTO request) {
         return authService.register(request);
     }
 
-    @GetMapping(path = "registration/confirm")
+    // CONFIRM REGISTRATION
+    @ResponseStatus(HttpStatus.ACCEPTED)
+    @GetMapping(path = "/registration/confirm")
     public String confirm(@RequestParam("token") String token) {
         return authService.confirmToken(token);
     }
 
+    // LOGIN
+    @ResponseStatus(HttpStatus.CREATED)
+    @PostMapping(path = "/login")
+    public String login(@RequestBody LoginDTO request) {
+        return authService.login(request);
+    }
+
+    // FORGET PASSWORD REQUEST
     @ResponseStatus(HttpStatus.ACCEPTED)
     @PostMapping("/forget-password")
     public String forgetUserPassword(@RequestParam String email){
         return authService.forgetUserPassword(email);
     }
 
+    // CONFIRM AND RESET PASSWORD
     @ResponseStatus(HttpStatus.ACCEPTED)
     @PutMapping(path = "/forget-password/reset")
     public String resetPassword(@RequestParam("token") String token, @RequestBody String password) {

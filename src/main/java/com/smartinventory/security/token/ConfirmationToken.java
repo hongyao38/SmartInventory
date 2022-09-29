@@ -1,6 +1,6 @@
 package com.smartinventory.security.token;
 
-import java.time.LocalDateTime;
+import java.time.ZonedDateTime;
 import java.util.UUID;
 
 import javax.persistence.Column;
@@ -36,18 +36,18 @@ public class ConfirmationToken {
     private String token;
 
     @Column(nullable = false)
-    private LocalDateTime createdAt;
+    private ZonedDateTime createdAt;
 
     @Column(nullable = false)
-    private LocalDateTime expiresAt;
+    private ZonedDateTime expiresAt;
 
-    private LocalDateTime confirmedAt;
+    private ZonedDateTime confirmedAt;
 
     @ManyToOne
     @JoinColumn(name = "user_id", nullable = false)
     private User user;
 
-    public ConfirmationToken(LocalDateTime createdAt, LocalDateTime expiresAt, User user) {
+    public ConfirmationToken(ZonedDateTime createdAt, ZonedDateTime expiresAt, User user) {
         token = UUID.randomUUID().toString();
         this.createdAt = createdAt;
         this.expiresAt = expiresAt;

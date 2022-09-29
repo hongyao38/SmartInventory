@@ -1,6 +1,6 @@
 package com.smartinventory.security.token;
 
-import java.time.LocalDateTime;
+import java.time.ZonedDateTime;
 import java.util.Optional;
 
 import org.springframework.stereotype.Service;
@@ -22,6 +22,6 @@ public class ConfirmationTokenService {
     }
 
     public int setConfirmedAt(String token) {
-        return tokenRepository.updateConfirmedAt(token, LocalDateTime.now());
+        return tokenRepository.updateConfirmedAt(token, ZonedDateTime.now());
     }
 }

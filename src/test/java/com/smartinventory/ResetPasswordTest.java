@@ -11,10 +11,13 @@ import java.util.Optional;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
 import org.springframework.boot.test.web.server.LocalServerPort;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
+import com.smartinventory.auth.AuthService;
 import com.smartinventory.exceptions.user.UserEmailNotFoundException;
 import com.smartinventory.security.token.ConfirmationToken;
 import com.smartinventory.security.token.ConfirmationTokenRepository;
@@ -34,10 +37,13 @@ public class ResetPasswordTest {
     private UserRepository users;
 
     @Mock
+    private AuthService authService;
+
+    @Mock
     private ConfirmationTokenRepository tokens;
 
-    // @Autowired
-    // private BCryptPasswordEncoder encoder;
+    @Autowired
+    private BCryptPasswordEncoder encoder;
 
     // @Test
     // public void sendEmail_Success() throws Exception {

@@ -1,6 +1,6 @@
 package com.smartinventory.auth;
 
-import java.time.LocalDateTime;
+import java.time.ZonedDateTime;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -28,7 +28,7 @@ public class AuthService {
      * Registers the new user, and sends out a confirmation email
      * Return token string for new user
      */
-    public String register(AuthRequest request) {
+    public String register(RegistrationDTO request) {
 
         String reqEmail = request.getEmail();
         String reqUsername = request.getUsername();
@@ -67,8 +67,8 @@ public class AuthService {
         }
 
         // Check if token has expired
-        LocalDateTime expiresAt = confirmationToken.getExpiresAt();
-        if (expiresAt.isBefore(LocalDateTime.now())) {
+        ZonedDateTime expiresAt = confirmationToken.getExpiresAt();
+        if (expiresAt.isBefore(ZonedDateTime.now())) {
             throw new InvalidTokenException("Token not found, already expired!");
         }
 
@@ -77,9 +77,23 @@ public class AuthService {
         return "confirmed";
     }
 
+    // TODO: Finish implementing login
+    public String login(LoginDTO request) {
+
+        // Get username and password (and encode) from request DTO
+        String username = request.getUsername();
+        String encodedPassword = request.getPassword();
+
+        // Package DTO parameters into User object to login in userService
+        userService.loginUser(new User(null, username, encodedPassword));
+
+        return String.format("%s: Logged in.", request.getUsername());
+    }
+
 
     /*
-     * 
+     * Takes in an email, and return a token that pairs with the user
+     * to confirm request to reset password
      */
     public String forgetUserPassword(String reqEmail) {
         
@@ -94,7 +108,9 @@ public class AuthService {
         String confirmationLink = "localhost:8080/api/v1/forget-password/reset?token=" + token;
         String emailBody = String.format("Hi, %s!%n%n" +
                                         "Reset your password: %s\n\n" + 
-                                        "Link will expire in 15 minutes.%n", reqUsername, confirmationLink);
+                                        "Link will expire in 15 minutes.%n" +
+                                        "If you did not request for a password reset" +
+                                        "you may ignore this email&n", reqUsername, confirmationLink);
 
         // Send email
         emailSender.send(reqEmail, emailBody, "SmartInventory: Reset Password");
@@ -103,7 +119,9 @@ public class AuthService {
     }
 
     /*
-     * 
+     * Takes in token for confirmation, and a new password
+     * to update the previous password where user email matches
+     * confirmation token's user email
      */
     public String resetPassword(String token, String password) {
         
@@ -112,8 +130,8 @@ public class AuthService {
             .orElseThrow(() -> new InvalidTokenException("Token not found!"));
 
         // Check if token has expired
-        LocalDateTime expiresAt = confirmationToken.getExpiresAt();
-        if (expiresAt.isBefore(LocalDateTime.now())) {
+        ZonedDateTime expiresAt = confirmationToken.getExpiresAt();
+        if (expiresAt.isBefore(ZonedDateTime.now())) {
             throw new InvalidTokenException("Token not found, already expired!");
         }
 

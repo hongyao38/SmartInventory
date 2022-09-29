@@ -65,6 +65,7 @@ public class User implements UserDetails {
         return isEnabled;
     }
 
+    // NOTE: NOT PLANNING TO BE IMPLEMENTED
     @Override
     public boolean isAccountNonLocked() { return true; }
 

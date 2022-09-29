@@ -1,6 +1,6 @@
 package com.smartinventory.security.token;
 
-import java.time.LocalDateTime;
+import java.time.ZonedDateTime;
 import java.util.Optional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -17,5 +17,5 @@ public interface ConfirmationTokenRepository extends JpaRepository<ConfirmationT
     @Transactional
     @Modifying
     @Query("UPDATE ConfirmationToken c SET c.confirmedAt = ?2 WHERE c.token = ?1")
-    int updateConfirmedAt(String token, LocalDateTime time);
+    int updateConfirmedAt(String token, ZonedDateTime time);
 }

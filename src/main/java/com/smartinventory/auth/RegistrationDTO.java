@@ -12,11 +12,15 @@ import lombok.ToString;
 @AllArgsConstructor
 @EqualsAndHashCode
 @ToString
-public class AuthRequest {
+public class RegistrationDTO {
     
     @NotNull @Email
     private final String email;
+
+    @NotNull
     private final String username;
+    
+    @NotNull
     private final String password;
 
 }

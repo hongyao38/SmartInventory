@@ -26,14 +26,41 @@ Content-Type: application/json
 }
 
 ### CONFIRM REGISTRATION TOKEN
-GET http://localhost:8080/api/v1/registration/confirm?token=e73eb5be-41f9-4ab5-9079-0e9357cc9e78
+GET http://localhost:8080/api/v1/registration/confirm?token=7b9fbfd1-8ad4-4cad-a118-1eaceed6c9f7
+
+### LOGIN (SUCCESS)
+POST http://localhost:8080/api/v1/login
+Content-Type: application/json
+
+{
+    "username": "xiaodidi",
+    "password": "baby123!"
+}
+
+### LOGIN (FAIL INVALID USERNAME)
+POST http://localhost:8080/api/v1/login
+Content-Type: application/json
+
+{
+    "username": "xiaojiejie",
+    "password": "baby123!"
+}
+
+### LOGIN (FAIL INVALID PASSWORD)
+POST http://localhost:8080/api/v1/login
+Content-Type: application/json
+
+{
+    "username": "xiaodidi",
+    "password": "wrongpassword"
+}
 
 
 ### FORGET PASSWORD
 POST http://localhost:8080/api/v1/forget-password?email=me40@live.com.sg
 
 ### RESET PASSWORD
-PUT http://localhost:8080/api/v1/forget-password/reset?token=4f663b31-343a-4a23-babb-bcd9e1301056
+PUT http://localhost:8080/api/v1/forget-password/reset?token=4fce4a6f-1dc5-4c2e-8670-0cd89a5da14c
 Content-Type: application/json
 
 {

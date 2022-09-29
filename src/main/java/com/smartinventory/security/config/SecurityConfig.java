@@ -36,6 +36,7 @@ public class SecurityConfig {
             .and()
         .authorizeRequests()
             .antMatchers("/users").permitAll()
+            .antMatchers("api/v1/login").permitAll()
             .and()
         .authenticationProvider(authenticationProvider())
         .csrf().disable() // CSRF protection is needed only for browser based attacks
