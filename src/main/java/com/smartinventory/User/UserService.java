@@ -1,5 +1,6 @@
 package com.smartinventory.user;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 import java.util.Properties;
@@ -23,8 +24,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import com.smartinventory.exceptions.token.InvalidTokenException;
 import com.smartinventory.exceptions.user.*;
-import com.smartinventory.security.ConfirmationToken;
-import com.smartinventory.security.ConfirmationTokenRepository;
+import com.smartinventory.security.token.ConfirmationToken;
+import com.smartinventory.security.token.ConfirmationTokenService;
 
 import lombok.AllArgsConstructor;
 
@@ -33,7 +34,7 @@ import lombok.AllArgsConstructor;
 public class UserService implements UserDetailsService {
 
     private final UserRepository userRepository;
-    private final ConfirmationTokenRepository tokenRepository;
+    private final ConfirmationTokenService tokenService;
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
 
     public List<User> listUsers() {
@@ -45,9 +46,53 @@ public class UserService implements UserDetailsService {
             .orElseThrow(() -> new UserIdNotFoundException("ID: " + id));
     }
 
+    public int enableUser(String email) {
+        return userRepository.enableUser(email);
+    }
+
+
     /*
-     * Create new exception for username not found
+     * Takes in new user request, add user to DB if no user foudn
+     * If existing user found,
+     * throws UserEmailTakenException OR UsernameTakenException
      */
+    public String registerUser(User user) {
+
+        String email = user.getEmail();
+        String username = user.getUsername();
+
+        // If email is taken, throw exception
+        if (userRepository.findByEmailIgnoreCase(email).isPresent()) {
+            throw new UserEmailTakenException(email);
+        }
+
+        // If username is taken, throw exception
+        if (userRepository.findByUsername(username).isPresent()) {
+            throw new UsernameTakenException(username);
+        }
+
+        // Encrypt and set password
+        String encodedPassword = bCryptPasswordEncoder.encode(user.getPassword());
+        user.setPassword(encodedPassword);
+
+        // Add user to database
+        userRepository.save(user);
+
+        // Create a confirmationToken object to match to user
+        ConfirmationToken confirmationToken = new ConfirmationToken(
+            LocalDateTime.now(),
+            LocalDateTime.now().plusMinutes(15),
+            user
+        );
+
+        tokenService.saveConfirmationToken(confirmationToken);
+
+        // TODO: Send email
+
+        return confirmationToken.getToken();
+    }
+
+
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         return userRepository.findByUsername(username)
@@ -87,46 +132,6 @@ public class UserService implements UserDetailsService {
         userRepository.deleteByEmail(email);
     }
 
-    /*
-     * Finds existing users with desired username, add new user if no user found
-     * If existing user found,
-     * throws UsernameTakenException
-     */
-    // public User addUser(User user) throws UsernameTakenException {
-    //     String newUsername = user.getUsername();
-
-    //     if (userRepository.findByUsername(newUsername).isPresent()) {
-    //         throw new UsernameTakenException(newUsername);
-    //     }
-    //     return userRepository.save(user);
-    // }
-
-    public String registerUser(User user) {
-
-        String email = user.getEmail();
-        String username = user.getUsername();
-
-        // If email is taken, throw exception
-        if (userRepository.findByEmailIgnoreCase(email).isPresent()) {
-            throw new UserEmailTakenException(email);
-        }
-
-        // If username is taken, throw exception
-        if (userRepository.findByUsername(username).isPresent()) {
-            throw new UsernameTakenException(username);
-        }
-
-        // Encrypt and set password
-        String encodedPassword = bCryptPasswordEncoder.encode(user.getPassword());
-        user.setPassword(encodedPassword);
-
-        // Add user to database
-        userRepository.save(user);
-
-        // TODO: Send confirmation token
-
-        return "it works (registerUser)";
-    }
 
     
     /*
@@ -173,8 +178,12 @@ public class UserService implements UserDetailsService {
 
         });
 
-        ConfirmationToken confirmationToken = new ConfirmationToken(existingUser.get());
-        System.out.println(confirmationToken.getConfirmationToken());
+        ConfirmationToken confirmationToken = new ConfirmationToken(
+            LocalDateTime.now(),
+            LocalDateTime.now().plusMinutes(15),
+            user
+        );
+        System.out.println(confirmationToken.getToken());
 
         try {
             // Create a default MimeMessage object.
@@ -193,7 +202,7 @@ public class UserService implements UserDetailsService {
             // Need to change the html page to the actual page
             message.setText("To complete the password reset process, please click here: "
                     + "localhost:8080/confirm-reset?token="
-                    + confirmationToken.getConfirmationToken());
+                    + confirmationToken.getToken());
 
             System.out.println("sending...");
             // Send message
@@ -207,12 +216,15 @@ public class UserService implements UserDetailsService {
 
 
     @RequestMapping(value = "/confirm-reset", method = { RequestMethod.GET, RequestMethod.POST })
-    public User validateResetToken(@RequestParam("token") String confirmationToken, String password) {
-        Optional<ConfirmationToken> token = tokenRepository.findByConfirmationToken(confirmationToken);
-        if (token.isEmpty()) {
+    public User validateResetToken(@RequestParam("token") String token, String password) {
+        
+        // Find token from 
+        Optional<ConfirmationToken> confirmationToken = tokenService.getToken(token);
+        if (confirmationToken.isEmpty()) {
             throw new InvalidTokenException("Invalid confirmation token!");
         }
-        String email = token.get().getUser().getEmail();
+
+        String email = confirmationToken.get().getUser().getEmail();
         Optional<User> user = userRepository.findByEmailIgnoreCase(email);
         if(user.isEmpty()){
             throw new UserEmailNotFoundException(email);

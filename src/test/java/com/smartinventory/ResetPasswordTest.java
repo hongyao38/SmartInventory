@@ -16,8 +16,8 @@ import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
 import org.springframework.boot.test.web.server.LocalServerPort;
 
 import com.smartinventory.exceptions.user.UserEmailNotFoundException;
-import com.smartinventory.security.ConfirmationToken;
-import com.smartinventory.security.ConfirmationTokenRepository;
+import com.smartinventory.security.token.ConfirmationToken;
+import com.smartinventory.security.token.ConfirmationTokenRepository;
 import com.smartinventory.user.User;
 import com.smartinventory.user.UserRepository;
 import com.smartinventory.user.UserService;
@@ -73,7 +73,7 @@ public class ResetPasswordTest {
     public void verifyToken_Success() {
         // Create token for testing
         ConfirmationToken tokenTest = new ConfirmationToken();
-        tokenTest.setConfirmationToken("d6bde77a-6efa-4a2d-86d5-a2aef368f03b");
+        tokenTest.setToken("d6bde77a-6efa-4a2d-86d5-a2aef368f03b");
 
         // Create user for testing
         Optional<ConfirmationToken> tokenOptional = Optional.of(tokenTest);
@@ -84,7 +84,7 @@ public class ResetPasswordTest {
         // Mock return object for updateUserPassword a
         String email = user.getEmail();
         String newPassword = "newPassword";
-        when(tokens.findByConfirmationToken("d6bde77a-6efa-4a2d-86d5-a2aef368f03b")).thenReturn(tokenOptional);
+        when(tokens.findByToken("d6bde77a-6efa-4a2d-86d5-a2aef368f03b")).thenReturn(tokenOptional);
         when(users.findByEmailIgnoreCase(email)).thenReturn(Optional.of(user));
         when(userService.updateUserPassword(email, newPassword)).thenReturn(user);
 
@@ -92,6 +92,6 @@ public class ResetPasswordTest {
         User verifyUser = userService.validateResetToken("d6bde77a-6efa-4a2d-86d5-a2aef368f03b", newPassword);
         assertNotNull(verifyUser);
         assertEquals(newPassword, verifyUser.getPassword());
-        verify(tokens).findByConfirmationToken(tokenTest.getConfirmationToken());
+        verify(tokens).findByToken(tokenTest.getToken());
     }
 }
