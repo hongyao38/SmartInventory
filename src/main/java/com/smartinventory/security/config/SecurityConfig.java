@@ -51,14 +51,14 @@ public class SecurityConfig {
             .permitAll()
         .and()
         .rememberMe()
-            .tokenRepository(ConfirmationTokenRepo())
+            .tokenRepository(PersistentTokenRepo())
         .and()
         .headers().disable();
         return http.build();
     }
 
     @Bean
-    public PersistentTokenRepository ConfirmationTokenRepo() {
+    public PersistentTokenRepository PersistentTokenRepo() {
         JdbcTokenRepositoryImpl tokenRepo = new JdbcTokenRepositoryImpl();
         tokenRepo.setDataSource(dataSource);
         return tokenRepo;
