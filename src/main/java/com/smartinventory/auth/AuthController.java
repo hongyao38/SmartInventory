@@ -43,8 +43,8 @@ public class AuthController {
     // FORGET PASSWORD REQUEST
     @ResponseStatus(HttpStatus.ACCEPTED)
     @PostMapping("/forget-password")
-    public String forgetUserPassword(@RequestParam String email){
-        return authService.forgetUserPassword(email);
+    public String forgetUserPassword(@RequestBody ForgetPasswordDTO request){
+        return authService.forgetUserPassword(request);
     }
 
     // CONFIRM AND RESET PASSWORD

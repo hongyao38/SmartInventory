@@ -26,7 +26,7 @@ Content-Type: application/json
 }
 
 ### CONFIRM REGISTRATION TOKEN
-GET http://localhost:8080/api/v1/registration/confirm?token=7b9fbfd1-8ad4-4cad-a118-1eaceed6c9f7
+GET http://localhost:8080/api/v1/registration/confirm?token=22789f93-dc98-488b-b9d6-a47cd78bfa12
 
 ### LOGIN (SUCCESS)
 POST http://localhost:8080/api/v1/login
@@ -42,7 +42,7 @@ POST http://localhost:8080/api/v1/login
 Content-Type: application/json
 
 {
-    "username": "xiaojiejie",
+    "username": "xiaomama",
     "password": "baby123!"
 }
 
@@ -57,10 +57,15 @@ Content-Type: application/json
 
 
 ### FORGET PASSWORD
-POST http://localhost:8080/api/v1/forget-password?email=me40@live.com.sg
+POST http://localhost:8080/api/v1/forget-password
+Content-Type: application/json
+
+{
+    "email": "me40@live.com.sg"
+}
 
 ### RESET PASSWORD
-PUT http://localhost:8080/api/v1/forget-password/reset?token=4fce4a6f-1dc5-4c2e-8670-0cd89a5da14c
+PUT http://localhost:8080/api/v1/forget-password/reset?token=e6424f71-84ea-4b14-9130-fe26bda17208
 Content-Type: application/json
 
 {

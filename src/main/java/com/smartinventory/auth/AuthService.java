@@ -95,7 +95,9 @@ public class AuthService {
      * Takes in an email, and return a token that pairs with the user
      * to confirm request to reset password
      */
-    public String forgetUserPassword(String reqEmail) {
+    public String forgetUserPassword(ForgetPasswordDTO request) {
+
+        String reqEmail = request.getEmail();
         
         // Finds the user from the email entered
         User user = userService.getUserByEmail(reqEmail);
