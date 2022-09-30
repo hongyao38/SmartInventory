@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 public class UserEmailTakenException extends RuntimeException {
     
     public UserEmailTakenException(String email) {
-        super(String.format("email %s is already taken"));
+        super(String.format("email %s is already taken", email));
     }
 
 }
