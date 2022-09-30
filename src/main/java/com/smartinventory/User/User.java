@@ -44,10 +44,11 @@ public class User implements UserDetails {
     @NotNull @Size(min=5, max=50)
     private String password;
 
+    // TODO: Implement the roles for the users (for authorization)
     @NotNull
     private String authorities;
 
-    private Boolean isEnabled = false;
+    private Boolean isEnabled = false; // Whether the user is verified
 
     public User(String email, String username, String password) {
         this.email = email;

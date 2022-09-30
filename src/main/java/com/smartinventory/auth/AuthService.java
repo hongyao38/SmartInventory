@@ -24,7 +24,7 @@ public class AuthService {
     private final EmailSenderService emailSender;
 
     /*
-     * Takes in AuthRequest object and converts it to new User
+     * Takes in RegistrationDTO object and converts it to new User
      * Registers the new user, and sends out a confirmation email
      * Return token string for new user
      */

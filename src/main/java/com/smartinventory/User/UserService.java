@@ -33,6 +33,7 @@ public class UserService implements UserDetailsService {
         return userRepository.findAll();
     }
 
+    // TODO: Propagate the exception to Controller
     public User getUserById(Long id) {
         return userRepository.findById(id)
             .orElseThrow(() -> new UserIdNotFoundException(id));
