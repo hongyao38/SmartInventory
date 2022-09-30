@@ -1,17 +1,12 @@
 package com.smartinventory;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
-import java.util.MissingFormatArgumentException;
 import java.util.Optional;
 
-import com.smartinventory.exceptions.user.UserEmailNotFoundException;
-import com.smartinventory.exceptions.user.UserEmailTakenException;
 import com.smartinventory.security.token.ConfirmationTokenService;
 import com.smartinventory.user.User;
 import com.smartinventory.user.UserRepository;
@@ -19,7 +14,6 @@ import com.smartinventory.user.UserService;
 
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.junit.jupiter.api.function.Executable;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
