@@ -10,6 +10,7 @@ import static org.mockito.Mockito.when;
 
 import java.util.Optional;
 
+import com.smartinventory.exceptions.user.UserEmailTakenException;
 import com.smartinventory.exceptions.user.UsernameTakenException;
 import com.smartinventory.security.token.ConfirmationTokenService;
 import com.smartinventory.user.User;
@@ -74,6 +75,33 @@ public class UserServiceTest {
 
         try {
             verify(users).findByUsername(user.getUsername());
+            verify(users).findByEmailIgnoreCase(user.getEmail());
+        } catch (Exception e) {
+            
+        }
+        
+    }
+
+    @Test
+    void addUser_SameEmail_ReturnException() {
+
+        //arrange
+        User user = new User("a@gmail.com", "user", "password");
+        users.save(new User("a@gmail.com", "user1", "password"));
+
+        //mock
+        when(users.findByEmailIgnoreCase(any(String.class))).thenThrow(new UserEmailTakenException(user.getEmail()));
+
+        // try {
+        //     String regUser = userService.registerUser(user);
+        // } catch (Exception e) {
+        //     assertTrue(e instanceof UserEmailTakenException);
+        // }
+
+        assertThrows(UserEmailTakenException.class, () -> userService.registerUser(user));
+        
+
+        try {
             verify(users).findByEmailIgnoreCase(user.getEmail());
         } catch (Exception e) {
             
