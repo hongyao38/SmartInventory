@@ -84,7 +84,7 @@ public class UserService implements UserDetailsService {
         }
         // If username is taken, throw exception
         if (userRepository.findByUsername(username).isPresent()) {
-            throw new UsernameTakenException(username);
+            throw new UsernameTakenException(user);
         }
 
         // Encrypt and set password

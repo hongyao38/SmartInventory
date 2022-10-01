@@ -1,12 +1,16 @@
 package com.smartinventory;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 import java.util.Optional;
 
+import com.smartinventory.exceptions.user.UsernameTakenException;
 import com.smartinventory.security.token.ConfirmationTokenService;
 import com.smartinventory.user.User;
 import com.smartinventory.user.UserRepository;
@@ -34,7 +38,7 @@ public class UserServiceTest {
     private UserService userService;
 
     @Test
-    void addUser_NewUsername_SavedBook() {
+    void addUser_NewUsername_SavedUser() {
 
         User user = new User("a@gmail.com", "user", "password");
 
@@ -47,5 +51,33 @@ public class UserServiceTest {
 
         verify(users).findByUsername(user.getUsername());
         verify(users).findByEmailIgnoreCase(user.getEmail());
+    }
+
+    @Test
+    void addUser_SameUsername_ReturnException() {
+
+        //arrange
+        User user = new User("a@gmail.com", "user", "password");
+        users.save(new User("a@gmail.com", "user", "password"));
+
+        //mock
+        Optional<User> userOptional = Optional.empty();
+        when(users.findByUsername(any(String.class))).thenThrow(new UsernameTakenException(user));
+        when(users.findByEmailIgnoreCase(any(String.class))).thenReturn(userOptional);
+
+        try {
+            String regUser = userService.registerUser(user);
+        } catch (Exception e) {
+            assertTrue(e instanceof UsernameTakenException);
+        }
+        
+
+        try {
+            verify(users).findByUsername(user.getUsername());
+            verify(users).findByEmailIgnoreCase(user.getEmail());
+        } catch (Exception e) {
+            
+        }
+        
     }
 }

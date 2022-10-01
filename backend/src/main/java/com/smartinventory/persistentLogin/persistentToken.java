@@ -1,4 +1,4 @@
-package com.smartinventory.security.config;
+package com.smartinventory.persistentLogin;
 
 import java.sql.Timestamp;
 import javax.persistence.Column;
