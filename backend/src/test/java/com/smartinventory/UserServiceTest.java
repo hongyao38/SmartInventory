@@ -11,6 +11,7 @@ import static org.mockito.Mockito.when;
 import java.util.Optional;
 
 import com.smartinventory.exceptions.user.UserEmailTakenException;
+import com.smartinventory.exceptions.user.UsernameNotFoundException;
 import com.smartinventory.exceptions.user.UsernameTakenException;
 import com.smartinventory.security.token.ConfirmationTokenService;
 import com.smartinventory.user.User;
@@ -22,7 +23,11 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+
+import net.bytebuddy.agent.VirtualMachine.ForHotSpot.Connection.Response;
 
 @ExtendWith(MockitoExtension.class)
 public class UserServiceTest {
@@ -92,20 +97,48 @@ public class UserServiceTest {
         //mock
         when(users.findByEmailIgnoreCase(any(String.class))).thenThrow(new UserEmailTakenException(user.getEmail()));
 
-        // try {
-        //     String regUser = userService.registerUser(user);
-        // } catch (Exception e) {
-        //     assertTrue(e instanceof UserEmailTakenException);
-        // }
-
         assertThrows(UserEmailTakenException.class, () -> userService.registerUser(user));
         
 
-        try {
-            verify(users).findByEmailIgnoreCase(user.getEmail());
-        } catch (Exception e) {
-            
-        }
-        
+        verify(users).findByEmailIgnoreCase(user.getEmail());
+    }
+
+    @Test
+    void loginUser_Success() {
+
+            //arrange
+            User user = new User("a@gmail.com", "user", "password");
+            userService.registerUser(user);
+            userService.enableUser(user.getEmail());
+
+            //mock
+            Optional<User> userOptional = Optional.of(user);
+            when(users.findByUsername(any(String.class))).thenReturn(userOptional);
+
+            //act
+            ResponseEntity<String> loginUser = userService.loginUser(user);
+
+            //assert
+            ResponseEntity<String> success = new ResponseEntity<>(String.format("%s: login success", user.getUsername()), HttpStatus.OK);
+            assertEquals(success, loginUser);
+            verify(users).findByUsername(user.getUsername());
+    }
+
+    @Test
+    void loginUser_IncorrectUsername() {
+
+            //arrange
+            User user = new User("a@gmail.com", "user", "password");
+            userService.registerUser(user);
+            userService.enableUser(user.getEmail());
+
+            //mock
+            when(users.findByUsername(any(String.class))).thenThrow(new UsernameNotFoundException());
+
+            //act
+            assertThrows(UsernameNotFoundException.class, () -> users.findByUsername("user1"));
+
+            //assert
+            verify(users).findByUsername("user1");
     }
 }
