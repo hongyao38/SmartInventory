@@ -8,7 +8,7 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 @Entity
-public class persistent_logins {
+public class persistentToken {
     @Id
     @NotNull @Size(max = 64)
     private String series;
