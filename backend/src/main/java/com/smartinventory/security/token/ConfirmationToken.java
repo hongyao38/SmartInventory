@@ -12,7 +12,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.SequenceGenerator;
 
-import com.smartinventory.user.User;
+import com.smartinventory.appuser.AppUser;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -25,11 +25,8 @@ import lombok.Setter;
 public class ConfirmationToken {
 
     @Id
-    @SequenceGenerator(name = "confirmation_sequence", 
-                        sequenceName = "confirmation_sequence", 
-                        allocationSize = 1)
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, 
-                        generator = "confirmation_token_sequence")
+    @SequenceGenerator(name = "confirmation_sequence", sequenceName = "confirmation_sequence", allocationSize = 1)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "confirmation_token_sequence")
     private long id;
 
     @Column(nullable = false)
@@ -45,9 +42,9 @@ public class ConfirmationToken {
 
     @ManyToOne
     @JoinColumn(name = "user_id", nullable = false)
-    private User user;
+    private AppUser user;
 
-    public ConfirmationToken(ZonedDateTime createdAt, ZonedDateTime expiresAt, User user) {
+    public ConfirmationToken(ZonedDateTime createdAt, ZonedDateTime expiresAt, AppUser user) {
         token = UUID.randomUUID().toString();
         this.createdAt = createdAt;
         this.expiresAt = expiresAt;

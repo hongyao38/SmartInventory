@@ -10,8 +10,8 @@ import com.smartinventory.exceptions.token.EmailAlreadyVerifiedException;
 import com.smartinventory.exceptions.token.InvalidTokenException;
 import com.smartinventory.security.token.ConfirmationToken;
 import com.smartinventory.security.token.ConfirmationTokenService;
-import com.smartinventory.user.User;
-import com.smartinventory.user.UserService;
+import com.smartinventory.appuser.AppUser;
+import com.smartinventory.appuser.AppUserService;
 
 import lombok.AllArgsConstructor;
 
@@ -19,7 +19,7 @@ import lombok.AllArgsConstructor;
 @AllArgsConstructor
 public class AuthService {
 
-    private final UserService userService;
+    private final AppUserService userService;
     private final ConfirmationTokenService tokenService;
     private final EmailSenderService emailSender;
 
@@ -35,14 +35,13 @@ public class AuthService {
 
         // Register user and get token
         String token = userService.registerUser(
-            new User(reqEmail, reqUsername, request.getPassword())
-        );
+                new AppUser(reqEmail, reqUsername, request.getPassword()));
 
         // Form email body
         String confirmationLink = "localhost:8080/api/v1/registration/confirm?token=" + token;
         String emailBody = String.format("Hi, %s!%n%n" +
-                                        "Confirm your email: %s\n\n" + 
-                                        "Link will expire in 15 minutes.%n", reqUsername, confirmationLink);
+                "Confirm your email: %s\n\n" +
+                "Link will expire in 15 minutes.%n", reqUsername, confirmationLink);
 
         // Send email
         emailSender.send(reqEmail, emailBody, "SmartInventory: Confirm Your Email");
@@ -50,7 +49,7 @@ public class AuthService {
     }
 
     /*
-     * Takes in token string, looks for confirmation token 
+     * Takes in token string, looks for confirmation token
      * Uses confirmation token to enable User (verify email)
      * returns "confirmed" if successful
      */
@@ -59,7 +58,7 @@ public class AuthService {
 
         // Retrieve confirmation token from db (if exists)
         ConfirmationToken confirmationToken = tokenService.getToken(token)
-            .orElseThrow(() -> new InvalidTokenException("Token not found!"));
+                .orElseThrow(() -> new InvalidTokenException("Token not found!"));
 
         // Check if token has already been used to verify email
         if (confirmationToken.getConfirmedAt() != null) {
@@ -85,11 +84,10 @@ public class AuthService {
         String encodedPassword = request.getPassword();
 
         // Package DTO parameters into User object to login in userService
-        userService.loginUser(new User(null, username, encodedPassword));
+        userService.loginUser(new AppUser(null, username, encodedPassword));
 
         return String.format("%s: Logged in.", request.getUsername());
     }
-
 
     /*
      * Takes in an email, and return a token that pairs with the user
@@ -98,9 +96,9 @@ public class AuthService {
     public String forgetUserPassword(ForgetPasswordDTO request) {
 
         String reqEmail = request.getEmail();
-        
+
         // Finds the user from the email entered
-        User user = userService.getUserByEmail(reqEmail);
+        AppUser user = userService.getUserByEmail(reqEmail);
 
         // Get token for resetting password
         String token = userService.forgetUserPassword(user);
@@ -109,10 +107,10 @@ public class AuthService {
         // Form email body
         String confirmationLink = "localhost:8080/api/v1/forget-password/reset?token=" + token;
         String emailBody = String.format("Hi, %s!%n%n" +
-                                        "Reset your password: %s\n\n" + 
-                                        "Link will expire in 15 minutes.%n" +
-                                        "If you did not request for a password reset" +
-                                        "you may ignore this email&n", reqUsername, confirmationLink);
+                "Reset your password: %s\n\n" +
+                "Link will expire in 15 minutes.%n" +
+                "If you did not request for a password reset" +
+                "you may ignore this email&n", reqUsername, confirmationLink);
 
         // Send email
         emailSender.send(reqEmail, emailBody, "SmartInventory: Reset Password");
@@ -126,10 +124,10 @@ public class AuthService {
      * confirmation token's user email
      */
     public String resetPassword(String token, String password) {
-        
+
         // Retrieve confirmation token from db (if exists)
         ConfirmationToken confirmationToken = tokenService.getToken(token)
-            .orElseThrow(() -> new InvalidTokenException("Token not found!"));
+                .orElseThrow(() -> new InvalidTokenException("Token not found!"));
 
         // Check if token has expired
         ZonedDateTime expiresAt = confirmationToken.getExpiresAt();
@@ -145,5 +143,5 @@ public class AuthService {
         userService.updateUserPassword(email, password);
         return "Reset password";
     }
-    
+
 }

@@ -8,9 +8,9 @@ import static org.mockito.Mockito.when;
 import java.util.Optional;
 
 import com.smartinventory.security.token.ConfirmationTokenService;
-import com.smartinventory.user.User;
-import com.smartinventory.user.UserRepository;
-import com.smartinventory.user.UserService;
+import com.smartinventory.appuser.AppUser;
+import com.smartinventory.appuser.AppUserRepository;
+import com.smartinventory.appuser.AppUserService;
 
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -22,7 +22,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 @ExtendWith(MockitoExtension.class)
 public class UserServiceTest {
     @Mock
-    private UserRepository users;
+    private AppUserRepository users;
 
     @Mock
     private ConfirmationTokenService tokenService;
@@ -31,14 +31,14 @@ public class UserServiceTest {
     private BCryptPasswordEncoder encoder;
 
     @InjectMocks
-    private UserService userService;
+    private AppUserService userService;
 
     @Test
     void addUser_NewUsername_SavedBook() {
 
-        User user = new User("a@gmail.com", "user", "password");
+        AppUser user = new AppUser("a@gmail.com", "user", "password");
 
-        Optional<User> userOptional = Optional.empty();
+        Optional<AppUser> userOptional = Optional.empty();
         when(users.findByUsername(any(String.class))).thenReturn(userOptional);
         when(users.findByEmailIgnoreCase(any(String.class))).thenReturn(userOptional);
 

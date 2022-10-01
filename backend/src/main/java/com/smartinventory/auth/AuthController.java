@@ -35,7 +35,7 @@ public class AuthController {
 
     // LOGIN
     @ResponseStatus(HttpStatus.CREATED)
-    @PostMapping(path = "/login")
+    @PostMapping(path = "/signin")
     public String login(@RequestBody LoginDTO request) {
         return authService.login(request);
     }
@@ -43,7 +43,7 @@ public class AuthController {
     // FORGET PASSWORD REQUEST
     @ResponseStatus(HttpStatus.ACCEPTED)
     @PostMapping("/forget-password")
-    public String forgetUserPassword(@RequestBody ForgetPasswordDTO request){
+    public String forgetUserPassword(@RequestBody ForgetPasswordDTO request) {
         return authService.forgetUserPassword(request);
     }
 
