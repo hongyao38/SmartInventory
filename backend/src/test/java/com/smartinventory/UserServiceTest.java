@@ -10,6 +10,8 @@ import static org.mockito.Mockito.when;
 
 import java.util.Optional;
 
+import com.mysql.cj.exceptions.WrongArgumentException;
+import com.smartinventory.exceptions.user.InvalidPasswordException;
 import com.smartinventory.exceptions.user.UserEmailTakenException;
 import com.smartinventory.exceptions.user.UsernameNotFoundException;
 import com.smartinventory.exceptions.user.UsernameTakenException;
@@ -108,7 +110,7 @@ public class UserServiceTest {
 
             //arrange
             User user = new User("a@gmail.com", "user", "password");
-            userService.registerUser(user);
+            users.save(user);
             userService.enableUser(user.getEmail());
 
             //mock
@@ -116,7 +118,7 @@ public class UserServiceTest {
             when(users.findByUsername(any(String.class))).thenReturn(userOptional);
 
             //act
-            ResponseEntity<String> loginUser = userService.loginUser(user);
+            ResponseEntity<String> loginUser = userService.loginUser(userOptional.get());
 
             //assert
             ResponseEntity<String> success = new ResponseEntity<>(String.format("%s: login success", user.getUsername()), HttpStatus.OK);
@@ -131,14 +133,37 @@ public class UserServiceTest {
             User user = new User("a@gmail.com", "user", "password");
             userService.registerUser(user);
             userService.enableUser(user.getEmail());
+            User wrongUsername = new User("a@gmail.com", "user1", "password");
 
             //mock
             when(users.findByUsername(any(String.class))).thenThrow(new UsernameNotFoundException());
 
             //act
-            assertThrows(UsernameNotFoundException.class, () -> users.findByUsername("user1"));
+            assertThrows(UsernameNotFoundException.class, () -> userService.loginUser(wrongUsername));
 
             //assert
-            verify(users).findByUsername("user1");
+            verify(users).findByUsername(wrongUsername.getUsername());
+    }
+
+    @Test
+    void loginUser_IncorrectPassword() {
+
+            //arrange
+            User user = new User("a@gmail.com", "user", "password");
+            // userService.registerUser(user);
+            users.save(user);
+            userService.enableUser(user.getEmail());
+            User incorrectUser = new User("a@gmail.com", "user", "wrongpassword");
+
+            //mock
+            Optional<User> userOptional = Optional.of(incorrectUser);
+            when(users.findByUsername(any(String.class))).thenReturn(userOptional);
+            // when(encoder.matches(user.getPassword(), userOptional.get().getPassword())).thenReturn(false);
+
+            //act
+            assertThrows(InvalidPasswordException.class, () -> userService.loginUser(incorrectUser));
+
+            //assert
+            verify(users).findByUsername(incorrectUser.getUsername());
     }
 }
