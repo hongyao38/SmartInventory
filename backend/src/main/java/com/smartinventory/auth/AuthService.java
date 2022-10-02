@@ -11,6 +11,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.smartinventory.email.EmailSenderService;
 import com.smartinventory.exceptions.token.EmailAlreadyVerifiedException;
 import com.smartinventory.exceptions.token.InvalidTokenException;
+import com.smartinventory.exceptions.user.PasswordNotMatchingException;
 import com.smartinventory.security.token.ConfirmationToken;
 import com.smartinventory.security.token.ConfirmationTokenService;
 import com.smartinventory.appuser.AppUser;
@@ -79,7 +80,6 @@ public class AuthService {
         return "confirmed";
     }
 
-    // TODO: Finish implementing login
     public ResponseEntity<JwtDTO> login(LoginDTO request) {
 
         // Get username and password (and encode) from request DTO
@@ -106,6 +106,7 @@ public class AuthService {
         String reqUsername = user.getUsername();
 
         // Form email body
+        // TODO: URL to be changed to frontend URL
         String confirmationLink = "localhost:8080/api/v1/forget-password/reset?token=" + token;
         String emailBody = String.format("Hi, %s!%n%n" +
                 "Reset your password: %s\n\n" +
@@ -124,7 +125,7 @@ public class AuthService {
      * to update the previous password where user email matches
      * confirmation token's user email
      */
-    public String resetPassword(String token, String password) {
+    public String resetPassword(String token, ResetPasswordDTO request) {
 
         // Retrieve confirmation token from db (if exists)
         ConfirmationToken confirmationToken = tokenService.getToken(token)
@@ -136,12 +137,23 @@ public class AuthService {
             throw new InvalidTokenException("Token not found, already expired!");
         }
 
+        String newPassword = request.getNewPassword();
+        String confirmNewPassword = request.getConfirmNewPassword();
+
+        System.out.println(newPassword);
+        System.out.println(confirmNewPassword);
+
+        // If passwords entered does not matc
+        if (!newPassword.equals(confirmNewPassword)) {
+            throw new PasswordNotMatchingException();
+        }
+
         // Confirm token
         tokenService.setConfirmedAt(token);
 
         // Retrieve email to look for user
         String email = confirmationToken.getUser().getEmail();
-        userService.updateUserPassword(email, password);
+        userService.updateUserPassword(email, newPassword);
         return "Reset password";
     }
 
