@@ -10,16 +10,6 @@ import static org.mockito.Mockito.when;
 
 import java.util.Optional;
 
-import com.mysql.cj.exceptions.WrongArgumentException;
-import com.smartinventory.exceptions.user.InvalidPasswordException;
-import com.smartinventory.exceptions.user.UserEmailTakenException;
-import com.smartinventory.exceptions.user.UsernameNotFoundException;
-import com.smartinventory.exceptions.user.UsernameTakenException;
-import com.smartinventory.security.token.ConfirmationTokenService;
-import com.smartinventory.appuser.AppUser;
-import com.smartinventory.appuser.AppUserRepository;
-import com.smartinventory.appuser.AppUserService;
-
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -29,7 +19,14 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
-import net.bytebuddy.agent.VirtualMachine.ForHotSpot.Connection.Response;
+import com.smartinventory.appuser.AppUser;
+import com.smartinventory.appuser.AppUserRepository;
+import com.smartinventory.appuser.AppUserService;
+import com.smartinventory.exceptions.user.InvalidPasswordException;
+import com.smartinventory.exceptions.user.UserEmailTakenException;
+import com.smartinventory.exceptions.user.UsernameInvalidException;
+import com.smartinventory.exceptions.user.UsernameTakenException;
+import com.smartinventory.security.token.ConfirmationTokenService;
 
 @ExtendWith(MockitoExtension.class)
 public class UserServiceTest {
@@ -65,16 +62,16 @@ public class UserServiceTest {
     void addUser_SameUsername_ReturnException() {
 
         //arrange
-        User user = new User("a@gmail.com", "user", "password");
-        users.save(new User("a@gmail.com", "user", "password"));
+        AppUser user = new AppUser("a@gmail.com", "user", "password");
+        users.save(new AppUser("a@gmail.com", "user", "password"));
 
         //mock
-        Optional<User> userOptional = Optional.empty();
+        Optional<AppUser> userOptional = Optional.empty();
         when(users.findByUsername(any(String.class))).thenThrow(new UsernameTakenException(user));
         when(users.findByEmailIgnoreCase(any(String.class))).thenReturn(userOptional);
 
         try {
-            String regUser = userService.registerUser(user);
+            userService.registerUser(user);
         } catch (Exception e) {
             assertTrue(e instanceof UsernameTakenException);
         }
@@ -93,8 +90,8 @@ public class UserServiceTest {
     void addUser_SameEmail_ReturnException() {
 
         //arrange
-        User user = new User("a@gmail.com", "user", "password");
-        users.save(new User("a@gmail.com", "user1", "password"));
+        AppUser user = new AppUser("a@gmail.com", "user", "password");
+        users.save(new AppUser("a@gmail.com", "user1", "password"));
 
         //mock
         when(users.findByEmailIgnoreCase(any(String.class))).thenThrow(new UserEmailTakenException(user.getEmail()));
@@ -109,12 +106,12 @@ public class UserServiceTest {
     void loginUser_Success() {
 
             //arrange
-            User user = new User("a@gmail.com", "user", "password");
+            AppUser user = new AppUser("a@gmail.com", "user", "password");
             users.save(user);
             userService.enableUser(user.getEmail());
 
             //mock
-            Optional<User> userOptional = Optional.of(user);
+            Optional<AppUser> userOptional = Optional.of(user);
             when(users.findByUsername(any(String.class))).thenReturn(userOptional);
 
             //act
@@ -130,16 +127,16 @@ public class UserServiceTest {
     void loginUser_IncorrectUsername() {
 
             //arrange
-            User user = new User("a@gmail.com", "user", "password");
+            AppUser user = new AppUser("a@gmail.com", "user", "password");
             userService.registerUser(user);
             userService.enableUser(user.getEmail());
-            User wrongUsername = new User("a@gmail.com", "user1", "password");
+            AppUser wrongUsername = new AppUser("a@gmail.com", "user1", "password");
 
             //mock
-            when(users.findByUsername(any(String.class))).thenThrow(new UsernameNotFoundException());
+            when(users.findByUsername(any(String.class))).thenThrow(new UsernameInvalidException());
 
             //act
-            assertThrows(UsernameNotFoundException.class, () -> userService.loginUser(wrongUsername));
+            assertThrows(UsernameInvalidException.class, () -> userService.loginUser(wrongUsername));
 
             //assert
             verify(users).findByUsername(wrongUsername.getUsername());
@@ -149,14 +146,14 @@ public class UserServiceTest {
     void loginUser_IncorrectPassword() {
 
             //arrange
-            User user = new User("a@gmail.com", "user", "password");
+            AppUser user = new AppUser("a@gmail.com", "user", "password");
             // userService.registerUser(user);
             users.save(user);
             userService.enableUser(user.getEmail());
-            User incorrectUser = new User("a@gmail.com", "user", "wrongpassword");
+            AppUser incorrectUser = new AppUser("a@gmail.com", "user", "wrongpassword");
 
             //mock
-            Optional<User> userOptional = Optional.of(incorrectUser);
+            Optional<AppUser> userOptional = Optional.of(incorrectUser);
             when(users.findByUsername(any(String.class))).thenReturn(userOptional);
             // when(encoder.matches(user.getPassword(), userOptional.get().getPassword())).thenReturn(false);
 
