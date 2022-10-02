@@ -1,5 +1,4 @@
 import axiosInstance from '../utils/AxiosInstance';
-import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const SignIn = async (user) => {
     const res = await axiosInstance({
@@ -12,8 +11,8 @@ const SignIn = async (user) => {
     let isLoggedIn = false;
 
     if(res.status === 200 && res.data.access_token){
-        await AsyncStorage.setItem('token', res.data.access_token);
-        await AsyncStorage.setItem('name', user.username);
+        sessionStorage.setItem('token', res.data.access_token);
+        sessionStorage.setItem('name', user.username);
         isLoggedIn = true;
     }
     return isLoggedIn;

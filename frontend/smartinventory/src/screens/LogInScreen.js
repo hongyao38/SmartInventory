@@ -8,18 +8,18 @@ import {
     MDBTypography,
     MDBIcon,
 } from "mdb-react-ui-kit";
-
+import 'mdb-react-ui-kit/dist/css/mdb.min.css'
 import "./LogInScreen.css";
 import { SignIn } from "../services/authService";
 
 
-function LogInScreenV2() {
+function LogInScreen() {
     const [data, setData] = useState({
         username: "",
         password: "",
     });
 
-    const onChange = (e: any) => {
+    const onChange = (e) => {
         setData({ ...data, [e.target.name]: e.target.value });
         console.log(data);
     };
@@ -79,7 +79,7 @@ function LogInScreenV2() {
                         <div>
                             <MDBInput
                                 wrapperClass="mb-4"
-                                placeholder="Email address or username"
+                                label="Email address or username"
                                 id="form1"
                                 type="email"
                                 value={data.username}
@@ -93,7 +93,7 @@ function LogInScreenV2() {
                         </div>
                         <MDBInput
                             wrapperClass="mb-4"
-                            placeholder="Password"
+                            label="Password"
                             id="form2"
                             type="password"
                             value={data.password}
@@ -127,4 +127,4 @@ function LogInScreenV2() {
     );
 }
 
-export default LogInScreenV2;
+export default LogInScreen;
