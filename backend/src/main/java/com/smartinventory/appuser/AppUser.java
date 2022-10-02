@@ -54,7 +54,7 @@ public class AppUser implements UserDetails {
         this.email = email;
         this.username = username;
         this.password = password;
-        authorities = "ROLE_USER"; // FOR NOW: Default is USER
+        authorities = "ROLE_ADMIN"; // FOR NOW: Default is USER
     }
 
     @Override

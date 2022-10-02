@@ -27,7 +27,7 @@ public class AuthController {
     }
 
     // CONFIRM REGISTRATION
-    @ResponseStatus(HttpStatus.ACCEPTED)
+    @ResponseStatus(HttpStatus.OK)
     @GetMapping(path = "/registration/confirm")
     public String confirm(@RequestParam("token") String token) {
         return authService.confirmToken(token);
@@ -41,14 +41,14 @@ public class AuthController {
     }
 
     // FORGET PASSWORD REQUEST
-    @ResponseStatus(HttpStatus.ACCEPTED)
+    @ResponseStatus(HttpStatus.OK)
     @PostMapping("/forget-password")
     public String forgetUserPassword(@RequestBody ForgetPasswordDTO request) {
         return authService.forgetUserPassword(request);
     }
 
     // CONFIRM AND RESET PASSWORD
-    @ResponseStatus(HttpStatus.ACCEPTED)
+    @ResponseStatus(HttpStatus.OK)
     @PutMapping(path = "/forget-password/reset")
     public String resetPassword(@RequestParam("token") String token, @RequestBody String password) {
         return authService.resetPassword(token, password);

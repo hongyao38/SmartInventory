@@ -1,5 +1,5 @@
 GET http://localhost:8080/api/v1/users
-Accept: application/json
+Authorization: Basic xiaodidi baby123!
 
 ###
 GET http://localhost:8080/api/v1/users/1
@@ -26,7 +26,7 @@ Content-Type: application/json
 }
 
 ### CONFIRM REGISTRATION TOKEN
-GET http://localhost:8080/api/v1/registration/confirm?token=d793b64d-d348-42bb-b871-5988b39aeb79
+GET http://localhost:8080/api/v1/registration/confirm?token=4345ca98-7eda-46c3-b582-71d0b4886b9e
 
 ### LOGIN (SUCCESS)
 POST http://localhost:8080/api/v1/signin
