@@ -44,7 +44,6 @@ public class AppUser implements UserDetails {
     @Size(min = 5, max = 50)
     private String password;
 
-    // TODO: Implement the roles for the users (for authorization)
     @NotNull
     private String authorities;
 
