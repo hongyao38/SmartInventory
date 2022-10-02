@@ -1,6 +1,7 @@
 package com.smartinventory.inventory.food;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
@@ -9,7 +10,7 @@ import org.springframework.stereotype.Repository;
 public interface FoodRepository extends JpaRepository<Food, Long>{
     //Create, Read, Update, Delete
     List<Food> findByCategory(String category);
-    Food findByFoodName(String foodName);
+    Optional<Food> findByFoodName(String foodName);
     void deleteByfoodName(String foodName);
     
 }

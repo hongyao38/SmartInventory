@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Optional;
 
 import com.smartinventory.exceptions.inventory.FoodNotFoundException;
+import com.smartinventory.exceptions.inventory.FoodExistsException;
 
 import org.springframework.stereotype.Service;
 
@@ -29,11 +30,14 @@ public class FoodService {
     }
 
     public Food getFood(String foodName) throws FoodNotFoundException {
-        return foodRepo.findByFoodName(foodName).orElseThrow(() -> new FoodNotFoundException(foodName));
+        return (foodRepo.findByFoodName(foodName)).orElseThrow(() -> new FoodNotFoundException(foodName));
     }
 
     //add new food
-    public Food addFood(Food food) {
+    public Food addFood(Food food) throws FoodExistsException {
+        if (foodRepo.findById(food.getFoodId()) != null) {
+            return null;
+        }
         return foodRepo.save(food);
     }
 
