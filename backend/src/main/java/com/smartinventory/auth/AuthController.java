@@ -1,6 +1,7 @@
 package com.smartinventory.auth;
 
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -9,6 +10,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
+
+import com.smartinventory.auth.dto.*;
 
 import lombok.AllArgsConstructor;
 
@@ -27,7 +30,7 @@ public class AuthController {
     }
 
     // CONFIRM REGISTRATION
-    @ResponseStatus(HttpStatus.ACCEPTED)
+    @ResponseStatus(HttpStatus.OK)
     @GetMapping(path = "/registration/confirm")
     public String confirm(@RequestParam("token") String token) {
         return authService.confirmToken(token);
@@ -36,19 +39,19 @@ public class AuthController {
     // LOGIN
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping(path = "/login")
-    public String login(@RequestBody LoginDTO request) {
+    public ResponseEntity<JwtDTO> login(@RequestBody LoginDTO request) {
         return authService.login(request);
     }
 
     // FORGET PASSWORD REQUEST
-    @ResponseStatus(HttpStatus.ACCEPTED)
+    @ResponseStatus(HttpStatus.OK)
     @PostMapping("/forget-password")
-    public String forgetUserPassword(@RequestBody ForgetPasswordDTO request){
+    public String forgetUserPassword(@RequestBody ForgetPasswordDTO request) {
         return authService.forgetUserPassword(request);
     }
 
     // CONFIRM AND RESET PASSWORD
-    @ResponseStatus(HttpStatus.ACCEPTED)
+    @ResponseStatus(HttpStatus.OK)
     @PutMapping(path = "/forget-password/reset")
     public String resetPassword(@RequestParam("token") String token, @RequestBody String password) {
         return authService.resetPassword(token, password);

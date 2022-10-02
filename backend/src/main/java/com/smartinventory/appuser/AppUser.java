@@ -1,7 +1,7 @@
-package com.smartinventory.user;
+package com.smartinventory.appuser;
 
+import java.util.Arrays;
 import java.util.Collection;
-import java.util.Collections;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -13,6 +13,7 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import lombok.EqualsAndHashCode;
@@ -25,23 +26,22 @@ import lombok.Setter;
 @Getter
 @EqualsAndHashCode
 @NoArgsConstructor
-public class User implements UserDetails {
+public class AppUser implements UserDetails {
 
-    @Id 
-    @SequenceGenerator(name = "user_sequence", 
-                        sequenceName = "user_sequence", 
-                        allocationSize = 1)
-    @GeneratedValue(strategy = GenerationType.IDENTITY, 
-                        generator = "user_seqeunce")
+    @Id
+    @SequenceGenerator(name = "user_sequence", sequenceName = "user_sequence", allocationSize = 1)
+    @GeneratedValue(strategy = GenerationType.IDENTITY, generator = "user_seqeunce")
     private Long id;
 
-    @NotNull @Email
+    @NotNull
+    @Email
     private String email;
-    
+
     @NotNull
     private String username;
 
-    @NotNull @Size(min=5, max=50)
+    @NotNull
+    @Size(min = 5, max = 50)
     private String password;
 
     // TODO: Implement the roles for the users (for authorization)
@@ -50,15 +50,16 @@ public class User implements UserDetails {
 
     private Boolean isEnabled = false; // Whether the user is verified
 
-    public User(String email, String username, String password) {
+    public AppUser(String email, String username, String password) {
         this.email = email;
         this.username = username;
         this.password = password;
+        authorities = "ROLE_ADMIN"; // FOR NOW: Default is USER
     }
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return Collections.emptyList();
+        return Arrays.asList(new SimpleGrantedAuthority(authorities));
     }
 
     @Override
@@ -68,12 +69,18 @@ public class User implements UserDetails {
 
     // NOTE: NOT PLANNING TO BE IMPLEMENTED
     @Override
-    public boolean isAccountNonLocked() { return true; }
+    public boolean isAccountNonLocked() {
+        return true;
+    }
 
     @Override
-    public boolean isAccountNonExpired() { return true; }
+    public boolean isAccountNonExpired() {
+        return true;
+    }
 
     @Override
-    public boolean isCredentialsNonExpired() { return true; }
-   
+    public boolean isCredentialsNonExpired() {
+        return true;
+    }
+
 }

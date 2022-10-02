@@ -1,20 +1,28 @@
-package com.smartinventory.user;
+package com.smartinventory.appuser;
 
 import java.time.ZonedDateTime;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import com.auth0.jwt.JWT;
+import com.auth0.jwt.algorithms.Algorithm;
+import com.smartinventory.auth.dto.*;
 import com.smartinventory.exceptions.user.InvalidPasswordException;
 import com.smartinventory.exceptions.user.UserEmailNotFoundException;
 import com.smartinventory.exceptions.user.UserEmailTakenException;
 import com.smartinventory.exceptions.user.UserIdNotFoundException;
-import com.smartinventory.exceptions.user.UsernameNotFoundException;
+import com.smartinventory.exceptions.user.UsernameInvalidException;
 import com.smartinventory.exceptions.user.UsernameTakenException;
 import com.smartinventory.security.token.ConfirmationToken;
 import com.smartinventory.security.token.ConfirmationTokenService;
@@ -23,41 +31,41 @@ import lombok.AllArgsConstructor;
 
 @Service
 @AllArgsConstructor
-public class UserService implements UserDetailsService {
+public class AppUserService implements UserDetailsService {
 
-    private final UserRepository userRepository;
+    private final AppUserRepository userRepository;
     private final ConfirmationTokenService tokenService;
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
 
-    public List<User> listUsers() {
+    public List<AppUser> listAppUsers() {
         return userRepository.findAll();
     }
 
     // TODO: Propagate the exception to Controller
-    public User getUserById(Long id) {
+    public AppUser getUserById(Long id) {
         return userRepository.findById(id)
-            .orElseThrow(() -> new UserIdNotFoundException(id));
+                .orElseThrow(() -> new UserIdNotFoundException(id));
     }
 
-    public User getUserByEmail(String email) throws UserEmailNotFoundException {
+    public AppUser getUserByEmail(String email) throws UserEmailNotFoundException {
         return userRepository.findByEmailIgnoreCase(email)
-            .orElseThrow(() -> new UserEmailNotFoundException(email)
-        );
+                .orElseThrow(() -> new UserEmailNotFoundException(email));
     }
 
     // POSSIBLY REDUNDANT
     // public String getEmail(String username) {
-    //     return userRepository.findEmailByUsername(username);
+    // return userRepository.findEmailByUsername(username);
     // }
 
     // public void deleteUser(String email) {
-    //     userRepository.deleteByEmail(email);
+    // userRepository.deleteByEmail(email);
     // }
 
     @Override
-    public User loadUserByUsername(String username) throws UsernameNotFoundException {
+    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         return userRepository.findByUsername(username)
-            .orElseThrow(() -> new UserEmailNotFoundException(username));
+                .orElseThrow(() -> new UsernameNotFoundException(
+                    String.format("Username: %s not found", username)));
     }
 
     /*
@@ -73,7 +81,7 @@ public class UserService implements UserDetailsService {
      * If existing user found,
      * throws UserEmailTakenException OR UsernameTakenException
      */
-    public String registerUser(User user) {
+    public String registerUser(AppUser user) {
 
         String email = user.getEmail();
         String username = user.getUsername();
@@ -84,7 +92,7 @@ public class UserService implements UserDetailsService {
         }
         // If username is taken, throw exception
         if (userRepository.findByUsername(username).isPresent()) {
-            throw new UsernameTakenException(username);
+            throw new UsernameTakenException(user);
         }
 
         // Encrypt and set password
@@ -96,10 +104,9 @@ public class UserService implements UserDetailsService {
 
         // Create a confirmationToken object to match to user
         ConfirmationToken confirmationToken = new ConfirmationToken(
-            ZonedDateTime.now(),
-            ZonedDateTime.now().plusMinutes(15),
-            user
-        );
+                ZonedDateTime.now(),
+                ZonedDateTime.now().plusMinutes(15),
+                user);
 
         // Save token to database
         tokenService.saveConfirmationToken(confirmationToken);
@@ -107,26 +114,35 @@ public class UserService implements UserDetailsService {
     }
 
     /*
-     * 
+     * Takes in AppUser object and returns a ResponseEntity with JWT in body
      */
-    public ResponseEntity<String> loginUser(User user) {
+    public ResponseEntity<JwtDTO> loginUser(AppUser user) {
 
         String username = user.getUsername();
         String password = user.getPassword();
 
         // If username does not exist, throw UsernameNotFoundException
-        Optional<User> userRecord = userRepository.findByUsername(username);
+        Optional<AppUser> userRecord = userRepository.findByUsername(username);
         if (userRecord.isEmpty()) {
-            System.out.println("UserService: login reached here");
-            throw new UsernameNotFoundException();
+            throw new UsernameInvalidException();
         }
 
         // If password is not matching, throw BadCredentialsException
         if (!bCryptPasswordEncoder.matches(password, userRecord.get().getPassword())) {
             throw new InvalidPasswordException();
         }
-        // Success
-        return new ResponseEntity<>(String.format("%s: login success", username), HttpStatus.OK);
+
+        // Create JWT token
+        UserDetails userDetails = loadUserByUsername(username);
+        Algorithm algorithm = Algorithm.HMAC256("secret".getBytes());
+        String accessToken = JWT.create()
+                            .withSubject(username)
+                            .withExpiresAt(new Date(System.currentTimeMillis() + 30 * 60 * 1000))
+                            .withIssuer("localhost:8080/api/v1/login")
+                            .withClaim("roles", userDetails.getAuthorities().stream().map(GrantedAuthority::getAuthority).collect(Collectors.toList()))
+                            .sign(algorithm);
+
+        return new ResponseEntity<>(new JwtDTO(accessToken), HttpStatus.OK);
     }
 
     /*
@@ -136,20 +152,19 @@ public class UserService implements UserDetailsService {
         password = bCryptPasswordEncoder.encode(password);
         return userRepository.resetPassword(email, password);
     }
-    
+
     /*
      * Takes in user object, and creates a confirmation token
      * linked to the user
      * Token will be used to confirm reset password
      */
-    public String forgetUserPassword(User user) {
+    public String forgetUserPassword(AppUser user) {
 
         // Creates a confirmation token
         ConfirmationToken confirmationToken = new ConfirmationToken(
-            ZonedDateTime.now(),
-            ZonedDateTime.now().plusMinutes(15),
-            user
-        );
+                ZonedDateTime.now(),
+                ZonedDateTime.now().plusMinutes(15),
+                user);
 
         // Saves confirmation token to database
         tokenService.saveConfirmationToken(confirmationToken);

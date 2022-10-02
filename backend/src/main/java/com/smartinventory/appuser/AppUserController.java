@@ -1,4 +1,4 @@
-package com.smartinventory.user;
+package com.smartinventory.appuser;
 
 import java.util.List;
 
@@ -14,17 +14,17 @@ import lombok.AllArgsConstructor;
 @RestController
 @AllArgsConstructor
 @RequestMapping("/api/v1")
-public class UserController {
+public class AppUserController {
 
-    private UserService userService;
-    
+    private AppUserService userService;
+
     @GetMapping("/users")
-    public List<User> getUsers() {
-        return userService.listUsers();
+    public List<AppUser> getUsers() {
+        return userService.listAppUsers();
     }
 
     @GetMapping("/users/{id}")
-    public User getUser(@PathVariable Long id) {
+    public AppUser getUser(@PathVariable Long id) {
         return userService.getUserById(id);
     }
 }
