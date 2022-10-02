@@ -1,6 +1,7 @@
 package com.smartinventory.auth;
 
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -9,6 +10,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
+
+import com.smartinventory.auth.dto.*;
 
 import lombok.AllArgsConstructor;
 
@@ -35,8 +38,8 @@ public class AuthController {
 
     // LOGIN
     @ResponseStatus(HttpStatus.CREATED)
-    @PostMapping(path = "/signin")
-    public String login(@RequestBody LoginDTO request) {
+    @PostMapping(path = "/login")
+    public ResponseEntity<JwtDTO> login(@RequestBody LoginDTO request) {
         return authService.login(request);
     }
 

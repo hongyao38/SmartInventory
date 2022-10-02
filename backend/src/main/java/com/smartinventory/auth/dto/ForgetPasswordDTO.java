@@ -1,4 +1,4 @@
-package com.smartinventory.auth;
+package com.smartinventory.auth.dto;
 
 import javax.validation.constraints.NotNull;
 

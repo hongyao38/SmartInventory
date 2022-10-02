@@ -8,9 +8,11 @@ import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.security.web.authentication.rememberme.JdbcTokenRepositoryImpl;
 import org.springframework.security.web.authentication.rememberme.PersistentTokenRepository;
 import org.springframework.stereotype.Repository;
@@ -43,7 +45,7 @@ public class SecurityConfig {
             .and()
         .authorizeRequests()
             // Authentication NOT NEEDED 
-            .antMatchers(HttpMethod.POST, "/api/v1/signin").permitAll()
+            .antMatchers(HttpMethod.POST, "/api/v1/login").permitAll()
             .antMatchers(HttpMethod.POST, "/api/v1/registration").permitAll()
             .antMatchers(HttpMethod.GET, "/api/v1/registration/confirm?token=**").permitAll()
             .antMatchers(HttpMethod.POST, "/api/v1/forget-password").permitAll()
@@ -54,8 +56,11 @@ public class SecurityConfig {
             .antMatchers(HttpMethod.GET, "/api/v1/users").authenticated()
             
             .and()
+        .addFilterBefore(new JwtRequestFilter(), UsernamePasswordAuthenticationFilter.class)
         .authenticationProvider(authenticationProvider())
         .csrf().disable()
+        .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+            .and()
         .formLogin().disable()
         // .rememberMe()
         //     .tokenRepository(PersistentTokenRepo())

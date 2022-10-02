@@ -1,5 +1,5 @@
 GET http://localhost:8080/api/v1/users
-Authorization: Basic xiaodidi baby123!
+Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ4aWFvZGlkaSIsInJvbGVzIjpbIlJPTEVfQURNSU4iXSwiaXNzIjoibG9jYWxob3N0OjgwODAvYXBpL3YxL2xvZ2luIiwiZXhwIjoxNjY0Njk5MzQxfQ.r8r5mgT2Foxf-HYSryL2h5Z32Z4ouLOM1CRIOb_gx6Y
 
 ###
 GET http://localhost:8080/api/v1/users/1
@@ -26,10 +26,10 @@ Content-Type: application/json
 }
 
 ### CONFIRM REGISTRATION TOKEN
-GET http://localhost:8080/api/v1/registration/confirm?token=4345ca98-7eda-46c3-b582-71d0b4886b9e
+GET http://localhost:8080/api/v1/registration/confirm?token=70bdf74b-e1e3-49dc-8a05-32410a50fc39
 
 ### LOGIN (SUCCESS)
-POST http://localhost:8080/api/v1/signin
+POST http://localhost:8080/api/v1/login
 Content-Type: application/json
 
 {
@@ -38,7 +38,7 @@ Content-Type: application/json
 }
 
 ### LOGIN (FAIL INVALID USERNAME)
-POST http://localhost:8080/api/v1/signin
+POST http://localhost:8080/api/v1/login
 Content-Type: application/json
 
 {
@@ -47,7 +47,7 @@ Content-Type: application/json
 }
 
 ### LOGIN (FAIL INVALID PASSWORD)
-POST http://localhost:8080/api/v1/signin
+POST http://localhost:8080/api/v1/login
 Content-Type: application/json
 
 {
@@ -65,7 +65,7 @@ Content-Type: application/json
 }
 
 ### RESET PASSWORD
-PUT http://localhost:8080/api/v1/forget-password/reset?token=e6424f71-84ea-4b14-9130-fe26bda17208
+PUT http://localhost:8080/api/v1/forget-password/reset?token=95535103-12da-4f24-8780-b0b3a4e24d06
 Content-Type: application/json
 
 {

@@ -1,7 +1,10 @@
 package com.smartinventory.auth;
 
+import com.smartinventory.auth.dto.*;
+
 import java.time.ZonedDateTime;
 
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -44,7 +47,7 @@ public class AuthService {
                 "Link will expire in 15 minutes.%n", reqUsername, confirmationLink);
 
         // Send email
-        // emailSender.send(reqEmail, emailBody, "SmartInventory: Confirm Your Email");
+        emailSender.send(reqEmail, emailBody, "SmartInventory: Confirm Your Email");
         return token;
     }
 
@@ -77,16 +80,14 @@ public class AuthService {
     }
 
     // TODO: Finish implementing login
-    public String login(LoginDTO request) {
+    public ResponseEntity<JwtDTO> login(LoginDTO request) {
 
         // Get username and password (and encode) from request DTO
         String username = request.getUsername();
         String encodedPassword = request.getPassword();
 
         // Package DTO parameters into User object to login in userService
-        userService.loginUser(new AppUser(null, username, encodedPassword));
-
-        return String.format("%s: Logged in.", request.getUsername());
+        return userService.loginUser(new AppUser(null, username, encodedPassword));
     }
 
     /*

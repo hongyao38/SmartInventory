@@ -1,17 +1,23 @@
 package com.smartinventory.appuser;
 
 import java.time.ZonedDateTime;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import com.auth0.jwt.JWT;
+import com.auth0.jwt.algorithms.Algorithm;
+import com.smartinventory.auth.dto.*;
 import com.smartinventory.exceptions.user.InvalidPasswordException;
 import com.smartinventory.exceptions.user.UserEmailNotFoundException;
 import com.smartinventory.exceptions.user.UserEmailTakenException;
@@ -108,9 +114,9 @@ public class AppUserService implements UserDetailsService {
     }
 
     /*
-     * 
+     * Takes in AppUser object and returns a ResponseEntity with JWT in body
      */
-    public ResponseEntity<String> loginUser(AppUser user) {
+    public ResponseEntity<JwtDTO> loginUser(AppUser user) {
 
         String username = user.getUsername();
         String password = user.getPassword();
@@ -118,7 +124,6 @@ public class AppUserService implements UserDetailsService {
         // If username does not exist, throw UsernameNotFoundException
         Optional<AppUser> userRecord = userRepository.findByUsername(username);
         if (userRecord.isEmpty()) {
-            System.out.println("UserService: login reached here");
             throw new UsernameInvalidException();
         }
 
@@ -126,8 +131,18 @@ public class AppUserService implements UserDetailsService {
         if (!bCryptPasswordEncoder.matches(password, userRecord.get().getPassword())) {
             throw new InvalidPasswordException();
         }
-        // Success
-        return new ResponseEntity<>(String.format("%s: login success", username), HttpStatus.OK);
+
+        // Create JWT token
+        UserDetails userDetails = loadUserByUsername(username);
+        Algorithm algorithm = Algorithm.HMAC256("secret".getBytes());
+        String accessToken = JWT.create()
+                            .withSubject(username)
+                            .withExpiresAt(new Date(System.currentTimeMillis() + 30 * 60 * 1000))
+                            .withIssuer("localhost:8080/api/v1/login")
+                            .withClaim("roles", userDetails.getAuthorities().stream().map(GrantedAuthority::getAuthority).collect(Collectors.toList()))
+                            .sign(algorithm);
+
+        return new ResponseEntity<>(new JwtDTO(accessToken), HttpStatus.OK);
     }
 
     /*
