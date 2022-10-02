@@ -1,17 +1,15 @@
-import { NavigationContainer } from '@react-navigation/native';
-import { createStackNavigator } from '@react-navigation/stack';
+import { BrowserRouter, Routes, Route } from "react-router-dom";
 
-
-const Stack = createStackNavigator();
+import LogInScreen from './screens/LogInScreen.js';
 
 function App() {
-  return (
-		<NavigationContainer>
-			<Stack.Navigator screenOptions={{ headerShown: false }}>
-        
-			</Stack.Navigator>
-		</NavigationContainer>
-	);
+    return (
+        <BrowserRouter>
+            <Routes>
+                <Route path="/" element={<LogInScreen/>} />
+            </Routes>
+        </BrowserRouter>
+    );
 }
 
 export default App;
