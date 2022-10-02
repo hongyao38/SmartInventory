@@ -53,8 +53,8 @@ public class AuthController {
     // CONFIRM AND RESET PASSWORD
     @ResponseStatus(HttpStatus.OK)
     @PutMapping(path = "/forget-password/reset")
-    public String resetPassword(@RequestParam("token") String token, @RequestBody String password) {
-        return authService.resetPassword(token, password);
+    public String resetPassword(@RequestParam("token") String token, @RequestBody ResetPasswordDTO request) {
+        return authService.resetPassword(token, request);
     }
 
 }

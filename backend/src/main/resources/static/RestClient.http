@@ -1,5 +1,5 @@
 GET http://localhost:8080/api/v1/users
-Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ4aWFvZGlkaSIsInJvbGVzIjpbIlJPTEVfQURNSU4iXSwiaXNzIjoibG9jYWxob3N0OjgwODAvYXBpL3YxL2xvZ2luIiwiZXhwIjoxNjY0Njk5MzQxfQ.r8r5mgT2Foxf-HYSryL2h5Z32Z4ouLOM1CRIOb_gx6Y
+Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ4aWFvZGlkaSIsInJvbGVzIjpbIlJPTEVfQURNSU4iXSwiaXNzIjoibG9jYWxob3N0OjgwODAvYXBpL3YxL2xvZ2luIiwiZXhwIjoxNjY0NzA5MzQyfQ.Sx-HoMergbArOoFxryYzk02rJDCRE_Dg_PfRytfJP4M
 
 ###
 GET http://localhost:8080/api/v1/users/1
@@ -26,7 +26,7 @@ Content-Type: application/json
 }
 
 ### CONFIRM REGISTRATION TOKEN
-GET http://localhost:8080/api/v1/registration/confirm?token=70bdf74b-e1e3-49dc-8a05-32410a50fc39
+GET http://localhost:8080/api/v1/registration/confirm?token=6edba50a-44ac-453d-a320-863e875c85de
 
 ### LOGIN (SUCCESS)
 POST http://localhost:8080/api/v1/login
@@ -64,10 +64,20 @@ Content-Type: application/json
     "email": "me40@live.com.sg"
 }
 
-### RESET PASSWORD
-PUT http://localhost:8080/api/v1/forget-password/reset?token=95535103-12da-4f24-8780-b0b3a4e24d06
+### RESET PASSWORD (SUCCESS)
+PUT http://localhost:8080/api/v1/forget-password/reset?token=03a488c7-98a4-41e1-8fa4-ed3c649375cf
 Content-Type: application/json
 
 {
-    "password": "newPassword"
+    "newPassword": "iLoveSpringBoot",
+    "confirmNewPassword": "iLoveSpringBoot"
+}
+
+### RESET PASSWORD (PasswordNotMatchingException)
+PUT http://localhost:8080/api/v1/forget-password/reset?token=03a488c7-98a4-41e1-8fa4-ed3c649375cf
+Content-Type: application/json
+
+{
+    "newPassword": "iLoveSpringBoot",
+    "confirmNewPassword": "iHateSpringBoot"
 }
