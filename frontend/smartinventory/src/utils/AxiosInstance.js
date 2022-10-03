@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 const axiosInstance = axios.create({
-    baseURL: 'smart-inventory.cuqci4fvc8xa.ap-northeast-1.rds.amazonaws.com',
+    baseURL: 'http://localhost:8080',
     headers: {'Content-Type' : 'application/json'},
     // withCredentials: true,
 });
