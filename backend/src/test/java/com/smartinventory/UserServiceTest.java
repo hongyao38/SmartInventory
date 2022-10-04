@@ -22,6 +22,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import com.smartinventory.appuser.AppUser;
 import com.smartinventory.appuser.AppUserRepository;
 import com.smartinventory.appuser.AppUserService;
+import com.smartinventory.auth.dto.JwtDTO;
 import com.smartinventory.exceptions.user.InvalidPasswordException;
 import com.smartinventory.exceptions.user.UserEmailTakenException;
 import com.smartinventory.exceptions.user.UsernameInvalidException;
@@ -115,7 +116,7 @@ public class UserServiceTest {
     //         when(users.findByUsername(any(String.class))).thenReturn(userOptional);
 
     //         //act
-    //         ResponseEntity<String> loginUser = userService.loginUser(userOptional.get());
+    //         ResponseEntity<JwtDTO> loginUser = userService.loginUser(userOptional.get());
 
     //         //assert
     //         ResponseEntity<String> success = new ResponseEntity<>(String.format("%s: login success", user.getUsername()), HttpStatus.OK);
