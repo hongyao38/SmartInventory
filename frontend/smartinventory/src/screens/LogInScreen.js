@@ -7,11 +7,13 @@ import {
     MDBInput,
     MDBTypography,
     MDBIcon,
+    MDBCarousel,
+    MDBCarouselItem,
 } from "mdb-react-ui-kit";
-import 'mdb-react-ui-kit/dist/css/mdb.min.css'
+import "mdb-react-ui-kit/dist/css/mdb.min.css";
+import { useNavigate } from "react-router-dom";
 import "./LogInScreen.css";
 import { SignIn } from "../services/authService";
-
 
 function LogInScreen() {
     const [data, setData] = useState({
@@ -39,12 +41,16 @@ function LogInScreen() {
             alert("Invalid username or password");
         }
     };
+    const navigate = useNavigate();
+    const handleForgetPassword = () => {
+        navigate("/registration");
+    };
 
     return (
         <MDBContainer className="my-5 gradient-form">
             <MDBRow>
                 <MDBCol col="6" className="mb-5">
-                    <div className="d-flex flex-column justify-content-center gradient-custom-2 h-100 mb-4">
+                <div className="d-flex flex-column justify-content-center gradient-custom-2 h-100 mb-4">
                         <div className="text-white px-3 py-4 p-md-5 mx-md-4">
                             <h4 class="mb-4">
                                 We are more than just a company
@@ -109,9 +115,20 @@ function LogInScreen() {
                             >
                                 Sign in
                             </MDBBtn>
-                            <a className="text-muted" href="#!">
+                            {/* <a
+                                className="text-muted"
+                                href="javascript:handleForgetPassword()"
+                            >
                                 Forgot password?
-                            </a>
+                            </a> */}
+                            <MDBBtn
+                                outline
+                                className="text-dark text-muted"
+                                color="light"
+                                onClick={() => handleForgetPassword()}
+                            >
+                                Forget Password?
+                            </MDBBtn>
                         </div>
 
                         <div className="d-flex flex-row align-items-center justify-content-center pb-4 mb-4">
