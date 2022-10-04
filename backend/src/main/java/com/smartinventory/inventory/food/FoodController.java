@@ -34,7 +34,7 @@ public class FoodController {
 
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping("/food")
-    public Food addFood(@PathVariable (value = "foodId") Long foodId, @Valid @RequestBody Food food) {
+    public Food addFood(@Valid @RequestBody Food food) {
         if (foodService.addFood(food) == null) {
             throw new FoodExistsException(food.getFoodName());
         }

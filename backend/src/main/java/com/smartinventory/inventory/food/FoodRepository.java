@@ -12,5 +12,4 @@ public interface FoodRepository extends JpaRepository<Food, Long>{
     List<Food> findByCategory(String category);
     Optional<Food> findByFoodName(String foodName);
     void deleteByfoodName(String foodName);
-    
 }

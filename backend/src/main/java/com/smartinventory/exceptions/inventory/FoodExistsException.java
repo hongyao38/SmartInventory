@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 public class FoodExistsException extends RuntimeException {
     
     public FoodExistsException(String foodName) {
-        super(String.format("%s not found!", foodName));
+        super(String.format("%s already exists!", foodName));
     }
 
 }

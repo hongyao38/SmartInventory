@@ -1,13 +1,13 @@
 package com.smartinventory.inventory.purchase;
 
-import java.util.*;
+import java.io.Serializable;
+import java.util.Date;
 
-import javax.persistence.Embedded;
+import javax.persistence.Column;
+import javax.persistence.Embeddable;
 import javax.persistence.Entity;
-import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.MapsId;
-import javax.persistence.PrimaryKeyJoinColumn;
 import javax.validation.constraints.NotNull;
 
 import com.smartinventory.inventory.food.Food;
@@ -17,19 +17,18 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-@Entity
 @Setter
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
-public class Purchase {
-    @Id
-    @Embedded
-    private PurchaseId purchaseId;
+@Embeddable
+public class PurchaseId implements Serializable{
 
+    @Column
     @NotNull
-    private Double amountBought;
-
-    @NotNull
-    private Date expiryDate;
+    private Date datePurchased;
+    
+    @ManyToOne
+    @JoinColumn(name="foodId")
+    private Food food;
 }

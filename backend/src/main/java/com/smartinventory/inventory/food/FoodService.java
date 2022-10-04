@@ -1,8 +1,6 @@
 package com.smartinventory.inventory.food;
 
 import java.util.List;
-import java.util.Optional;
-
 import com.smartinventory.exceptions.inventory.FoodNotFoundException;
 import com.smartinventory.exceptions.inventory.FoodExistsException;
 
@@ -43,6 +41,12 @@ public class FoodService {
 
     public Food updateFood(Long foodId, Food newFood) {
         return foodRepo.findById(foodId).map(food -> {food.setCurrentQuantity(newFood.getCurrentQuantity());
+            return foodRepo.save(food);
+        }).orElse(null);
+    }
+
+    public Food updateCurrentQuantity(Long foodId, Double quantity) {
+        return foodRepo.findById(foodId).map(food -> {food.setCurrentQuantity(quantity);
             return foodRepo.save(food);
         }).orElse(null);
     }
