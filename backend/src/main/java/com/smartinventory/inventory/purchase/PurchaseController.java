@@ -1,14 +1,10 @@
 package com.smartinventory.inventory.purchase;
 
-import java.util.Date;
 import java.util.List;
 
 import javax.validation.Valid;
 
 import com.smartinventory.exceptions.inventory.FoodExistsException;
-import com.smartinventory.exceptions.inventory.FoodNotFoundException;
-import com.smartinventory.inventory.food.Food;
-import com.smartinventory.inventory.food.FoodService;
 
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.http.HttpStatus;
@@ -29,7 +25,6 @@ import lombok.AllArgsConstructor;
 @RequestMapping("/api/v1")
 public class PurchaseController {
     private PurchaseService purchaseService;
-    private FoodService foodService;
 
     @GetMapping("/purchases")
     public List<Purchase> getAllFood(){

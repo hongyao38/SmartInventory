@@ -4,7 +4,6 @@ import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
-import com.smartinventory.exceptions.inventory.FoodNotFoundException;
 import com.smartinventory.inventory.food.Food;
 import com.smartinventory.inventory.food.FoodRepository;
 import com.smartinventory.inventory.food.FoodService;

@@ -16,6 +16,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import com.smartinventory.inventory.purchase.*;
+import com.smartinventory.inventory.consumption.*;
 
 @Entity
 @Setter
@@ -40,4 +41,9 @@ public class Food {
         orphanRemoval = true, 
         cascade = CascadeType.ALL)
     private List<Purchase> purchases;
+
+    @OneToMany(mappedBy = "food",
+        orphanRemoval = true, 
+        cascade = CascadeType.ALL)
+    private List<Consumption> consumptions;
 }

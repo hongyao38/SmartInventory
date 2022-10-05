@@ -1,4 +1,4 @@
-package com.smartinventory.inventory.purchase;
+package com.smartinventory.inventory.consumption;
 
 import java.util.*;
 
@@ -22,19 +22,16 @@ import lombok.Setter;
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
-public class Purchase {
+public class Consumption {
     @Id
     @GeneratedValue (strategy = GenerationType.IDENTITY)
-    private Long purchaseId;
+    private Long consumptionId;
 
     @NotNull
-    private Date dateBought;
+    private Date dateConsumed;
 
     @NotNull
-    private Double amountBought;
-
-    @NotNull
-    private Date expiryDate;
+    private Double amountConsumed;
 
     @ManyToOne
     @JoinColumn(name="foodId")
