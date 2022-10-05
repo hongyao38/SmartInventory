@@ -5,6 +5,7 @@
   "dependencies": {
     "axios": "^0.27.2",
     "mdb-react-ui-kit": "^4.2.0",
+    "react-is": "^18.2.0",
     "react-router-dom": "^6.4.1",
     "react-scripts": "^5.0.1"
   },
@@ -18,7 +19,10 @@
     "extends": [
       "react-app",
       "react-app/jest"
-    ]
+    ],
+    "rules": {
+      "no-unused-vars": "off"
+    }
   },
   "browserslist": {
     "production": [
