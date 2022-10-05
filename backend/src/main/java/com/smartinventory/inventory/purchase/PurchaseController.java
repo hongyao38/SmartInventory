@@ -40,21 +40,19 @@ public class PurchaseController {
     @PostMapping("/purchases")
     public Purchase addPurchase(@Valid @RequestBody Purchase purchase) {
         if (purchaseService.addPurchase(purchase) == null) {
-            throw new FoodExistsException(purchase.getPurchaseId().getFood().getFoodName());
+            throw new FoodExistsException(purchase.getFood().getFoodName());
         }
         return purchaseService.addPurchase(purchase);
     }
 
-    @PutMapping("/purchases/{foodid}/{purchaseDate}")
-    public Purchase updatePurchase(@PathVariable (value = "foodid") Long foodid,
-                                @PathVariable (value = "purchaseDate") Date purchaseDate, 
+    @PutMapping("/purchases/{purchaseId}")
+    public Purchase updatePurchase(@PathVariable (value = "purchaseId") Long purchaseId,
                                 @Valid @RequestBody Purchase newPurchase){
-        return purchaseService.updatePurchase(newPurchase);
+        return purchaseService.updatePurchase(purchaseId, newPurchase);
     }
 
-    @DeleteMapping("/purchases/{foodId}/{purchaseDate")
-    public void deleteFood(@PathVariable (value = "foodid") Long foodid,
-                            @PathVariable (value = "purchaseDate") Date purchaseDate, 
+    @DeleteMapping("/purchases/{purchaseId}")
+    public void deletePurchase(@PathVariable (value = "purchaseId") Long purchaseId,
                             @Valid @RequestBody Purchase purchase){
         try{
             purchaseService.deletePurchase(purchase);

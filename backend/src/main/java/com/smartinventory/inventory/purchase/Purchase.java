@@ -4,7 +4,10 @@ import java.util.*;
 
 import javax.persistence.Embedded;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.MapsId;
 import javax.persistence.PrimaryKeyJoinColumn;
@@ -24,12 +27,19 @@ import lombok.Setter;
 @AllArgsConstructor
 public class Purchase {
     @Id
-    @Embedded
-    private PurchaseId purchaseId;
+    @GeneratedValue (strategy = GenerationType.IDENTITY)
+    private Long purchaseId;
+
+    @NotNull
+    private Date dateBought;
 
     @NotNull
     private Double amountBought;
 
     @NotNull
     private Date expiryDate;
+
+    @ManyToOne
+    @JoinColumn(name="foodId")
+    private Food food;
 }

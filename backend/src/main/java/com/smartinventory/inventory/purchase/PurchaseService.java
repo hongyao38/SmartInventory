@@ -26,25 +26,25 @@ public class PurchaseService {
     }
 
     public List<Purchase> listPurchaseByFood(Food food) {
-        return purchases.findByPurchaseId_Food(food);
+        return purchases.findByFood(food);
     }
 
     public List<Purchase> listPurchaseByDatePurchased(Date datePurchased) {
-        return purchases.findByPurchaseId_DatePurchased(datePurchased);
+        return purchases.findByDateBought(datePurchased);
     }
 
-    public Optional<Purchase> getPurchase(PurchaseId purchaseId) {
-        if (purchases.findById(purchaseId).isEmpty()) {
+    public Optional<Purchase> getPurchase(Long id) {
+        if (purchases.findById(id).isEmpty()) {
             return null;
         }
-        return purchases.findById(purchaseId);
+        return purchases.findById(id);
     }
 
     //add new purchase
     // will automatically update total quantity in food
     public Purchase addPurchase(Purchase purchase) {
         //Finding the food from the purchase
-        Food food = purchase.getPurchaseId().getFood();
+        Food food = purchase.getFood();
 
         if (foodRepo.findById(food.getFoodId()).isEmpty()) {
             return null;
@@ -55,8 +55,18 @@ public class PurchaseService {
         return purchases.save(purchase);
     }
 
-    public Purchase updatePurchase(Purchase newPurchase) {
-        return purchases.save(newPurchase);
+    //edit amount bought
+    public Purchase updatePurchase(Long purchaseId, Purchase newPurchase) {
+        if (purchases.findById(purchaseId).get().getAmountBought() != newPurchase.getAmountBought()) {
+            Food food = newPurchase.getFood();
+            Double newQuantity = food.getCurrentQuantity() + newPurchase.getAmountBought();
+            foodService.updateCurrentQuantity(food.getFoodId(), newQuantity);
+        }
+        return purchases.findById(purchaseId).map(purchase -> {newPurchase.getAmountBought();
+            newPurchase.getDateBought();
+            newPurchase.getExpiryDate();
+            return purchases.save(purchase);
+        }).orElse(null);
     }
 
     public void deletePurchase(Purchase purchase) {

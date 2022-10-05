@@ -9,9 +9,9 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface PurchaseRepository extends JpaRepository<Purchase, PurchaseId>{
+public interface PurchaseRepository extends JpaRepository<Purchase, Long>{
     //Create, Read, Update, Delete
-    List<Purchase> findByPurchaseId_DatePurchased(Date datePurchased);
-    List<Purchase> findByPurchaseId_Food(Food food);
+    List<Purchase> findByDateBought(Date dateBought);
+    List<Purchase> findByFood(Food food);
     List<Purchase> findByExpiryDate(Date expiryDate);
 }

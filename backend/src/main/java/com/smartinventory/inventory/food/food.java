@@ -36,7 +36,7 @@ public class Food {
     @NotNull
     private double currentQuantity;
 
-    @OneToMany(mappedBy = "purchase",
+    @OneToMany(mappedBy = "food",
         orphanRemoval = true, 
         cascade = CascadeType.ALL)
     private List<Purchase> purchases;

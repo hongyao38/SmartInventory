@@ -81,3 +81,16 @@ Content-Type: application/json
     "newPassword": "iLoveSpringBoot",
     "confirmNewPassword": "iHateSpringBoot"
 }
+
+### GET FOOD 
+GET http://localhost:8080/api/v1/food
+
+### NEW FOOD
+PUT http://localhost:8080/api/v1/food
+Content-Type: application/json
+
+{
+    "foodName": "Milk",
+    "category": "dairy",
+    "currentQuantity": "2.5"
+}
