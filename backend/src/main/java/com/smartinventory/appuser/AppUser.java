@@ -19,6 +19,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 
 @Entity
@@ -53,7 +54,14 @@ public class AppUser implements UserDetails {
         this.email = email;
         this.username = username;
         this.password = password;
-        authorities = "ROLE_ADMIN"; // FOR NOW: Default is USER
+        authorities = "ROLE_USER"; // FOR NOW: Default is USER
+    }
+
+    public AppUser(String email, String username, String password, String authorities) {
+        this.email = email;
+        this.username = username;
+        this.password = password;
+        this.authorities = authorities;
     }
 
     @Override
