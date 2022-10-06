@@ -7,6 +7,13 @@ import {
     MDBInput,
     MDBTypography,
     MDBIcon,
+    MDBModal,
+    MDBModalDialog,
+    MDBModalContent,
+    MDBModalHeader,
+    MDBModalTitle,
+    MDBModalBody,
+    MDBModalFooter,
 } from "mdb-react-ui-kit";
 import "mdb-react-ui-kit/dist/css/mdb.min.css";
 import "./ResetScreen.css";
@@ -23,13 +30,15 @@ function ResetScreen() {
         console.log(data);
     };
 
-    const handleSignIn = async (e) => {};
+    const [basicModal, setBasicModal] = useState(false);
+
+    const toggleShow = () => setBasicModal(!basicModal);
 
     return (
         <MDBContainer className="my-5 gradient-form">
             <MDBCol className="mt-4">
                 <MDBRow rows="6" className="mb-5">
-                    <div className="d-flex flex-column ms-5 mt-4">
+                    <div className="d-flex flex-column  mt-4">
                         <div className="text-center">
                             <img
                                 src="gold-key.png"
@@ -37,7 +46,7 @@ function ResetScreen() {
                                 alt="logo"
                             />
                             <h4 className="mt-2 mb-2 pb-2">
-                                Set new password
+                                <strong>Set new password</strong>
                             </h4>
                             <h6> Your new password must be different to 
                                 previously used passwords.
@@ -45,7 +54,7 @@ function ResetScreen() {
                         </div>
                         <br></br>
                         <div className= "mb-5">
-                        <MDBCol className="d-flex justify-content-center">
+                            <MDBCol className="d-grid gap-2 col-4 mx-auto">
                                 <MDBInput
                                     id="pass1"
                                     label="password"
@@ -55,13 +64,12 @@ function ResetScreen() {
                                     required
                                     onChange={onChange}
                                 />
-                        </MDBCol>
-                            <div id='pass1' className='form-text d-flex justify-content-center'>
+                            </MDBCol>
+                            <div id='pass1' className='form-text d-grid gap-2 col-4 mx-auto'>
                                     must be at least 8 characters long.
-                             </div>
-                        
-                        <br></br>
-                        <MDBCol className="d-flex justify-content-center ">
+                            </div>
+                            <br></br>
+                            <MDBCol className="d-grid gap-2 col-4 mx-auto">
                                 <MDBInput
                                     label="confirm password"
                                     id="pass2"
@@ -71,18 +79,32 @@ function ResetScreen() {
                                     required
                                     onChange={onChange}
                                 />
-                        </MDBCol>
+                            </MDBCol>
                         </div>
                         <MDBCol className="d-flex justify-content-center ">
-                        <div className="text-center">
-                            <MDBBtn
-                                className="mb-4 gradient-custom-2"
-                                onClick={handleSignIn}
-                            >
-                                Reset Password
-                            </MDBBtn>
-                            
-                        </div>
+                            <MDBBtn onClick={toggleShow}>Reset Password</MDBBtn>
+                            <MDBModal show={basicModal} setShow={setBasicModal} tabIndex='-1'>
+                                <MDBModalDialog centered>
+                                <MDBModalContent>
+                                    <div className="mt-4 text-center">
+                                        <img
+                                            src="checked 2.png"
+                                            style={{ width: "55px" }}
+                                            alt="logo"
+                                        />
+                                        <h3 className="mt-2 mb-2 pb-2">
+                                            <strong>Password reset</strong>
+                                        </h3>
+                                        <h6> Your password has been successfully reset.
+                                            <br></br> click below to sign-in.
+                                        </h6>
+                                    </div>
+                                    <div className="d-grid gap-2 col-5 mx-auto mb-4 mt-3">
+                                        <MDBBtn  onClick={toggleShow} >continue</MDBBtn>
+                                    </div>
+                                </MDBModalContent>
+                                </MDBModalDialog>
+                            </MDBModal>
                         </MDBCol>
                     </div>
                 </MDBRow>
