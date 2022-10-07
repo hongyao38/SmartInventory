@@ -9,10 +9,12 @@ const axiosInstance = axios.create({
 axiosInstance.interceptors.request.use(
     async (config) => {
         const token = sessionStorage.getItem("token");
+        console.log("Instance token" , token);
         if (
             !(
                 config.url.includes("/api/v1/login") ||
-                config.url.includes("/api/v1/registration")
+                config.url.includes("/api/v1/registration") 
+                // config.url.includes("/api/v1/users")
             )
         ) {
             if (token) {

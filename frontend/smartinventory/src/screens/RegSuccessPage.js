@@ -37,7 +37,9 @@ function ConfirmRegistration() {
         }
     // },[]);
 
-    return <h1>reg success</h1>;
+    return (<><h1>reg success</h1>
+    </>);
+
 }
 
 export default ConfirmRegistration;

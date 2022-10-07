@@ -18,11 +18,31 @@ import { Carousel } from "react-responsive-carousel";
 import { Route, Link, Routes, useLocation } from "react-router-dom";
 
 import "./LogInScreen.css";
-import {  ConfirmEmail } from "../services/authService";
+import { testGet } from "../services/authService";
+
 
 function ConfirmRegistration() {
-    
-    return <h1>login success</h1>;
+    const getMethod = async () =>{
+        try{
+            const res = await testGet();
+            console.log(res);
+        }catch(err){
+            console.log(err);
+        }
+    }
+
+    return (
+        <>
+            <h1>login success</h1>
+            <MDBBtn
+                onClick={() => {
+                    getMethod();
+                }}
+            >
+                GET
+            </MDBBtn>
+        </>
+    );
 }
 
 export default ConfirmRegistration;

@@ -37,13 +37,17 @@ function LogInScreen() {
                     username: data.username,
                     password: data.password,
                 });
+                console.log("ISLOGGEDIN:", isLoggedIn);
                 if (isLoggedIn) {
-                    navigate.push('/dashboard');
+                    console.log("I got here");
+                    navigate('/dashboard');
                 } else {
+                    console.log("I got there");
                     alert("Invalid username or password");
                 }
             } catch (e) {
-                alert("Invalid username or password");
+                console.log(e);
+                alert("Invalid username or password catch");
             }
         
     };
