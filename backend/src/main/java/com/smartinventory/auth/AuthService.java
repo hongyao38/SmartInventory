@@ -44,7 +44,7 @@ public class AuthService {
         System.out.println("Auth Service: User created in DB SUCCESS");
 
         // Form email body
-        String confirmationLink = "localhost:8080/api/v1/registration/confirm?token=" + token;
+        String confirmationLink = "localhost:3000/registration/confirm?token=" + token;
         String emailBody = String.format("Hi, %s!%n%n" +
                 "Confirm your email: %s\n\n" +
                 "Link will expire in 15 minutes.%n", reqUsername, confirmationLink);
@@ -64,6 +64,8 @@ public class AuthService {
     @Transactional
     public String confirmToken(String token) {
 
+        System.out.println("Confirm Email: Entered service");
+
         // Retrieve confirmation token from db (if exists)
         ConfirmationToken confirmationToken = tokenService.getToken(token)
                 .orElseThrow(() -> new InvalidTokenException("Token not found!"));
@@ -81,6 +83,8 @@ public class AuthService {
 
         tokenService.setConfirmedAt(token);
         userService.enableUser(confirmationToken.getUser().getEmail());
+
+        System.out.println("Confirm Email: Success");
         return "confirmed";
     }
 

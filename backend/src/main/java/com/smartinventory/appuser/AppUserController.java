@@ -10,10 +10,10 @@ import org.springframework.web.bind.annotation.RestController;
 
 import lombok.AllArgsConstructor;
 
-@CrossOrigin
 @RestController
 @AllArgsConstructor
 @RequestMapping("/api/v1")
+@CrossOrigin
 public class AppUserController {
 
     private AppUserService userService;

@@ -20,13 +20,23 @@ const SignIn = async (user) => {
 };
 
 const SignUp = async (user) => {
+   
     const res = await axiosInstance({
         method : 'post',
         url: '/api/v1/registration',
         data: user,
     })
-
+    console.log(res.data);
     return res.status === 201;
 };
 
-export { SignIn, SignUp };
+const ConfirmEmail= async (token) => {
+    const res = await axiosInstance({
+        method: 'get',
+        url: 'api/v1/registration/confirm' + token
+    })
+    console.log(res.status);
+    return res.status === 200;
+}
+
+export { SignIn, SignUp, ConfirmEmail};

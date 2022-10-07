@@ -19,7 +19,7 @@ import lombok.AllArgsConstructor;
 @RestController
 @RequestMapping(path = "api/v1")
 @AllArgsConstructor
-@CrossOrigin(origins = {"http://localhost:3000/registration"})
+@CrossOrigin
 public class AuthController {
 
     private final AuthService authService;
@@ -36,6 +36,7 @@ public class AuthController {
     @ResponseStatus(HttpStatus.OK)
     @GetMapping(path = "/registration/confirm")
     public String confirm(@RequestParam("token") String token) {
+        System.out.println("Confirm Email: Called service SUCCESS");
         return authService.confirmToken(token);
     }
 
