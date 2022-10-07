@@ -50,7 +50,7 @@ public class AuthService {
                 "Link will expire in 15 minutes.%n", reqUsername, confirmationLink);
 
         // Send email
-        // emailSender.send(reqEmail, emailBody, "SmartInventory: Confirm Your Email");
+        emailSender.send(reqEmail, emailBody, "SmartInventory: Confirm Your Email");
         return token;
     }
 
