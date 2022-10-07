@@ -18,14 +18,14 @@ import { Carousel } from "react-responsive-carousel";
 import { Route, Link, Routes, useLocation } from "react-router-dom";
 
 import "./LogInScreen.css";
-import {  ConfirmEmail } from "../services/authService";
+import {  confirmEmail } from "../services/authService";
 
 function ConfirmRegistration() {
     const location = useLocation();
 
     // useEffect(()=>{
         try {
-            const res = ConfirmEmail(location.search);
+            const res = confirmEmail(location.search);
             console.log(res);
             if (res) {
                 //successfully registered, call pop up to tell user to check email

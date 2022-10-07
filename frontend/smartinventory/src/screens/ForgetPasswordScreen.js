@@ -46,7 +46,7 @@ function ForgetPasswordScreen() {
     }
 
     const handleResendEmail = () => {
-        navigate("/ResendEmailScreen")
+        navigate("/resendEmailScreen")
     }
 
     return (
@@ -109,7 +109,7 @@ function ForgetPasswordScreen() {
                             <i class="fas fa-arrow-left"></i>
                             <MDBBtn
                                 outline className="mx-2" 
-                                className="text-dark text-muted"
+                                class="text-dark text-muted"
                                 color="light"
                                 onClick={() => handleLogIn()}>
 

@@ -1,14 +1,11 @@
-import axios from "axios";
 import axiosInstance from "../utils/AxiosInstance";
 
-const SignIn = async (user) => {
-    console.log("USER", user);
+const login = async (user) => {
     const res = await axiosInstance({
         method: "post",
         url: "/login",
         data: user,
     });
-    console.log("JWT:", res.data.jwt);
 
     let isLoggedIn = false;
     if (res.status === 200 && res.data.jwt) {
@@ -19,7 +16,7 @@ const SignIn = async (user) => {
     return isLoggedIn;
 };
 
-const SignUp = async (user) => {
+const register = async (user) => {
     const res = await axiosInstance({
         method: "post",
         url: "/registration",
@@ -28,7 +25,7 @@ const SignUp = async (user) => {
     return res.status === 201;
 };
 
-const ConfirmEmail = async (token) => {
+const confirmEmail = async (token) => {
     const res = await axiosInstance({
         method: "get",
         url: "/registration/confirm" + token,
@@ -48,4 +45,5 @@ const testGet = async () => {
     return res.data;
 };
 
-export { SignIn, SignUp, ConfirmEmail, testGet };
+export { login, register, confirmEmail, testGet };
+

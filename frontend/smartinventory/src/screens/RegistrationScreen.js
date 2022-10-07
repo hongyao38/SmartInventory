@@ -19,7 +19,7 @@ import {
 } from "mdb-react-ui-kit";
 import "mdb-react-ui-kit/dist/css/mdb.min.css";
 import "./RegistrationScreen.css";
-import { SignUp } from "../services/authService";
+import { register } from "../services/authService";
 
 function RegistrationScreen() {
     const [data, setData] = useState({
@@ -34,7 +34,6 @@ function RegistrationScreen() {
 
     const onChange = (e) => {
         setData({ ...data, [e.target.name]: e.target.value });
-        // console.log(data);
     };
 
     const handleRegister = async (e) => {
@@ -51,8 +50,7 @@ function RegistrationScreen() {
             console.log(info);
             
             try {
-                const res = await SignUp(info);
-                console.log(res);
+                const res = await register(info);
                 if (res) {
                     //successfully registered, call pop up to tell user to check email
                     toggleShow();
