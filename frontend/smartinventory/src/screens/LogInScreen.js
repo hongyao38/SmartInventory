@@ -32,24 +32,20 @@ function LogInScreen() {
     const navigate = useNavigate();
 
     const handleSignIn = async (e) => {
-            try {
-                const isLoggedIn = await SignIn({
-                    username: data.username,
-                    password: data.password,
-                });
-                console.log("ISLOGGEDIN:", isLoggedIn);
-                if (isLoggedIn) {
-                    console.log("I got here");
-                    navigate('/dashboard');
-                } else {
-                    console.log("I got there");
-                    alert("Invalid username or password");
-                }
-            } catch (e) {
-                console.log(e);
-                alert("Invalid username or password catch");
+        try {
+            const isLoggedIn = await SignIn({
+                username: data.username,
+                password: data.password,
+            });
+            if (isLoggedIn) {
+                navigate("/dashboard");
+            } else {
+                alert("Invalid username or password");
             }
-        
+        } catch (e) {
+            console.log(e);
+            alert("Invalid username or password");
+        }
     };
 
     const handleForgetPassword = () => {
@@ -63,7 +59,6 @@ function LogInScreen() {
         // navigate("/registration");
         navigate("/registration");
     };
-
 
     return (
         <MDBContainer className="my-5 gradient-form">
@@ -89,35 +84,26 @@ function LogInScreen() {
                                         alt="logo"
                                     /> */}
                                     <p class="small mb-0">
-                                        1. Lorem ipsum dolor sit amet,
-                                        consectetur adipisicing elit, sed do
-                                        eiusmod tempor incididunt ut labore et
-                                        dolore magna aliqua. Ut enim ad minim
-                                        veniam, quis nostrud exercitation
-                                        ullamco laboris nisi ut aliquip ex ea
-                                        commodo consequat.
+                                        1. Lorem ipsum dolor sit amet, consectetur adipisicing elit,
+                                        sed do eiusmod tempor incididunt ut labore et dolore magna
+                                        aliqua. Ut enim ad minim veniam, quis nostrud exercitation
+                                        ullamco laboris nisi ut aliquip ex ea commodo consequat.
                                     </p>
                                 </div>
                                 <div>
                                     <p class="small mb-0">
-                                        2. Lorem ipsum dolor sit amet,
-                                        consectetur adipisicing elit, sed do
-                                        eiusmod tempor incididunt ut labore et
-                                        dolore magna aliqua. Ut enim ad minim
-                                        veniam, quis nostrud exercitation
-                                        ullamco laboris nisi ut aliquip ex ea
-                                        commodo consequat.
+                                        2. Lorem ipsum dolor sit amet, consectetur adipisicing elit,
+                                        sed do eiusmod tempor incididunt ut labore et dolore magna
+                                        aliqua. Ut enim ad minim veniam, quis nostrud exercitation
+                                        ullamco laboris nisi ut aliquip ex ea commodo consequat.
                                     </p>
                                 </div>
                                 <div>
                                     <p class="small mb-0">
-                                        3. Lorem ipsum dolor sit amet,
-                                        consectetur adipisicing elit, sed do
-                                        eiusmod tempor incididunt ut labore et
-                                        dolore magna aliqua. Ut enim ad minim
-                                        veniam, quis nostrud exercitation
-                                        ullamco laboris nisi ut aliquip ex ea
-                                        commodo consequat.
+                                        3. Lorem ipsum dolor sit amet, consectetur adipisicing elit,
+                                        sed do eiusmod tempor incididunt ut labore et dolore magna
+                                        aliqua. Ut enim ad minim veniam, quis nostrud exercitation
+                                        ullamco laboris nisi ut aliquip ex ea commodo consequat.
                                     </p>
                                 </div>
                             </Carousel>

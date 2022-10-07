@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const axiosInstance = axios.create({
-    baseURL: "http://localhost:8080",
+    baseURL: "http://localhost:8080/api/v1",
     headers: { "Content-Type": "application/json" },
     withCredentials: false,
 });
@@ -12,9 +12,8 @@ axiosInstance.interceptors.request.use(
         console.log("Instance token" , token);
         if (
             !(
-                config.url.includes("/api/v1/login") ||
-                config.url.includes("/api/v1/registration") 
-                // config.url.includes("/api/v1/users")
+                config.url.includes("/login") ||
+                config.url.includes("/registration") 
             )
         ) {
             if (token) {

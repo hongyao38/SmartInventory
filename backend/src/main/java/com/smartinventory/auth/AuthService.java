@@ -48,7 +48,7 @@ public class AuthService {
                 "Link will expire in 15 minutes.%n", reqUsername, confirmationLink);
 
         // Send email
-        emailSender.send(reqEmail, emailBody, "SmartInventory: Confirm Your Email");
+        // emailSender.send(reqEmail, emailBody, "SmartInventory: Confirm Your Email");
         return token;
     }
 
@@ -81,10 +81,7 @@ public class AuthService {
     }
 
     public ResponseEntity<JwtDTO> login(LoginDTO request) {
-
-        System.out.println("Auth service: " + request.getUsername());
-        System.out.println("Auth service: " + request.getPassword());
-
+        
         // Get username and password (and encode) from request DTO
         String username = request.getUsername();
         String encodedPassword = request.getPassword();

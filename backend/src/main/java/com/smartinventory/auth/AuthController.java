@@ -42,7 +42,6 @@ public class AuthController {
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping(path = "/login")
     public ResponseEntity<JwtDTO> login(@RequestBody LoginDTO request) {
-        System.out.println("AuthController: Login call service");
         return authService.login(request);
     }
 

@@ -25,7 +25,6 @@ function ConfirmRegistration() {
 
     // useEffect(()=>{
         try {
-            console.log("try ran");
             const res = ConfirmEmail(location.search);
             console.log(res);
             if (res) {

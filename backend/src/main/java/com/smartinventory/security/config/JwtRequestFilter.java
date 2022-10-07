@@ -53,7 +53,6 @@ public class JwtRequestFilter extends OncePerRequestFilter {
             filterChain.doFilter(request, response);
 
         } catch (Exception e) {
-            System.out.println(String.format("Error logging in: ", e.getMessage()));
             response.setHeader("Error: ", e.getMessage());
             response.sendError(403, "Invalid token"); // FORBIDDEN
         }
