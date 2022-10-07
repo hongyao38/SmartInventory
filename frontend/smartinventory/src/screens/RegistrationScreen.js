@@ -49,16 +49,17 @@ function RegistrationScreen() {
                 password: data.password,
             };
             console.log(info);
-            toggleShow();
-            // try {
-            //     const res = await SignUp(info);
-            //     console.log(res);
-            //     if (res) {
-            //         //successfully registered, call pop up to tell user to check email
-            //     }
-            // } catch (err) {
-            //     alert(err);
-            // }
+            
+            try {
+                const res = await SignUp(info);
+                console.log(res);
+                if (res) {
+                    //successfully registered, call pop up to tell user to check email
+                    toggleShow();
+                }
+            } catch (err) {
+                alert(err);
+            }
         }
     };
 

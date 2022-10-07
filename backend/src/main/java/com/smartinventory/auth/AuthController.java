@@ -19,7 +19,7 @@ import lombok.AllArgsConstructor;
 @RestController
 @RequestMapping(path = "api/v1")
 @AllArgsConstructor
-@CrossOrigin(origins = {"http://localhost:3000/registration"})
+@CrossOrigin
 public class AuthController {
 
     private final AuthService authService;
@@ -28,7 +28,6 @@ public class AuthController {
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping("/registration")
     public String register(@RequestBody RegistrationDTO request) {
-        System.out.println("Auth Controller: Called service SUCCESS");
         return authService.register(request);
     }
 
@@ -43,6 +42,7 @@ public class AuthController {
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping(path = "/login")
     public ResponseEntity<JwtDTO> login(@RequestBody LoginDTO request) {
+        System.out.println("AuthController: Login call service");
         return authService.login(request);
     }
 

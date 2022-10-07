@@ -41,8 +41,6 @@ public class AuthService {
         String token = userService.registerUser(
                 new AppUser(reqEmail, reqUsername, request.getPassword()));
 
-        System.out.println("Auth Service: User created in DB SUCCESS");
-
         // Form email body
         String confirmationLink = "localhost:3000/registration/confirm?token=" + token;
         String emailBody = String.format("Hi, %s!%n%n" +
@@ -84,6 +82,9 @@ public class AuthService {
 
     public ResponseEntity<JwtDTO> login(LoginDTO request) {
 
+        System.out.println("Auth service: " + request.getUsername());
+        System.out.println("Auth service: " + request.getPassword());
+
         // Get username and password (and encode) from request DTO
         String username = request.getUsername();
         String encodedPassword = request.getPassword();
@@ -118,7 +119,6 @@ public class AuthService {
 
         // Send email
         emailSender.send(reqEmail, emailBody, "SmartInventory: Reset Password");
-        System.out.println("Reset password email sent");
         return token;
     }
 
@@ -141,9 +141,6 @@ public class AuthService {
 
         String newPassword = request.getNewPassword();
         String confirmNewPassword = request.getConfirmNewPassword();
-
-        System.out.println(newPassword);
-        System.out.println(confirmNewPassword);
 
         // If passwords entered does not matc
         if (!newPassword.equals(confirmNewPassword)) {

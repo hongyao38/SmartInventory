@@ -29,32 +29,37 @@ function LogInScreen() {
         setData({ ...data, [e.target.name]: e.target.value });
         console.log(data);
     };
+    const navigate = useNavigate();
 
     const handleSignIn = async (e) => {
-        if (data.password.equals(" ") && data.username.equals("")) {
             try {
                 const isLoggedIn = await SignIn({
                     username: data.username,
                     password: data.password,
                 });
                 if (isLoggedIn) {
-                    // navigation.push('HomeScreen');
+                    navigate.push('/dashboard');
                 } else {
                     alert("Invalid username or password");
                 }
             } catch (e) {
                 alert("Invalid username or password");
             }
-        }
-    };
-    const navigate = useNavigate();
-    const handleForgetPassword = () => {
-        // navigate("/registration");
+        
     };
 
-    const handleRegister = () => {
+    const handleForgetPassword = () => {
+        // navigate("/registration");
+        // change made: change to forgetpassword
+        navigate("/ForgetPassword");
+    };
+
+    //change made: added handleRegistration
+    const handleRegistration = () => {
+        // navigate("/registration");
         navigate("/registration");
     };
+
 
     return (
         <MDBContainer className="my-5 gradient-form">
@@ -195,7 +200,7 @@ function LogInScreen() {
                                 outline
                                 className="mx-2"
                                 color="danger"
-                                onClick={() => handleRegister()}
+                                onClick={() => handleRegistration()}
                             >
                                 Create here
                             </MDBBtn>

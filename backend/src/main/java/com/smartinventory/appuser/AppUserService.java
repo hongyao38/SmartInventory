@@ -98,8 +98,6 @@ public class AppUserService implements UserDetailsService {
         // Add user to database
         userRepository.save(user);
 
-        System.out.println("User Service: Saved to DB SUCCESS");
-
         // Create a confirmationToken object to match to user
         ConfirmationToken confirmationToken = new ConfirmationToken(
                 ZonedDateTime.now(),
