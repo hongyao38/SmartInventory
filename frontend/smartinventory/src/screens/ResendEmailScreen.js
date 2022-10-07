@@ -8,6 +8,7 @@ import {
     MDBTypography,
     MDBValidation,
     MDBValidationItem,
+    MDBIcon,
     MDBCarousel,
     MDBCarouselItem,
 } from "mdb-react-ui-kit";
@@ -19,37 +20,34 @@ function ResendEmailScreen() {
     const navigate = useNavigate();
 
     const handleLogIn = () => {
-        navigate("/LogInScreen");
+        navigate("/");
     }
-
     return (
         <MDBContainer className="my-6 gradient-form">
             <MDBRow>
-                <MDBCol col="6" className="mb-5">
-                    <div className="d-flex flex-column mt-4 mb-3">
-                        <div className="text-center">
-                            <img
+                <MDBCol>
 
-                                //TODO: replace this link w forget password link
-
-                                src="resetpassword.png"
-                                style={{ width: "55px" }}
-                                alt="logo"
-                            />
-                        </div>
-                    </div>
 
                     <MDBTypography tag="strong" className="pb-3">
-                        <div class="text-center">
-                            <h2 class="fw-bold">Check your email!</h2>
-                            <p class="fw-normal">We have sent a password reset link to your email! </p>
+                        <div className="d-flex flex-column">
+                            <div className="text-center mt-5 mb-3">
+                                <img
+                                    src="email.png"
+                                    style={{ width: "55px" }}
+                                    alt="logo"
+                                />
+                            </div>
                         </div>
 
-                        <div className="d-flex flex-row align-items-center justify-content-center pb-4 mb-4">
+                        <div class="text-center">
+                            <h2 class="fw-bold">Check your email</h2>
+                            <p class="fw-normal">We have sent a reset password link to your email</p>
+                        </div>
+                        <div className="text-center">
                             {/* to ask: arrow never appear :( */}
                             <i class="fas fa-arrow-left"></i>
                             <MDBBtn
-                                outline className="mx-2" 
+                                outline className="mx-2"
                                 className="text-dark text-muted"
                                 color="light"
                                 onClick={() => handleLogIn()}>

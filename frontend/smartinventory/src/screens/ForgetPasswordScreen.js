@@ -22,7 +22,7 @@ function ForgetPasswordScreen() {
 
 
     const onChange = (e) => {
-        setEmail({ ...data, [e.target.name]: e.target.value })
+        setEmail({ ...data.email, [e.target.name]: e.target.value })
     }
 
     //TODO: connect to backend
@@ -42,7 +42,7 @@ function ForgetPasswordScreen() {
     const navigate = useNavigate();
 
     const handleLogIn = () => {
-        navigate("/LogInScreen");
+        navigate("/");
     }
 
     const handleResendEmail = () => {
@@ -99,7 +99,8 @@ function ForgetPasswordScreen() {
                                     handleResendEmail();
                                 }}
                                 >
-                                Reset Password
+                                Send password reset email
+                            
                             </MDBBtn>
                         </div>
 
