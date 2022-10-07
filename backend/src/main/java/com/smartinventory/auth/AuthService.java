@@ -51,8 +51,6 @@ public class AuthService {
 
         // Send email
         // emailSender.send(reqEmail, emailBody, "SmartInventory: Confirm Your Email");
-
-        System.out.println("Auth Service: Sent Email SUCCESS");
         return token;
     }
 
