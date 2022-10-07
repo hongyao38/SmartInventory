@@ -9,7 +9,7 @@ const login = async (user) => {
 
     let isLoggedIn = false;
     if (res.status === 200 && res.data.jwt) {
-        sessionStorage.setItem("token", res.data.jwt);
+        sessionStorage.setItem("jwt", res.data.jwt);
         sessionStorage.setItem("name", user.username);
         isLoggedIn = true;
     }
@@ -33,17 +33,13 @@ const confirmEmail = async (token) => {
     return res.status === 200;
 };
 
-const testGet = async () => {
-    console.log("before calling");
-
+const getUsers = async () => {
     const res = await axiosInstance({
         method: "get",
         url: "/users",
     });
-    console.log("After calling", res);
-
     return res.data;
 };
 
-export { login, register, confirmEmail, testGet };
+export { login, register, confirmEmail, getUsers };
 

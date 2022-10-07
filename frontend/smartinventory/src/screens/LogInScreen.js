@@ -1,33 +1,28 @@
-import React, { useState } from "react";
 import {
   MDBBtn,
-  MDBContainer,
-  MDBRow,
   MDBCol,
+  MDBContainer,
   MDBInput,
+  MDBRow,
   MDBTypography,
   MDBValidation,
   MDBValidationItem,
-  MDBCarousel,
-  MDBCarouselItem,
 } from "mdb-react-ui-kit";
 import "mdb-react-ui-kit/dist/css/mdb.min.css";
-import { useNavigate } from "react-router-dom";
-import "react-responsive-carousel/lib/styles/carousel.min.css"; // requires a loader
+import React, { useState } from "react";
 import { Carousel } from "react-responsive-carousel";
+import "react-responsive-carousel/lib/styles/carousel.min.css"; // requires a loader
+import { useNavigate } from "react-router-dom";
 
-import "./LogInScreen.css";
 import { login } from "../services/authService";
+import "./LogInScreen.css";
 
 function LoginScreen() {
-  const [data, setData] = useState({
-    username: "",
-    password: "",
-  });
+  const [data, setData] = useState({ username: "", password: "" });
+  const [error, setError] = useState("");
 
   const onChange = (e) => {
     setData({ ...data, [e.target.name]: e.target.value });
-    console.log(data);
   };
   const navigate = useNavigate();
 
@@ -41,7 +36,7 @@ function LoginScreen() {
         navigate("/dashboard");
       }
     } catch (e) {
-      alert("Login Error: Invalid username or password");
+      setError("Invalid Username or Password. Please try Again!");
     }
   };
 
@@ -120,6 +115,7 @@ function LoginScreen() {
               Log into your account
             </MDBTypography>
             <MDBValidation>
+              {/*Username field*/}
               <MDBValidationItem
                 tooltip
                 feedback="Please enter username"
@@ -136,6 +132,8 @@ function LoginScreen() {
                   onChange={onChange}
                 />
               </MDBValidationItem>
+
+              {/*Password field*/}
               <MDBValidationItem
                 tooltip
                 feedback="Please enter a password"
@@ -152,6 +150,9 @@ function LoginScreen() {
                   onChange={onChange}
                 />
               </MDBValidationItem>
+
+              {/* Display error message */}
+              {error !== "" ? <div className="error">{error}</div> : ""}
 
               <div className="text-center pt-1 mb-5 pb-1">
                 <MDBBtn

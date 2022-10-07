@@ -8,16 +8,16 @@ const axiosInstance = axios.create({
 
 axiosInstance.interceptors.request.use(
     async (config) => {
-        const token = sessionStorage.getItem("token");
-        console.log("Instance token" , token);
+        const jwt = sessionStorage.getItem("jwt");
+        console.log("Instance jwt:" , jwt);
         if (
             !(
                 config.url.includes("/login") ||
                 config.url.includes("/registration") 
             )
         ) {
-            if (token) {
-                config.headers.Authorization = `Bearer ${token}`;
+            if (jwt) {
+                config.headers.Authorization = `Bearer ${jwt}`;
             }
         }
         return config;
