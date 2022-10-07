@@ -28,6 +28,7 @@ public class AuthController {
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping("/registration")
     public String register(@RequestBody RegistrationDTO request) {
+        System.out.println("Auth Controller: Called service SUCCESS");
         return authService.register(request);
     }
 

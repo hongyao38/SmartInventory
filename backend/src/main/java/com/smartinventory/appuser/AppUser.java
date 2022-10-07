@@ -19,7 +19,6 @@ import org.springframework.security.core.userdetails.UserDetails;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 
 @Entity
