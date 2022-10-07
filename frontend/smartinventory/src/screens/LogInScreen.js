@@ -29,25 +29,24 @@ function LogInScreen() {
         setData({ ...data, [e.target.name]: e.target.value });
         console.log(data);
     };
+    const navigate = useNavigate();
 
     const handleSignIn = async (e) => {
-        if (data.password.equals(" ") && data.username.equals("")) {
             try {
                 const isLoggedIn = await SignIn({
                     username: data.username,
                     password: data.password,
                 });
                 if (isLoggedIn) {
-                    // navigation.push('HomeScreen');
+                    navigate.push('/dashboard');
                 } else {
                     alert("Invalid username or password");
                 }
             } catch (e) {
                 alert("Invalid username or password");
             }
-        }
+        
     };
-    const navigate = useNavigate();
 
     const handleForgetPassword = () => {
         // navigate("/registration");

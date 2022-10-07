@@ -2,11 +2,11 @@ import axios from "axios";
 import axiosInstance from "../utils/AxiosInstance";
 
 const SignIn = async (user) => {
+    console.log("USER", user);
     const res = await axiosInstance({
         method: "post",
         url: "/api/v1/login",
         data: user,
-        headers: { "content-Type": "multipart/form-data" },
     });
 
     let isLoggedIn = false;

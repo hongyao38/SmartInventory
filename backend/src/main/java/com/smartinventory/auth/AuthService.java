@@ -41,8 +41,6 @@ public class AuthService {
         String token = userService.registerUser(
                 new AppUser(reqEmail, reqUsername, request.getPassword()));
 
-        System.out.println("Auth Service: User created in DB SUCCESS");
-
         // Form email body
         String confirmationLink = "localhost:3000/registration/confirm?token=" + token;
         String emailBody = String.format("Hi, %s!%n%n" +
@@ -51,8 +49,6 @@ public class AuthService {
 
         // Send email
         emailSender.send(reqEmail, emailBody, "SmartInventory: Confirm Your Email");
-
-        System.out.println("Auth Service: Sent Email SUCCESS");
         return token;
     }
 
@@ -63,8 +59,6 @@ public class AuthService {
      */
     @Transactional
     public String confirmToken(String token) {
-
-        System.out.println("Confirm Email: Entered service");
 
         // Retrieve confirmation token from db (if exists)
         ConfirmationToken confirmationToken = tokenService.getToken(token)
@@ -83,12 +77,13 @@ public class AuthService {
 
         tokenService.setConfirmedAt(token);
         userService.enableUser(confirmationToken.getUser().getEmail());
-
-        System.out.println("Confirm Email: Success");
         return "confirmed";
     }
 
     public ResponseEntity<JwtDTO> login(LoginDTO request) {
+
+        System.out.println("Auth service: " + request.getUsername());
+        System.out.println("Auth service: " + request.getPassword());
 
         // Get username and password (and encode) from request DTO
         String username = request.getUsername();
@@ -124,7 +119,6 @@ public class AuthService {
 
         // Send email
         emailSender.send(reqEmail, emailBody, "SmartInventory: Reset Password");
-        System.out.println("Reset password email sent");
         return token;
     }
 
@@ -147,9 +141,6 @@ public class AuthService {
 
         String newPassword = request.getNewPassword();
         String confirmNewPassword = request.getConfirmNewPassword();
-
-        System.out.println(newPassword);
-        System.out.println(confirmNewPassword);
 
         // If passwords entered does not matc
         if (!newPassword.equals(confirmNewPassword)) {

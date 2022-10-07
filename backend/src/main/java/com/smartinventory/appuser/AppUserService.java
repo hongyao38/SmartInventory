@@ -68,7 +68,6 @@ public class AppUserService implements UserDetailsService {
      * Takes in email, finds user by email and enables (verify) user
      */
     public int enableUser(String email) {
-        System.out.println("Confirm Email: App User service called");
         return userRepository.enableUser(email);
     }
 
@@ -98,8 +97,6 @@ public class AppUserService implements UserDetailsService {
 
         // Add user to database
         userRepository.save(user);
-
-        System.out.println("User Service: Saved to DB SUCCESS");
 
         // Create a confirmationToken object to match to user
         ConfirmationToken confirmationToken = new ConfirmationToken(
