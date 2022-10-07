@@ -38,6 +38,7 @@ function ConfirmRegistration() {
     // },[]);
 
     return (<><h1>reg success</h1>
+    <h2>aefsa</h2>
     </>);
 
 }
