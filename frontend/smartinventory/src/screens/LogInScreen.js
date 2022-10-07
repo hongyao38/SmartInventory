@@ -48,13 +48,19 @@ function LogInScreen() {
         }
     };
     const navigate = useNavigate();
+
     const handleForgetPassword = () => {
         // navigate("/registration");
+        // change made: change to forgetpassword
+        navigate("/ForgetPassword");
     };
 
-    const handleRegister = () => {
+    //change made: added handleRegistration
+    const handleRegistration = () => {
+        // navigate("/registration");
         navigate("/registration");
     };
+
 
     return (
         <MDBContainer className="my-5 gradient-form">
@@ -195,7 +201,7 @@ function LogInScreen() {
                                 outline
                                 className="mx-2"
                                 color="danger"
-                                onClick={() => handleRegister()}
+                                onClick={() => handleRegistration()}
                             >
                                 Create here
                             </MDBBtn>
