@@ -18,11 +18,11 @@ import "./ForgetPasswordScreen.css";
 function ForgetPasswordScreen() {
 
     // setEmail: the email to be sent to
-    const [email, setEmail] = useState({ email: "" });
+    const [data, setEmail] = useState({ email: "" });
 
 
     const onChange = (e) => {
-        setEmail({ ...email, [e.target.name]: e.target.value })
+        setEmail({ ...data.email, [e.target.name]: e.target.value })
     }
 
     //TODO: connect to backend
@@ -53,19 +53,16 @@ function ForgetPasswordScreen() {
         <MDBContainer className="my-6 gradient-form">
             <MDBRow>
                 <MDBCol col="6" className="mb-5">
-                    <div className="d-flex flex-column ms-5">
+                    <div className="d-flex flex-column mt-5 mb-3">
                         <div className="text-center">
                             <img
 
                                 //TODO: replace this link w forget password link
 
-                                src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-login-form/lotus.webp"
-                                style={{ width: "185px" }}
+                                src="resetpassword.png"
+                                style={{ width: "55px" }}
                                 alt="logo"
                             />
-                            <h4 className="mt-1 mb-5 pb-1">
-                                We are The Lotus Team
-                            </h4>
                         </div>
                     </div>
 
@@ -77,11 +74,11 @@ function ForgetPasswordScreen() {
 
                         <div className="d-flex flex-row align-items-center justify-content-center pb-4 mb-4">
                             <MDBInput
-                                wrapperClass="w-50 p-3 mb-4b"
+                                wrapperClass="w-50 mb-4b"
                                 label="Email"
                                 id="form1"
-                                type="email"
-                                value={email}
+                                type="text"
+                                value={data.email}
                                 name="email"
                                 required
                                 onChange={onChange}
@@ -93,16 +90,17 @@ function ForgetPasswordScreen() {
                         </div>
 
 
-                        <div className="d-flex flex-row align-items-center justify-content-center pb-4 mb-4 w-50 pt-1 mb-5 pb-1 ">
+                        <div className="d-grid gap-2 col-5 mx-auto mb-4 mt-3">
+
                             <MDBBtn
-                                className=" mb-4 w-100 gradient-custom-2"
+                                className=" text-center "
                                 onClick={() => {
                                     setEmail();
                                     handleResendEmail();
                                 }}
-                                
+                                >
                                 Send password reset email
-                            >
+                            
                             </MDBBtn>
                         </div>
 
