@@ -15,6 +15,7 @@ import {
     MDBModalBody,
     MDBModalFooter,
 } from "mdb-react-ui-kit";
+import { useNavigate } from "react-router-dom";
 import "mdb-react-ui-kit/dist/css/mdb.min.css";
 import "./ResetScreen.css";
 // import { SignIn } from "../services/authService";
@@ -33,6 +34,11 @@ function ResetScreen() {
     const [basicModal, setBasicModal] = useState(false);
 
     const toggleShow = () => setBasicModal(!basicModal);
+
+    const navigate = useNavigate();
+    const handleSignIn = () => {
+        navigate("/");
+    };
 
     return (
         <MDBContainer className="my-5 gradient-form">
@@ -100,7 +106,7 @@ function ResetScreen() {
                                         </h6>
                                     </div>
                                     <div className="d-grid gap-2 col-5 mx-auto mb-4 mt-3">
-                                        <MDBBtn  onClick={toggleShow} >continue</MDBBtn>
+                                        <MDBBtn onClick={() => handleSignIn()} >continue</MDBBtn>
                                     </div>
                                 </MDBModalContent>
                                 </MDBModalDialog>
@@ -111,43 +117,6 @@ function ResetScreen() {
             </MDBCol>
             <MDBCol col="6"></MDBCol>
         </MDBContainer>
-//         <form>
-//   {/* <!-- Email input --> */}
-//   <div class="form-outline mb-4">
-//     <input type="email" id="form1Example1" class="form-control" />
-//     <label class="form-label" for="form1Example1">Email address</label>
-//   </div>
-
-//   {/* <!-- Password input --> */}
-//   <div class="form-outline mb-4">
-//     <input type="password" id="form1Example2" class="form-control" />
-//     <label class="form-label" for="form1Example2">Password</label>
-//   </div>
-
-//   {/* <!-- 2 column grid layout for inline styling --> */}
-//   <div class="row mb-4">
-//     <div class="col d-flex justify-content-center">
-//       {/* <!-- Checkbox --> */}
-//       <div class="form-check">
-//         <input class="form-check-input" type="checkbox" value="" id="form1Example3" checked />
-//         <label class="form-check-label" for="form1Example3"> Remember me </label>
-//       </div>
-//     </div>
-
-//     <div class="col">
-//       {/* <!-- Simple link --> */}
-//       <a href="#!">Forgot password?</a>
-//     </div>
-//   </div>
-
-//   {/* <!-- Submit button --> */}
-//   <button type="submit" class="btn btn-primary btn-block">Sign in</button>
-
-//   <div class="form-outline">
-//     <input type="password" id="typePassword" class="form-control" />
-//     <label class="form-label" for="typePassword">Password input</label>
-//     </div>  
-// </form>
     );
     
 }
