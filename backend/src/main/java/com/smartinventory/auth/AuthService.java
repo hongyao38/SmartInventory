@@ -44,13 +44,13 @@ public class AuthService {
         System.out.println("Auth Service: User created in DB SUCCESS");
 
         // Form email body
-        String confirmationLink = "localhost:8080/api/v1/registration/confirm?token=" + token;
+        String confirmationLink = "localhost:3000/registration/confirm?token=" + token;
         String emailBody = String.format("Hi, %s!%n%n" +
                 "Confirm your email: %s\n\n" +
                 "Link will expire in 15 minutes.%n", reqUsername, confirmationLink);
 
         // Send email
-        emailSender.send(reqEmail, emailBody, "SmartInventory: Confirm Your Email");
+        // emailSender.send(reqEmail, emailBody, "SmartInventory: Confirm Your Email");
 
         System.out.println("Auth Service: Sent Email SUCCESS");
         return token;
