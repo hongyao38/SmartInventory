@@ -101,7 +101,7 @@ function ForgetPasswordScreen() {
                                     handleResendEmail();
                                 }}
                                 
-                                Reset Password
+                                Send password reset email
                             >
                             </MDBBtn>
                         </div>
