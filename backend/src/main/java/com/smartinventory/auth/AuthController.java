@@ -2,6 +2,7 @@ package com.smartinventory.auth;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -18,6 +19,7 @@ import lombok.AllArgsConstructor;
 @RestController
 @RequestMapping(path = "api/v1")
 @AllArgsConstructor
+@CrossOrigin(origins = {"http://localhost:3000/registration"})
 public class AuthController {
 
     private final AuthService authService;
