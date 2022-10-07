@@ -42,7 +42,7 @@ function ForgetPasswordScreen() {
     const navigate = useNavigate();
 
     const handleLogIn = () => {
-        navigate("/LogInScreen");
+        navigate("/");
     }
 
     const handleResendEmail = () => {

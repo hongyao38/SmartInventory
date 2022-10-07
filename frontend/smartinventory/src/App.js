@@ -9,7 +9,7 @@ function App() {
     return (
         <BrowserRouter>
             <Routes>
-                <Route path="/LogInScreen" element={<LogInScreen/>} />
+                <Route path="/" element={<LogInScreen/>} />
                 <Route path="/registration" element={<RegistrationScreen/>} />
                 <Route path="/ForgetPassword" element={<ForgetPasswordScreen/>} />
                 {/* <Route path="/ForgetPassword" element={<ResendEmailScreen/>} /> */}
