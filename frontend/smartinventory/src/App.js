@@ -4,6 +4,9 @@ import LogInScreen from './screens/LogInScreen.js';
 import RegistrationScreen from "./screens/RegistrationScreen.js";
 import ResetScreen from "./screens/ResetScreen.js";
 import RegSuccessPage from "./screens/RegSuccessPage.js";
+import ForgetPasswordScreen from "./screens/ForgetPasswordScreen.js";
+import ResendEmailScreen from "./screens/ResendEmailScreen";
+
 function App() {
     return (
         <BrowserRouter>
@@ -13,6 +16,8 @@ function App() {
                 <Route path="/registration/confirm" element={<RegSuccessPage/>} />
 
                 <Route path="/reset" element={<ResetScreen/>} />
+                <Route path="/ForgetPassword" element={<ForgetPasswordScreen/>} />
+                <Route path="/ResendEmailScreen" element={<ResendEmailScreen/>} />
             </Routes>
         </BrowserRouter>
     );
