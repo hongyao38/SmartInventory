@@ -23,6 +23,8 @@ import lombok.AllArgsConstructor;
 @AllArgsConstructor
 public class AuthService {
 
+    private final String FRONTEND_BASE_URL = "localhost:3000";
+
     private final AppUserService userService;
     private final ConfirmationTokenService tokenService;
     private final EmailSenderService emailSender;
@@ -42,7 +44,7 @@ public class AuthService {
                 new AppUser(reqEmail, reqUsername, request.getPassword()));
 
         // Form email body
-        String confirmationLink = "localhost:3000/registration/confirm?token=" + token;
+        String confirmationLink = FRONTEND_BASE_URL + "/registration/confirm?token=" + token;
         String emailBody = String.format("Hi, %s!%n%n" +
                 "Confirm your email: %s\n\n" +
                 "Link will expire in 15 minutes.%n", reqUsername, confirmationLink);

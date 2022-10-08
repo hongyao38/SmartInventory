@@ -1,13 +1,14 @@
-import { MDBBtn } from "mdb-react-ui-kit";
-import "mdb-react-ui-kit/dist/css/mdb.min.css";
 import React from "react";
+
+import { MDBBtn } from "mdb-react-ui-kit";
+import { getUsers } from "../../services/authService";
+
+import "mdb-react-ui-kit/dist/css/mdb.min.css";
 import "react-responsive-carousel/lib/styles/carousel.min.css"; // requires a loader
+import "../style/LogInScreen.css";
 
-import { getUsers } from "../services/authService";
-import "./LogInScreen.css";
-
-function ConfirmRegistration() {
-  const getMethod = async () => {
+function LoginSuccess() {
+  const getUsersMethod = async () => {
     try {
       const res = await getUsers();
       console.log(res);
@@ -21,7 +22,7 @@ function ConfirmRegistration() {
       <h1>login success</h1>
       <MDBBtn
         onClick={() => {
-          getMethod();
+          getUsersMethod();
         }}
       >
         GET
@@ -30,4 +31,4 @@ function ConfirmRegistration() {
   );
 }
 
-export default ConfirmRegistration;
+export default LoginSuccess;

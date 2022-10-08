@@ -1,6 +1,5 @@
 package com.smartinventory.appuser;
 
-import java.time.ZonedDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -13,11 +12,10 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.smartinventory.auth.dto.JwtDTO;
-import com.smartinventory.exceptions.user.InvalidPasswordException;
+import com.smartinventory.exceptions.user.InvalidCredentialsException;
 import com.smartinventory.exceptions.user.UserEmailNotFoundException;
 import com.smartinventory.exceptions.user.UserEmailTakenException;
 import com.smartinventory.exceptions.user.UserIdNotFoundException;
-import com.smartinventory.exceptions.user.UsernameInvalidException;
 import com.smartinventory.exceptions.user.UsernameTakenException;
 import com.smartinventory.security.config.JwtUtil;
 import com.smartinventory.security.token.ConfirmationToken;
@@ -37,7 +35,6 @@ public class AppUserService implements UserDetailsService {
         return userRepository.findAll();
     }
 
-    // TODO: Propagate the exception to Controller
     public AppUser getUserById(Long id) {
         return userRepository.findById(id)
                 .orElseThrow(() -> new UserIdNotFoundException(id));
@@ -48,20 +45,12 @@ public class AppUserService implements UserDetailsService {
                 .orElseThrow(() -> new UserEmailNotFoundException(email));
     }
 
-    // POSSIBLY REDUNDANT
-    // public String getEmail(String username) {
-    // return userRepository.findEmailByUsername(username);
-    // }
-
-    // public void deleteUser(String email) {
-    // userRepository.deleteByEmail(email);
-    // }
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         return userRepository.findByUsername(username)
                 .orElseThrow(() -> new UsernameNotFoundException(
-                    String.format("Username: %s not found", username)));
+                        String.format("Username: %s not found", username)));
     }
 
     /*
@@ -99,10 +88,7 @@ public class AppUserService implements UserDetailsService {
         userRepository.save(user);
 
         // Create a confirmationToken object to match to user
-        ConfirmationToken confirmationToken = new ConfirmationToken(
-                ZonedDateTime.now(),
-                ZonedDateTime.now().plusMinutes(15),
-                user);
+        ConfirmationToken confirmationToken = new ConfirmationToken(user);
 
         // Save token to database
         tokenService.saveConfirmationToken(confirmationToken);
@@ -117,15 +103,15 @@ public class AppUserService implements UserDetailsService {
         String username = user.getUsername();
         String password = user.getPassword();
 
-        // If username does not exist, throw UsernameNotFoundException
+        // If username does not exist
         Optional<AppUser> userRecord = userRepository.findByUsername(username);
         if (userRecord.isEmpty()) {
-            throw new UsernameInvalidException();
+            throw new InvalidCredentialsException();
         }
 
-        // If password is not matching, throw BadCredentialsException
+        // If password is not matching
         if (!bCryptPasswordEncoder.matches(password, userRecord.get().getPassword())) {
-            throw new InvalidPasswordException();
+            throw new InvalidCredentialsException();
         }
 
         // Create JWT token
@@ -137,6 +123,7 @@ public class AppUserService implements UserDetailsService {
 
     /*
      * Finds user by email, and updates password
+     * For reseting of password
      */
     public int updateUserPassword(String email, String password) {
         password = bCryptPasswordEncoder.encode(password);
@@ -151,10 +138,7 @@ public class AppUserService implements UserDetailsService {
     public String forgetUserPassword(AppUser user) {
 
         // Creates a confirmation token
-        ConfirmationToken confirmationToken = new ConfirmationToken(
-                ZonedDateTime.now(),
-                ZonedDateTime.now().plusMinutes(15),
-                user);
+        ConfirmationToken confirmationToken = new ConfirmationToken(user);
 
         // Saves confirmation token to database
         tokenService.saveConfirmationToken(confirmationToken);

@@ -22,9 +22,8 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import com.smartinventory.appuser.AppUser;
 import com.smartinventory.appuser.AppUserRepository;
 import com.smartinventory.appuser.AppUserService;
-import com.smartinventory.exceptions.user.InvalidPasswordException;
 import com.smartinventory.exceptions.user.UserEmailTakenException;
-import com.smartinventory.exceptions.user.UsernameInvalidException;
+import com.smartinventory.exceptions.user.InvalidCredentialsException;
 import com.smartinventory.exceptions.user.UsernameTakenException;
 import com.smartinventory.security.token.ConfirmationTokenService;
 
@@ -133,10 +132,10 @@ public class UserServiceTest {
             AppUser wrongUsername = new AppUser("a@gmail.com", "user1", "password");
 
             //mock
-            when(users.findByUsername(any(String.class))).thenThrow(new UsernameInvalidException());
+            when(users.findByUsername(any(String.class))).thenThrow(new InvalidCredentialsException());
 
             //act
-            assertThrows(UsernameInvalidException.class, () -> userService.loginUser(wrongUsername));
+            assertThrows(InvalidCredentialsException.class, () -> userService.loginUser(wrongUsername));
 
             //assert
             verify(users).findByUsername(wrongUsername.getUsername());
@@ -158,7 +157,7 @@ public class UserServiceTest {
             // when(encoder.matches(user.getPassword(), userOptional.get().getPassword())).thenReturn(false);
 
             //act
-            assertThrows(InvalidPasswordException.class, () -> userService.loginUser(incorrectUser));
+            assertThrows(InvalidCredentialsException.class, () -> userService.loginUser(incorrectUser));
 
             //assert
             verify(users).findByUsername(incorrectUser.getUsername());

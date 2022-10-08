@@ -15,10 +15,11 @@ import {
   MDBValidation,
   MDBValidationItem,
 } from "mdb-react-ui-kit";
-import "mdb-react-ui-kit/dist/css/mdb.min.css";
 import React, { useState } from "react";
-import { register } from "../services/authService";
-import "./RegistrationScreen.css";
+import { register } from "../../services/authService";
+
+import "mdb-react-ui-kit/dist/css/mdb.min.css";
+import "../style/RegistrationScreen.css";
 
 function RegistrationScreen() {
   const [data, setData] = useState({

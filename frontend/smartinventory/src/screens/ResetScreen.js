@@ -11,7 +11,7 @@ import {
 import "mdb-react-ui-kit/dist/css/mdb.min.css";
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import "./ResetScreen.css";
+import "./style/ResetScreen.css";
 // import { SignIn } from "../services/authService";
 
 function ResetScreen() {

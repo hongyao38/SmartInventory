@@ -1,10 +1,10 @@
-import "mdb-react-ui-kit/dist/css/mdb.min.css";
 import React from "react";
-import "react-responsive-carousel/lib/styles/carousel.min.css"; // requires a loader
 import { useLocation } from "react-router-dom";
+import { confirmEmail } from "../../services/authService";
 
-import { confirmEmail } from "../services/authService";
-import "./LogInScreen.css";
+import "mdb-react-ui-kit/dist/css/mdb.min.css";
+import "react-responsive-carousel/lib/styles/carousel.min.css"; // requires a loader
+import "../style/LogInScreen.css";
 
 function ConfirmRegistration() {
   const location = useLocation();

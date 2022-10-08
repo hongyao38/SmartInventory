@@ -6,10 +6,11 @@ import {
   MDBRow,
   MDBTypography,
 } from "mdb-react-ui-kit";
-import "mdb-react-ui-kit/dist/css/mdb.min.css";
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import "./ForgetPasswordScreen.css";
+
+import "mdb-react-ui-kit/dist/css/mdb.min.css";
+import "./style/ForgetPasswordScreen.css";
 //import {getAuth, sendPasswordResetEmail} from 'firebase/auth'
 
 function ForgetPasswordScreen() {
