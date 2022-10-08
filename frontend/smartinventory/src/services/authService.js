@@ -41,5 +41,14 @@ const getUsers = async () => {
     return res.data;
 };
 
-export { login, register, confirmEmail, getUsers };
+const forgetPassword = async (email) => {
+    const res = await axiosInstance({
+        method: "post",
+        url: "/forget-password",
+        data: email,
+    });
+    console.log("status" , res.status);
+    return res.status === 200;
+};
 
+export { login, register, confirmEmail, getUsers, forgetPassword };
