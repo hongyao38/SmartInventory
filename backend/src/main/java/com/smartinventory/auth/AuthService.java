@@ -109,7 +109,7 @@ public class AuthService {
 
         // Form email body
         // TODO: URL to be changed to frontend URL
-        String confirmationLink = "localhost:8080/api/v1/forget-password/reset?token=" + token;
+        String confirmationLink = "localhost:3000/forget-password/reset?token=" + token;
         String emailBody = String.format("Hi, %s!%n%n" +
                 "Reset your password: %s\n\n" +
                 "Link will expire in 15 minutes.%n" +

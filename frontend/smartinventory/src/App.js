@@ -2,10 +2,9 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 
 import LoginScreen from "./screens/login/LogInScreen.js";
 import RegistrationScreen from "./screens/registration/RegistrationScreen.js";
-import ResetScreen from "./screens/ResetScreen.js";
-import RegSuccessPage from "./screens/registration/RegSuccessPage.js";
-import ForgetPasswordScreen from "./screens/ForgetPasswordScreen.js";
-import ResendEmailScreen from "./screens/ResendEmailScreen.js";
+import ResetScreen from "./screens/forgetpassword/ResetScreen.js";
+import RegSuccessScreen from "./screens/login/RegSuccessScreen.js";
+import ForgetPasswordScreen from "./screens/forgetpassword/ForgetPasswordScreen.js";
 import LoginSuccessScreen from "./screens/login/LoginSuccessScreen.js";
 
 function App() {
@@ -14,11 +13,10 @@ function App() {
       <Routes>
         <Route path="/" element={<LoginScreen />} />
         <Route path="/registration" element={<RegistrationScreen />} />
-        <Route path="/registration/confirm" element={<RegSuccessPage />} />
+        <Route path="/registration/confirm" element={<RegSuccessScreen />} />
 
-        <Route path="/reset" element={<ResetScreen />} />
-        <Route path="/forgetPassword" element={<ForgetPasswordScreen />} />
-        <Route path="/resendEmailScreen" element={<ResendEmailScreen />} />
+        <Route path="/forget-password/reset" element={<ResetScreen />} />
+        <Route path="/forget-password" element={<ForgetPasswordScreen />} />
         <Route path="/dashboard" element={<LoginSuccessScreen />} />
       </Routes>
     </BrowserRouter>

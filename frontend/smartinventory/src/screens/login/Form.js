@@ -33,7 +33,7 @@ function Form() {
   };
 
   const handleForgetPassword = () => {
-    navigate("/forgetPassword");
+    navigate("/forget-password");
   };
 
   const handleRegistration = () => {
