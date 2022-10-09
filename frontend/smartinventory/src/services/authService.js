@@ -31,7 +31,6 @@ const usernameExists = async (usernameToCheck) => {
         url: "/users/check-username",
         data: {username: usernameToCheck, password: ""}
     });
-    console.log("RES DATA:", Boolean(res.data));
     return Boolean(res.data);
 }
 

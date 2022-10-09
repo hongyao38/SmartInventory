@@ -20,14 +20,27 @@ import { register, usernameExists } from "../../services/authService";
 import "mdb-react-ui-kit/dist/css/mdb.min.css";
 import "../style/RegistrationScreen.css";
 
-function RegistrationScreen() {
-    const [data, setData] = useState({
-        email: "",
-        username: "",
-        password: "",
-        confirmpassword: "",
-    });
+function debounce(cb, delay = 800) {
+  let timeout;
 
+  return (...args) => {
+    clearTimeout(timeout);
+    timeout = setTimeout(() => {
+      cb(...args)
+    }, delay);
+  }
+}
+
+function RegistrationScreen() {
+  const [data, setData] = useState({
+      email: "",
+      username: "",
+      password: "",
+      confirmpassword: "",
+  });
+  const [username, setDebouncedUsername] = useState("");
+
+  // Errors
   const [regError, setRegError] = useState("");
   const [emailError, setEmailError] = useState("");
   const [usernameError, setUsernameError] = useState("");
@@ -70,8 +83,11 @@ function RegistrationScreen() {
         return;
       }
 
-      // Check if username exists
-      usernameExists(data.username).then((exists) => {
+      // Send request to backend once 
+      // debounced username is the same as data.username
+      if (username !== data.username) return;
+
+      usernameExists(username).then((exists) => {
         if (exists) {
           setUsernamePass("");
           setUsernameError("Username already taken");
@@ -79,14 +95,20 @@ function RegistrationScreen() {
           setUsernamePass("Username available");
       });
     }
-  }, [data.username]);
+  }, [data.username, username]);
 
   const [basicModal, setBasicModal] = useState(false);
   const toggleShow = () => setBasicModal(!basicModal);
 
-    const onChange = (e) => {
-        setData({ ...data, [e.target.name]: e.target.value });
-    };
+  const updateDebouncedUsername = debounce((e) => {
+    setDebouncedUsername(e?.target?.value);
+  });
+
+  const onChange = (e) => {
+    setData({ ...data, [e.target.name]: e.target.value });
+
+    updateDebouncedUsername(e);
+  };
 
   const handleRegister = async (e) => {
     e.preventDefault();
@@ -218,6 +240,7 @@ function RegistrationScreen() {
                         onChange={onChange}
                       />
                     </MDBValidationItem>
+                    {/* {username ? <div>debounced: {username}</div> : ""} */}
                     {usernameError ? <div className="username-error">{usernameError}</div> : ""}
                     {usernamePass ? <div className="username-pass">{usernamePass}</div> : ""}
 
