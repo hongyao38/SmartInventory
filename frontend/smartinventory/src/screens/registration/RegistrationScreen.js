@@ -78,6 +78,7 @@ function RegistrationScreen() {
 
       // Check if it is of desired length
       if (data.username.length < 6) {
+        setUsernamePass("");
         setUsernameError("must be at least 6 characters");
         return;
       }
