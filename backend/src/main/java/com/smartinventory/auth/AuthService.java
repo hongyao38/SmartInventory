@@ -27,6 +27,8 @@ import lombok.AllArgsConstructor;
 public class AuthService {
 
     private final String FRONTEND_BASE_URL = "http://localhost:3000";
+    private final String CONFIRMATION_EMAIL = "src\\main\\java\\com\\smartinventory\\email\\html\\confirmationemail.html";
+    private final String RESET_PASSWORD_EMAIL = "src\\main\\java\\com\\smartinventory\\email\\html\\forgetpassword1.html";
 
     private final AppUserService userService;
     private final ConfirmationTokenService tokenService;
@@ -48,8 +50,7 @@ public class AuthService {
 
         // Form email body
         String confirmationLink = FRONTEND_BASE_URL + "/registration/confirm?token=" + token;
-        String emailBody = emailSender.readHTML(
-            "src\\main\\java\\com\\smartinventory\\email\\html\\confirmationemail.html");
+        String emailBody = emailSender.readHTML(CONFIRMATION_EMAIL);
         emailBody = emailBody.replace("INSERT CONFIRMATION LINK", confirmationLink);
 
         // Send email
@@ -111,10 +112,9 @@ public class AuthService {
 
         // Form email body
         String confirmationLink = FRONTEND_BASE_URL + "/forget-password/reset?token=" + token;
-        String emailBody = emailSender.readHTML(
-            "src\\main\\java\\com\\smartinventory\\email\\html\\forgetpassword.html");
+        String emailBody = emailSender.readHTML(RESET_PASSWORD_EMAIL);
         emailBody = emailBody.replace("INSERT CONFIRMATION LINK", confirmationLink);
-        
+
         // Send email
         emailSender.send(reqEmail, emailBody, "SmartInventory: Reset Password");
         return token;
