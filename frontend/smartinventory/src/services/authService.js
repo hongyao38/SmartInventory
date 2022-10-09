@@ -47,8 +47,25 @@ const forgetPassword = async (email) => {
         url: "/forget-password",
         data: email,
     });
-    console.log("status" , res.status);
+    console.log("status", res.status);
     return res.status === 200;
 };
 
-export { login, register, confirmEmail, getUsers, forgetPassword };
+const resetPassword = async (passwords, token) => {
+    const res = await axiosInstance({
+        method: "put",
+        url: "/forget-password/reset" + token,
+        data: passwords,
+    });
+    console.log(res.status);
+    return res.status === 200;
+};
+
+export {
+    login,
+    register,
+    confirmEmail,
+    getUsers,
+    forgetPassword,
+    resetPassword,
+};

@@ -16,8 +16,8 @@ import {
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import "mdb-react-ui-kit/dist/css/mdb.min.css";
-import "./style/ForgetPasswordScreen.css";
-import { forgetPassword } from "../services/authService";
+import "../style/ForgetPasswordScreen.css";
+import { forgetPassword } from "../../services/authService";
 
 //import {getAuth, sendPasswordResetEmail} from 'firebase/auth'
 
@@ -41,12 +41,12 @@ function ForgetPasswordScreen() {
             const res = await forgetPassword(data.email);
             console.log("Respond", res);
             if (res) {
-                console.log("success clause");
+                // console.log("success clause");
                 toggleSuccessModal();
                 // navigate("/resendEmailScreen");
             } else {
                 //handle send email failed, either no registered email found
-                console.log("fail clause");
+                // console.log("fail clause");
 
                 toggleFailedModal();
             }
