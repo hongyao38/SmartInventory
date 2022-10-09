@@ -62,6 +62,7 @@ function ResetScreen() {
 
     return (
         <>
+            <MDBContainer className="mb-8"></MDBContainer>
             <MDBContainer className="my-5 gradient-form">
                 <MDBCol className="mt-4">
                     <MDBRow rows="6" className="mb-5">
@@ -86,7 +87,7 @@ function ResetScreen() {
                                 <MDBCol className="d-grid gap-2 col-4 mx-auto">
                                     <MDBInput
                                         id="pass1"
-                                        label="password"
+                                        label="Password"
                                         type="password"
                                         value={data.username}
                                         name="newPassword"
@@ -103,7 +104,7 @@ function ResetScreen() {
                                 <br></br>
                                 <MDBCol className="d-grid gap-2 col-4 mx-auto">
                                     <MDBInput
-                                        label="confirm password"
+                                        label="Confirm Password"
                                         id="pass2"
                                         type="password"
                                         value={data.confirmPassword}

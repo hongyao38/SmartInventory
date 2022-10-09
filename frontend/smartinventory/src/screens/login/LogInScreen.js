@@ -9,7 +9,7 @@ import "../style/LogInScreen.css";
 
 function LoginScreen() {
   return (
-    <MDBContainer className="my-5 gradient-form">
+    <MDBContainer className="mt-5 gradient-form">
       <MDBRow>
         {/* Description Side */}
         <MDBCol col="6" className="">

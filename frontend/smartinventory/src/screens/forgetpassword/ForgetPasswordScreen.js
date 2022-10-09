@@ -66,14 +66,13 @@ function ForgetPasswordScreen() {
 
     return (
         <>
-            <MDBContainer className="my-6 gradient-form">
+        <MDBContainer className="mb-8"></MDBContainer>
+            <MDBContainer className="pt-6 gradient-form">
                 <MDBRow>
                     <MDBCol col="6" className="mb-5">
-                        <div className="d-flex flex-column mt-4 mb-3">
+                        <div className="d-flex flex-column mt-5 mb-">
                             <div className="text-center">
                                 <img
-                                    //TODO: replace this link w forget password link
-
                                     src="resetpassword.png"
                                     style={{ width: "55px" }}
                                     alt="logo"
@@ -92,7 +91,7 @@ function ForgetPasswordScreen() {
 
                             <div className="d-flex flex-row align-items-center justify-content-center pb-4 mb-4">
                                 <MDBInput
-                                    wrapperClass="w-50 mb-4b"
+                                    wrapperClass="w-25 mb-4b"
                                     label="Email"
                                     id="form1"
                                     type="text"
@@ -107,9 +106,10 @@ function ForgetPasswordScreen() {
                                 />
                             </div>
 
-                            <div className="d-grid gap-2 col-5 mx-auto mb-4 mt-3">
+                            <div className="d-grid gap-2 col-6 mx-auto mb-4 mt-3 w-25">
                                 <MDBBtn
                                     className="text-center"
+                                    id="send-email-btn"
                                     onClick={
                                         (e) => sendEmail(e)
                                         // handleResendEmail();
@@ -127,6 +127,7 @@ function ForgetPasswordScreen() {
                                     outline
                                     className="text-dark text-muted"
                                     color="light"
+                                    
                                     onClick={() => handleLogIn()}
                                 >
                                     Back to log in
