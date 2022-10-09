@@ -11,7 +11,7 @@ import lombok.Setter;
 @Setter
 @AllArgsConstructor
 @EqualsAndHashCode
-public class LoginDTO {
+public class CredDTO {
     
     @NotNull
     private String username;

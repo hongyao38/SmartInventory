@@ -73,11 +73,11 @@ public class AppUserService implements UserDetailsService {
 
         // If email is taken, throw exception
         if (userRepository.findByEmailIgnoreCase(email).isPresent()) {
-            throw new UserEmailTakenException(email);
+            throw new UserEmailTakenException();
         }
         // If username is taken, throw exception
         if (userRepository.findByUsername(username).isPresent()) {
-            throw new UsernameTakenException(user);
+            throw new UsernameTakenException();
         }
 
         // Encrypt and set password
@@ -143,5 +143,14 @@ public class AppUserService implements UserDetailsService {
         // Saves confirmation token to database
         tokenService.saveConfirmationToken(confirmationToken);
         return confirmationToken.getToken();
+    }
+
+
+    /*
+     * Check if a username already exists
+     * Used for real-time validation for front-end form
+     */
+    public boolean usernameExists(String username) {
+        return userRepository.findByUsername(username).isPresent();
     }
 }

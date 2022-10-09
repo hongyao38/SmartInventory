@@ -49,6 +49,7 @@ public class SecurityConfig {
         .authorizeRequests()
             // Authentication NOT NEEDED 
             .antMatchers(HttpMethod.POST, "/api/v1/login").permitAll()
+            .antMatchers(HttpMethod.GET, "api/v1/users/check-username").permitAll()
             .antMatchers(HttpMethod.POST, "/api/v1/registration").permitAll()
             .antMatchers(HttpMethod.GET, "/api/v1/registration/confirm?token=**").permitAll()
             .antMatchers(HttpMethod.POST, "/api/v1/forget-password").permitAll()

@@ -41,7 +41,7 @@ public class AuthController {
     // LOGIN
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping(path = "/login")
-    public ResponseEntity<JwtDTO> login(@RequestBody LoginDTO request) {
+    public ResponseEntity<JwtDTO> login(@RequestBody CredDTO request) {
         return authService.login(request);
     }
 

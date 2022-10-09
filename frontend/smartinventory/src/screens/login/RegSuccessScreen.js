@@ -36,8 +36,8 @@ function ConfirmRegistration() {
                     <div className="d-flex flex-column mt-4 mb-3">
                         <div className="text-center">
                             <img
-                                src="email2.png"
-                                style={{ width: "55px" }}
+                                src="/email2.png"
+                                style={{ width: "150px" }}
                                 alt="icon"
                             />
                             

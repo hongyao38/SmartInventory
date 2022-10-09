@@ -9,7 +9,7 @@ import {
     MDBRow,
 } from "mdb-react-ui-kit";
 import "mdb-react-ui-kit/dist/css/mdb.min.css";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import "../style/ResetScreen.css";
 import { resetPassword } from "../../services/authService";
@@ -21,10 +21,27 @@ function ResetScreen() {
         newPassword: "",
         confirmPassword: "",
     });
+    const [error, setError] = useState("");
+    const [field1Error, setField1Error] = useState("");
+    const [field2Error, setField2Error] = useState("");
 
-    const onChange = (e) => {
+    // Setting errors for conditional rendering
+    useEffect(() => {
+
+        // New password field error rendering
+        setField1Error("");
+        if (data.newPassword && data.newPassword.length < 8)
+            setField1Error("Password must be at least 8 characters long");
+
+        // Confirm password field error rendering
+        setField2Error("");
+        if (data.confirmPassword && data.confirmPassword !== data.newPassword)
+            setField2Error("Passwords need to match");
+            
+    }, [data.newPassword, data.confirmPassword]);
+
+    const OnChange = (e) => {
         setData({ ...data, [e.target.name]: e.target.value });
-        // console.log(data);
     };
 
     const [basicModal, setBasicModal] = useState(false);
@@ -39,25 +56,41 @@ function ResetScreen() {
     const handleReset = async (e) => {
         e.preventDefault();
         console.log(data.newPassword);
-        if (!data.newPassword.localeCompare(data.confirmPassword) === 0) {
-            //password not the same
-        } else {
-            const passwords = {
-                newPassword: data.newPassword,
-                confirmNewPassword: data.confirmPassword,
-            };
-            const token = location.search;
-            console.log(token);
-            try {
-                const res = await resetPassword(passwords, token);
-                if (res) {
-                    //successful
-                    toggleShow();
-                }
-            } catch (err) {
-                alert(err);
+
+        // Password entered is not of required length
+        if (data.newPassword.length < 8) {
+            setError("Password must be at least 8 characters long.");
+            return;
+        }
+        
+        // Get new passwords from input
+        const passwords = {
+            newPassword: data.newPassword,
+            confirmNewPassword: data.confirmPassword,
+        };
+
+        // Retrieve token from URL
+        const token = location.search;
+
+        try {
+            const res = await resetPassword(passwords, token);
+            if (res) toggleShow();
+
+        } catch (err) {
+            // Setting error message for conditional rendering
+            let errMessage = err.response.data.message;
+
+            if (errMessage === "Passwords entered are not matching!") {
+                setError("Passwords entered are not matching! Please try again.");
+            }
+            else if (errMessage === "Token not found, already expired!") {
+                setError("Link expired, please request new link.");
+            }
+            else if (errMessage === "Token not found!") {
+                setError("Invalid reset password link")
             }
         }
+        
     };
 
     return (
@@ -68,7 +101,7 @@ function ResetScreen() {
                         <div className="d-flex flex-column  mt-4">
                             <div className="text-center">
                                 <img
-                                    src="gold-key.png"
+                                    src="/gold-key.png"
                                     style={{ width: "55px" }}
                                     alt="logo"
                                 />
@@ -77,8 +110,7 @@ function ResetScreen() {
                                 </h4>
                                 <h6>
                                     {" "}
-                                    Your new password must be different to
-                                    previously used passwords.
+                                    New password must be at least 8 characters long.
                                 </h6>
                             </div>
                             <br></br>
@@ -86,33 +118,41 @@ function ResetScreen() {
                                 <MDBCol className="d-grid gap-2 col-4 mx-auto">
                                     <MDBInput
                                         id="pass1"
-                                        label="password"
+                                        label="New Password"
                                         type="password"
                                         value={data.username}
                                         name="newPassword"
                                         required
-                                        onChange={onChange}
+                                        onChange={OnChange}
                                     />
                                 </MDBCol>
-                                <div
-                                    id="pass1"
-                                    className="form-text d-grid gap-2 col-4 mx-auto"
+                                { field1Error ? <div
+                                    className="form-text d-grid gap-2 col-4 mx-auto field-error"
                                 >
-                                    must be at least 8 characters long.
-                                </div>
+                                    {field1Error}
+                                </div>: ""}
                                 <br></br>
                                 <MDBCol className="d-grid gap-2 col-4 mx-auto">
                                     <MDBInput
-                                        label="confirm password"
+                                        label="Confirm Password"
                                         id="pass2"
                                         type="password"
                                         value={data.confirmPassword}
                                         name="confirmPassword"
                                         required
-                                        onChange={onChange}
+                                        onChange={OnChange}
                                     />
                                 </MDBCol>
+                                { field2Error ? <div
+                                    className="form-text d-grid gap-2 col-4 mx-auto field-error"
+                                >
+                                    {field2Error}
+                                </div>: ""}
                             </div>
+
+                            {/* Display error message */}
+                            {error ? <MDBCol className="d-flex justify-content-center error">{error}</MDBCol> : ""}
+
                             <MDBCol className="d-flex justify-content-center ">
                                 <MDBBtn onClick={(e) => handleReset(e)}>
                                     Reset Password
@@ -128,7 +168,7 @@ function ResetScreen() {
                     <MDBModalContent>
                         <div className="mt-4 text-center">
                             <img
-                                src="checked 2.png"
+                                src="/checked.png"
                                 style={{ width: "55px" }}
                                 alt="logo"
                             />

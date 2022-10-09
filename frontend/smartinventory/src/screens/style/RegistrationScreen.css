@@ -6,6 +6,41 @@
     background: #205be4;
   
   }
+
+.email-error {
+  color: #ff6961;
+  margin-top: -45px;
+}
+
+.username-error {
+  color: #ff6961;
+  margin-top: -45px;
+  margin-bottom: 19px;
+}
+
+.username-pass {
+  color: #55aa47;
+  margin-top: -45px;
+  margin-bottom: 19px;
+}
+
+.password-error {
+  color: #ff6961;
+  margin-top: -45px;
+  margin-bottom: 19px;
+}
+
+.confirm-error {
+  color: #ff6961;
+  margin-top: -45px;
+  margin-bottom: 19px;  
+}
+
+.reg-error {
+  color: #ff6961;
+  margin-top: -5px;
+  margin-bottom: -21px;
+}
   
   @media (min-width: 768px) {
     .gradient-form {

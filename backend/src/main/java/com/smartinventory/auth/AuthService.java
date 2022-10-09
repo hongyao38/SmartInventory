@@ -10,7 +10,7 @@ import com.smartinventory.appuser.AppUser;
 import com.smartinventory.appuser.AppUserService;
 import com.smartinventory.auth.dto.ForgetPasswordDTO;
 import com.smartinventory.auth.dto.JwtDTO;
-import com.smartinventory.auth.dto.LoginDTO;
+import com.smartinventory.auth.dto.CredDTO;
 import com.smartinventory.auth.dto.RegistrationDTO;
 import com.smartinventory.auth.dto.ResetPasswordDTO;
 import com.smartinventory.email.EmailSenderService;
@@ -28,7 +28,7 @@ public class AuthService {
 
     private final String FRONTEND_BASE_URL = "http://localhost:3000";
     private final String CONFIRMATION_EMAIL = "src\\main\\java\\com\\smartinventory\\email\\html\\confirmationemail.html";
-    private final String RESET_PASSWORD_EMAIL = "src\\main\\java\\com\\smartinventory\\email\\html\\forgetpassword1.html";
+    private final String RESET_PASSWORD_EMAIL = "src\\main\\java\\com\\smartinventory\\email\\html\\forgetpassword.html";
 
     private final AppUserService userService;
     private final ConfirmationTokenService tokenService;
@@ -54,7 +54,7 @@ public class AuthService {
         emailBody = emailBody.replace("INSERT CONFIRMATION LINK", confirmationLink);
 
         // Send email
-        emailSender.send(reqEmail, emailBody, "SmartInventory: Confirm Your Email");
+        // emailSender.send(reqEmail, emailBody, "SmartInventory: Confirm Your Email");
         return token;
     }
 
@@ -86,7 +86,7 @@ public class AuthService {
         return "confirmed";
     }
 
-    public ResponseEntity<JwtDTO> login(LoginDTO request) {
+    public ResponseEntity<JwtDTO> login(CredDTO request) {
         
         // Get username and password (and encode) from request DTO
         String username = request.getUsername();

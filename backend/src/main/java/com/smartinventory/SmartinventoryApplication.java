@@ -23,13 +23,13 @@ public class SmartinventoryApplication {
 		RegistrationDTO regDTO = new RegistrationDTO(email, "xiaodidi", "12345");
 		String confirmationToken = authService.register(regDTO);
 
-		// Confirm email
-		authService.confirmToken(confirmationToken);
-		System.out.println("User email confirmed, ready for testing");
+		// // Confirm email
+		// // authService.confirmToken(confirmationToken);
+		// System.out.println("User email confirmed, ready for testing");
 
-		// Forget password
-		authService.forgetUserPassword(new ForgetPasswordDTO(email));
-		System.out.println("Forget password email sent");
+		// // Forget password
+		// authService.forgetUserPassword(new ForgetPasswordDTO(email));
+		// System.out.println("Forget password email sent");
 	}
 
 }

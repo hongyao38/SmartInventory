@@ -25,6 +25,16 @@ const register = async (user) => {
     return res.status === 201;
 };
 
+const usernameExists = async (usernameToCheck) => {
+    const res = await axiosInstance({
+        method: "post",
+        url: "/users/check-username",
+        data: {username: usernameToCheck, password: ""}
+    });
+    console.log("RES DATA:", Boolean(res.data));
+    return Boolean(res.data);
+}
+
 const confirmEmail = async (token) => {
     const res = await axiosInstance({
         method: "get",
@@ -57,13 +67,13 @@ const resetPassword = async (passwords, token) => {
         url: "/forget-password/reset" + token,
         data: passwords,
     });
-    console.log(res.status);
     return res.status === 200;
 };
 
 export {
     login,
     register,
+    usernameExists,
     confirmEmail,
     getUsers,
     forgetPassword,

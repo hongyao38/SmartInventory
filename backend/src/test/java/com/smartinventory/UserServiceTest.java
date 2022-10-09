@@ -66,7 +66,7 @@ public class UserServiceTest {
 
         //mock
         Optional<AppUser> userOptional = Optional.empty();
-        when(users.findByUsername(any(String.class))).thenThrow(new UsernameTakenException(user));
+        when(users.findByUsername(any(String.class))).thenThrow(new UsernameTakenException());
         when(users.findByEmailIgnoreCase(any(String.class))).thenReturn(userOptional);
 
         try {
@@ -93,7 +93,7 @@ public class UserServiceTest {
         users.save(new AppUser("a@gmail.com", "user1", "password"));
 
         //mock
-        when(users.findByEmailIgnoreCase(any(String.class))).thenThrow(new UserEmailTakenException(user.getEmail()));
+        when(users.findByEmailIgnoreCase(any(String.class))).thenThrow(new UserEmailTakenException());
 
         assertThrows(UserEmailTakenException.class, () -> userService.registerUser(user));
         

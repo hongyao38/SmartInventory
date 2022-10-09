@@ -13,7 +13,7 @@ axiosInstance.interceptors.request.use(
         if (
             !(
                 config.url.includes("/login") ||
-                config.url.includes("/registration") 
+                config.url.includes("/registration")
             )
         ) {
             if (jwt) {

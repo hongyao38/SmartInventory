@@ -6,6 +6,17 @@
     background: #205be4;
   
   }
+
+.error {
+  margin-top: -30px;
+  margin-bottom: 20px;
+  color: #ff6961;
+}
+
+.field-error {
+  margin-top: 5px;
+  color: #ff6961;
+}
   
   @media (min-width: 768px) {
     .gradient-form {

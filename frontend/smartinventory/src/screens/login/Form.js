@@ -1,4 +1,5 @@
 import {
+  MDBCol,
   MDBBtn,
   MDBInput,
   MDBTypography,
@@ -9,6 +10,8 @@ import {
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { login } from "../../services/authService";
+
+import "../style/LogInScreen.css";
 
 function Form() {
   // User data
@@ -130,7 +133,7 @@ function Form() {
         </MDBValidationItem>
 
         {/* Display error message */}
-        {error !== "" ? <div className="error">{error}</div> : ""}
+        {error ? <MDBCol className="d-flex justify-content-center error">{error}</MDBCol> : ""}
 
         <SignInAndForgetPassword />
       </MDBValidation>

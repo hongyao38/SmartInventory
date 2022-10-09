@@ -23,6 +23,7 @@ public class JwtRequestFilter extends OncePerRequestFilter {
         
         // No need to authorize if user is doing these
         if (request.getServletPath().equals("/api/v1/login") ||
+            request.getServletPath().equals("/api/v1/users/check-username") ||
             request.getServletPath().startsWith("/api/v1/registration") ||
             request.getServletPath().startsWith("/api/v1/forget-password")) {
             filterChain.doFilter(request, response);

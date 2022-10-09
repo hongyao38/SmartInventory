@@ -23,6 +23,7 @@ public class EmailSenderService implements EmailSender {
     private final JavaMailSender mailSender;
     private final static Logger LOGGER = LoggerFactory.getLogger(EmailSender.class);
 
+    @Async
     public String readHTML(String filepath) {
         StringBuilder htmlBuilder = new StringBuilder();
         try {

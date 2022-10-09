@@ -75,10 +75,19 @@ Content-Type: application/json
 }
 
 ### RESET PASSWORD (PasswordNotMatchingException)
-PUT http://localhost:8080/api/v1/forget-password/reset?token=d1f268e6-9a09-45c0-a286-27e5b6c2b7d1
+PUT http://localhost:8080/api/v1/forget-password/reset?token=1f06f98d-9fac-44ad-b2ab-0143946b41ec
 Content-Type: application/json
 
 {
     "newPassword": "iLoveSpringBoot",
     "confirmNewPassword": "iHateSpringBoot"
+}
+
+### CHECK USERNAME EXISTS
+POST http://localhost:8080/api/v1/users/check-username
+Content-Type: application/json
+
+{
+    "username": "xiaodidi",
+    "password": ""
 }

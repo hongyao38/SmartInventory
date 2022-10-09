@@ -11,12 +11,12 @@ import {
   MDBModalHeader,
   MDBModalTitle,
   MDBRow,
-  MDBTypography,
   MDBValidation,
-  MDBValidationItem,
+  MDBValidationItem
 } from "mdb-react-ui-kit";
-import React, { useState } from "react";
-import { register } from "../../services/authService";
+import React, { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { register, usernameExists } from "../../services/authService";
 
 import "mdb-react-ui-kit/dist/css/mdb.min.css";
 import "../style/RegistrationScreen.css";
@@ -29,6 +29,59 @@ function RegistrationScreen() {
     confirmpassword: "",
   });
 
+  const [regError, setRegError] = useState("");
+  const [emailError, setEmailError] = useState("");
+  const [usernameError, setUsernameError] = useState("");
+  const [usernamePass, setUsernamePass] = useState("");
+  const [passwordError, setPasswordError] = useState("");
+  const [confirmError, setConfirmError] = useState("");
+
+  // Setting errors for conditional rendering
+  useEffect(() => {
+
+    // Email field error setting
+    setEmailError("");
+    if (data.email && !data.email.includes("@"))
+      setEmailError("Please enter valid email address");
+
+    // Password field error setting
+    setPasswordError("");
+    if (data.password && data.password.length < 8)
+      setPasswordError("Password must be at least 8 characters");
+
+    // Confirm password field error setting
+    setConfirmError("");
+    if (data.confirmpassword && data.confirmpassword !== data.password)
+      setConfirmError("Passwords need to match");
+
+  }, [data.email, data.password, data.confirmpassword]);
+
+
+  // Split this into a separate useEffect 
+  // to not repeatedly send requests
+  useEffect(() => {
+    // Username field error setting
+    setUsernameError("");
+    setUsernamePass("");
+    if (data.username) {
+
+      // Check if it is of desired length
+      if (data.username.length < 6) {
+        setUsernameError("must be at least 6 characters");
+        return;
+      }
+
+      // Check if username exists
+      usernameExists(data.username).then((exists) => {
+        if (exists) {
+          setUsernamePass("");
+          setUsernameError("Username already taken");
+        } else
+          setUsernamePass("Username available");
+      });
+    }
+  }, [data.username]);
+
   const [basicModal, setBasicModal] = useState(false);
   const toggleShow = () => setBasicModal(!basicModal);
 
@@ -36,28 +89,49 @@ function RegistrationScreen() {
     setData({ ...data, [e.target.name]: e.target.value });
   };
 
+  const navigate = useNavigate();
   const handleRegister = async (e) => {
-    // console.log(data);
     e.preventDefault();
-    if (data.password !== data.confirmpassword) {
-      alert("Sign Up Failed");
-    } else {
-      const info = {
-        email: data.email,
-        username: data.username,
-        password: data.password,
-      };
-      console.log(info);
 
-      try {
-        const res = await register(info);
-        if (res) {
-          //successfully registered, call pop up to tell user to check email
-          toggleShow();
-        }
-      } catch (err) {
-        alert(err);
+    // Ensure non-empty inputs
+    if (!data.email || !data.username || !data.password) {
+      setRegError("Please enter your credentials");
+      return;
+    }
+
+    // Check valid email
+    if (!data.email.includes("@")) {
+      setRegError("Please enter a valid email address");
+      return;
+    }
+
+    // Check valid username
+    if (data.username.length < 6) {
+      setRegError("Please enter a valid username");
+      return;
+    }
+
+    // Check valid password
+    if (data.password.length < 8) {
+      setRegError("Password must be at least 8 characters");
+      return;
+    }
+
+    // Create a DTO for request body
+    const info = {
+      email: data.email,
+      username: data.username,
+      password: data.password,
+    };
+
+    try {
+      const res = await register(info);
+      if (res) {
+        setRegError("");
+        toggleShow();
       }
+    } catch (err) {
+      setRegError(err.response.data.message);
     }
   };
 
@@ -111,12 +185,11 @@ function RegistrationScreen() {
                     style={{ width: "185px" }}
                     alt="logo"
                   />
-                  <h4 className="mt-1 mb-5 pb-1">Smart Inventory</h4>
+                  <h4 className="mt-1 mb-5 pb-1">
+                    <strong>Create an Account</strong>
+                  </h4>
                 </div>
 
-                <MDBTypography tag="strong" className="pb-5 mb-5">
-                  Sign Up Here
-                </MDBTypography>
                 <MDBRow>
                   <MDBCol>
                     <MDBValidationItem>
@@ -131,6 +204,8 @@ function RegistrationScreen() {
                         onChange={onChange}
                       />
                     </MDBValidationItem>
+                    {emailError ? <div className="email-error">{emailError}</div> : ""}
+
                   </MDBCol>
                   <MDBCol md="5">
                     <MDBValidationItem>
@@ -145,6 +220,9 @@ function RegistrationScreen() {
                         onChange={onChange}
                       />
                     </MDBValidationItem>
+                    {usernameError ? <div className="username-error">{usernameError}</div> : ""}
+                    {usernamePass ? <div className="username-pass">{usernamePass}</div> : ""}
+
                   </MDBCol>
                 </MDBRow>
                 <MDBValidationItem>
@@ -159,6 +237,8 @@ function RegistrationScreen() {
                     onChange={onChange}
                   />
                 </MDBValidationItem>
+                {passwordError ? <div className="password-error">{passwordError}</div> : ""}
+
                 <MDBValidationItem>
                   <MDBInput
                     wrapperClass="mb-5"
@@ -171,6 +251,7 @@ function RegistrationScreen() {
                     onChange={onChange}
                   />
                 </MDBValidationItem>
+                {confirmError ? <div className="confirm-error">{confirmError}</div> : ""}
 
                 <div className="text-center pt-1 mb-5 pb-1">
                   <MDBBtn
@@ -179,6 +260,7 @@ function RegistrationScreen() {
                   >
                     Sign Up
                   </MDBBtn>
+                  {regError ? <div className="reg-error">{regError}</div> : ""}
                 </div>
               </MDBValidation>
             </div>

@@ -90,10 +90,10 @@ function ForgetPasswordScreen() {
                                 </p>
                             </div>
 
-                            <div className="d-flex flex-row align-items-center justify-content-center pb-4 mb-4">
+                            <div className="d-flex flex-row align-items-center justify-content-center pb-4 mb-4 email-field">
                                 <MDBInput
                                     wrapperClass="w-50 mb-4b"
-                                    label="Email"
+                                    label="Enter email address"
                                     id="form1"
                                     type="text"
                                     value={data.email}
@@ -107,7 +107,7 @@ function ForgetPasswordScreen() {
                                 />
                             </div>
 
-                            <div className="d-grid gap-2 col-5 mx-auto mb-4 mt-3">
+                            <div className="d-grid gap-2 col-5 mx-auto mb-4 mt-3 send-button">
                                 <MDBBtn
                                     className="text-center"
                                     onClick={
@@ -115,11 +115,11 @@ function ForgetPasswordScreen() {
                                         // handleResendEmail();
                                     }
                                 >
-                                    Send password reset email
+                                    Send email
                                 </MDBBtn>
                             </div>
 
-                            <div className="d-flex flex-row align-items-center justify-content-center pb-4 mb-4">
+                            <div className="d-flex flex-row align-items-center justify-content-center pb-4 mb-4 login-button">
                                 {/* to ask: arrow never appear :( */}
                                 <i class="fas fa-arrow-left"></i>
 
