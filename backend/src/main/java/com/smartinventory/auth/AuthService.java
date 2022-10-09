@@ -1,21 +1,24 @@
 package com.smartinventory.auth;
 
-import com.smartinventory.auth.dto.*;
-
 import java.time.ZonedDateTime;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.smartinventory.appuser.AppUser;
+import com.smartinventory.appuser.AppUserService;
+import com.smartinventory.auth.dto.ForgetPasswordDTO;
+import com.smartinventory.auth.dto.JwtDTO;
+import com.smartinventory.auth.dto.LoginDTO;
+import com.smartinventory.auth.dto.RegistrationDTO;
+import com.smartinventory.auth.dto.ResetPasswordDTO;
 import com.smartinventory.email.EmailSenderService;
 import com.smartinventory.exceptions.token.EmailAlreadyVerifiedException;
 import com.smartinventory.exceptions.token.InvalidTokenException;
 import com.smartinventory.exceptions.user.PasswordNotMatchingException;
 import com.smartinventory.security.token.ConfirmationToken;
 import com.smartinventory.security.token.ConfirmationTokenService;
-import com.smartinventory.appuser.AppUser;
-import com.smartinventory.appuser.AppUserService;
 
 import lombok.AllArgsConstructor;
 
@@ -23,7 +26,7 @@ import lombok.AllArgsConstructor;
 @AllArgsConstructor
 public class AuthService {
 
-    private final String FRONTEND_BASE_URL = "localhost:3000";
+    private final String FRONTEND_BASE_URL = "http://localhost:3000";
 
     private final AppUserService userService;
     private final ConfirmationTokenService tokenService;
@@ -45,12 +48,12 @@ public class AuthService {
 
         // Form email body
         String confirmationLink = FRONTEND_BASE_URL + "/registration/confirm?token=" + token;
-        String emailBody = String.format("Hi, %s!%n%n" +
-                "Confirm your email: %s\n\n" +
-                "Link will expire in 15 minutes.%n", reqUsername, confirmationLink);
+        String emailBody = emailSender.readHTML(
+            "src\\main\\java\\com\\smartinventory\\email\\html\\confirmationemail.html");
+        emailBody = emailBody.replace("INSERT CONFIRMATION LINK", confirmationLink);
 
         // Send email
-        // emailSender.send(reqEmail, emailBody, "SmartInventory: Confirm Your Email");
+        emailSender.send(reqEmail, emailBody, "SmartInventory: Confirm Your Email");
         return token;
     }
 
@@ -105,17 +108,13 @@ public class AuthService {
 
         // Get token for resetting password
         String token = userService.forgetUserPassword(user);
-        String reqUsername = user.getUsername();
 
         // Form email body
-        // TODO: URL to be changed to frontend URL
-        String confirmationLink = "localhost:3000/forget-password/reset?token=" + token;
-        String emailBody = String.format("Hi, %s!%n%n" +
-                "Reset your password: %s\n\n" +
-                "Link will expire in 15 minutes.%n" +
-                "If you did not request for a password reset" +
-                "you may ignore this email&n", reqUsername, confirmationLink);
-
+        String confirmationLink = FRONTEND_BASE_URL + "/forget-password/reset?token=" + token;
+        String emailBody = emailSender.readHTML(
+            "src\\main\\java\\com\\smartinventory\\email\\html\\forgetpassword.html");
+        emailBody = emailBody.replace("INSERT CONFIRMATION LINK", confirmationLink);
+        
         // Send email
         emailSender.send(reqEmail, emailBody, "SmartInventory: Reset Password");
         return token;
