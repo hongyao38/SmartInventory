@@ -74,7 +74,6 @@ function RegistrationScreen() {
   useEffect(() => {
     // Username field error setting
     setUsernameError("");
-    setUsernamePass("");
     if (data.username) {
 
       // Check if it is of desired length
