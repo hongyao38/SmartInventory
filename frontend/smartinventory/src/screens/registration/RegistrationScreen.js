@@ -15,19 +15,18 @@ import {
   MDBValidationItem
 } from "mdb-react-ui-kit";
 import React, { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
 import { register, usernameExists } from "../../services/authService";
 
 import "mdb-react-ui-kit/dist/css/mdb.min.css";
 import "../style/RegistrationScreen.css";
 
 function RegistrationScreen() {
-  const [data, setData] = useState({
-    email: "",
-    username: "",
-    password: "",
-    confirmpassword: "",
-  });
+    const [data, setData] = useState({
+        email: "",
+        username: "",
+        password: "",
+        confirmpassword: "",
+    });
 
   const [regError, setRegError] = useState("");
   const [emailError, setEmailError] = useState("");
@@ -85,11 +84,10 @@ function RegistrationScreen() {
   const [basicModal, setBasicModal] = useState(false);
   const toggleShow = () => setBasicModal(!basicModal);
 
-  const onChange = (e) => {
-    setData({ ...data, [e.target.name]: e.target.value });
-  };
+    const onChange = (e) => {
+        setData({ ...data, [e.target.name]: e.target.value });
+    };
 
-  const navigate = useNavigate();
   const handleRegister = async (e) => {
     e.preventDefault();
 
@@ -135,23 +133,23 @@ function RegistrationScreen() {
     }
   };
 
-  return (
-    <>
-      <MDBModal show={basicModal} setShow={setBasicModal} tabIndex="-1">
-        <MDBModalDialog>
-          <MDBModalContent>
-            <MDBModalHeader>
-              <MDBModalTitle>Registration Success!</MDBModalTitle>
-              <MDBBtn
-                className="btn-close"
-                color="none"
-                onClick={toggleShow}
-              ></MDBBtn>
-            </MDBModalHeader>
-            <MDBModalBody>
-              Please check your email for our confirmation email. Confirmation
-              link expires in 15 minutes.
-            </MDBModalBody>
+    return (
+        <>
+            <MDBModal show={basicModal} setShow={setBasicModal} tabIndex="-1">
+                <MDBModalDialog>
+                    <MDBModalContent>
+                        <MDBModalHeader>
+                            <MDBModalTitle>Registration Success!</MDBModalTitle>
+                            <MDBBtn
+                                className="btn-close"
+                                color="none"
+                                onClick={toggleShow}
+                            ></MDBBtn>
+                        </MDBModalHeader>
+                        <MDBModalBody>
+                            Please check your email for our confirmation email.
+                            Confirmation link expires in 15 minutes.
+                        </MDBModalBody>
 
             <MDBModalFooter>
               <MDBBtn color="secondary" onClick={toggleShow}>

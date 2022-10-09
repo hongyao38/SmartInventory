@@ -95,6 +95,7 @@ function ResetScreen() {
 
     return (
         <>
+            <MDBContainer className="mb-8"></MDBContainer>
             <MDBContainer className="my-5 gradient-form">
                 <MDBCol className="mt-4">
                     <MDBRow rows="6" className="mb-5">

@@ -90,15 +90,14 @@ function Form() {
       {/* Company Logo */}
       <div className="text-center">
         <img
-          src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-login-form/lotus.webp"
-          style={{ width: "185px" }}
+          src="logo.png"
+          style={{ width: "350px" }}
           alt="logo"
         />
-        <h4 className="mt-1 mb-5 pb-1">Smart Inventory</h4>
       </div>
 
       {/* Form Title */}
-      <MDBTypography tag="strong" className="mb-3">
+      <MDBTypography tag="strong" className="mb-3 mt-5">
         Log into your account
       </MDBTypography>
 
