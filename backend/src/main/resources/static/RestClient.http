@@ -1,5 +1,5 @@
 GET http://localhost:8080/api/v1/users
-Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ4aWFvZGlkaSIsInJvbGVzIjpbIlJPTEVfVVNFUiJdLCJpc3MiOiJsb2NhbGhvc3Q6ODA4MC9hcGkvdjEvbG9naW4iLCJleHAiOjE2NjUxMzk5ODB9.JtvX99BPsGLAkhPXHb-6y_7fOjiHXlnhua1uN4iIvVk
+Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ4aWFvZGlkaSIsInJvbGVzIjpbIlJPTEVfQURNSU4iXSwiaXNzIjoibG9jYWxob3N0OjgwODAvYXBpL3YxL2xvZ2luIiwiZXhwIjoxNjY1MzgzNjU3fQ.pYBsRbeaao0ftGdz7PdPZCwAZ70S-xTIZvQx8n2Enms
 
 ###
 GET http://localhost:8080/api/v1/users/1
@@ -27,11 +27,7 @@ Content-Type: application/json
 }
 
 ### CONFIRM REGISTRATION TOKEN
-<<<<<<< HEAD
 GET http://localhost:8080/api/v1/registration/confirm?token=374dacaa-0f10-4630-a83b-94bcfd279e71
-=======
-GET http://localhost:8080/api/v1/registration/confirm?token=cf45741b-2070-40d3-8523-fd7008d91106
->>>>>>> main
 
 ### LOGIN (SUCCESS)
 POST http://localhost:8080/api/v1/login
@@ -92,7 +88,7 @@ GET http://localhost:8080/api/v1/food
 
 ### NEW FOOD
 POST http://localhost:8080/api/v1/food
-Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ4aWFvZGlkaSIsInJvbGVzIjpbIlJPTEVfQURNSU4iXSwiaXNzIjoibG9jYWxob3N0OjgwODAvYXBpL3YxL2xvZ2luIiwiZXhwIjoxNjY1MzgyMjg5fQ.Hvci70DnwTafn6rgF2RvWU-6AUb_2di_jYIQR3_xdjA
+Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ4aWFvZGlkaSIsInJvbGVzIjpbIlJPTEVfQURNSU4iXSwiaXNzIjoibG9jYWxob3N0OjgwODAvYXBpL3YxL2xvZ2luIiwiZXhwIjoxNjY1Mzg0NjQzfQ.Fp9ZTb5JHPFeNM2jcnwumoXCab6Nr1JysdFB_pf7AcY
 Content-Type: application/json
 
 {

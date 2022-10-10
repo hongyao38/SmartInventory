@@ -1,12 +1,13 @@
 package com.smartinventory.inventory.food;
 
-import java.util.*;
+import java.util.List;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
+import javax.persistence.SequenceGenerator;
 import javax.validation.constraints.NotNull;
 import javax.persistence.CascadeType;
 
@@ -25,6 +26,7 @@ import com.smartinventory.inventory.consumption.*;
 @AllArgsConstructor
 public class Food {
     @Id
+    @SequenceGenerator(name = "food_sequence", sequenceName = "food_sequence", allocationSize = 1)
     @GeneratedValue (strategy = GenerationType.IDENTITY)
     private Long foodId;
 

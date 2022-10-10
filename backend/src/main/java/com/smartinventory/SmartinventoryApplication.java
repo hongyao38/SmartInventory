@@ -3,6 +3,7 @@ package com.smartinventory;
 import org.springframework.context.ApplicationContext;
 
 import com.smartinventory.auth.AuthService;
+import com.smartinventory.auth.dto.CredDTO;
 import com.smartinventory.auth.dto.ForgetPasswordDTO;
 import com.smartinventory.auth.dto.RegistrationDTO;
 
@@ -23,10 +24,12 @@ public class SmartinventoryApplication {
 		RegistrationDTO regDTO = new RegistrationDTO(email, "xiaodidi", "12345");
 		String confirmationToken = authService.register(regDTO);
 
-		// // Confirm email
-		// // authService.confirmToken(confirmationToken);
-		// System.out.println("User email confirmed, ready for testing");
+		// Confirm email
+		authService.confirmToken(confirmationToken);
+		System.out.println("User email confirmed, ready for testing");
 
+		// Login
+		System.out.println(authService.login(new CredDTO("xiaodidi", "12345")).getBody().getJwt());
 		// // Forget password
 		// authService.forgetUserPassword(new ForgetPasswordDTO(email));
 		// System.out.println("Forget password email sent");

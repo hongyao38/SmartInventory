@@ -33,8 +33,8 @@ public class FoodService {
 
     //add new food
     public Food addFood(Food food) throws FoodExistsException {
-        if (foodRepo.findById(food.getFoodId()) != null) {
-            return null;
+        if (foodRepo.findByFoodName(food.getFoodName()).isEmpty()) {
+            throw FoodExistsException(food.getFoodName());
         }
         return foodRepo.save(food);
     }
