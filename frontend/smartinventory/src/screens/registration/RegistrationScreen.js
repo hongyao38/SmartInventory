@@ -219,7 +219,7 @@ function RegistrationScreen() {
                             <MDBValidation>
                                 <div className="text-center">
                                 <img src="logo.png" style={{ width: "350px" }} alt="logo" />
-                                    <h4 className="mt-1 mb-5 pb-1">
+                                    <h4 className="mt-5 mb-3 pb-1">
                                         <strong>Create an Account</strong>
                                     </h4>
                                 </div>
@@ -333,7 +333,7 @@ function RegistrationScreen() {
                             </MDBValidation>
                             <MDBBtn
                                 outline
-                                className="text-dark text-muted"
+                                className="text-dark text-muted mt-1"
                                 class="back-to-login-button"
                                 color="light"
                                 onClick={() => handleBackToLogin()}

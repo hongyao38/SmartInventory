@@ -178,20 +178,13 @@ function ResetScreen() {
                             )}
 
                             <MDBCol className="d-flex justify-content-center ">
-                                <MDBBtn
+                                <button
+                                    class="reset-pw-button"
                                     onClick={(e) => handleReset(e)}
                                     disabled={disabledButton}
                                 >
-                                    <div
-                                        className={
-                                            "d-flex justify-content-center"
-                                        }
-                                    >
-                                        <div
-                                            className={
-                                                loadingButton ? " visible" : " invisible"
-                                            }
-                                        >
+                                    <div className={"d-flex justify-content-center"}>
+                                        <div className={loadingButton ? " visible" : " invisible"}>
                                             <MDBSpinner
                                                 size="sm"
                                                 role="status"
@@ -200,10 +193,10 @@ function ResetScreen() {
                                             />
                                         </div>
                                         <div class="send-email-text">
-                                            Reset Email
+                                            Reset Password
                                         </div>
                                     </div>
-                                </MDBBtn>
+                                </button>
                             </MDBCol>
                         </div>
                     </MDBRow>

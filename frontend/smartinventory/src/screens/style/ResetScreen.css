@@ -39,3 +39,28 @@
     margin-left: -25px;
 }
 
+.reset-pw-button {
+    margin-left: -10px;
+    width: 150px;
+    justify-content: center;
+    margin-bottom: 20px;
+    padding: 5px;
+    padding-left: 10px;
+    padding-right: 10px;
+    border-style: solid;
+    border-radius: 30px;
+    border-color: #7da455;
+    color:white;
+    background-color: #7da455;
+}
+
+.reset-pw-button:hover,
+.reset-pw-button:focus {
+    -moz-box-shadow: 0px 0px 4px 1px grey;
+    -webkit-box-shadow: 0px 0px 4px 1px grey;
+    box-shadow: 0px 0px 4px 1px  grey;
+}
+
+.reset-pw-button:active {
+    border-style: solid;
+}

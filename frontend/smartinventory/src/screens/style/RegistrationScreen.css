@@ -38,7 +38,6 @@
 .reg-error {
     color: #ff6961;
     margin-top: -5px;
-    margin-bottom: -21px;
 }
 
 @media (min-width: 768px) {

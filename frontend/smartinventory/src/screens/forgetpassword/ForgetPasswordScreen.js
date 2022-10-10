@@ -118,8 +118,9 @@ function ForgetPasswordScreen() {
                             </div>
 
                             <div className="d-grid gap-2 col-5 mx-auto mb-4 mt-3 send-button">
-                                <MDBBtn
-                                    className="text-center"
+                                <button
+                                    class="send-email-button"
+                                    // className="text-center"
                                     id="send-email-btn"
                                     onClick={
                                         (e) => sendEmail(e)
@@ -127,16 +128,8 @@ function ForgetPasswordScreen() {
                                     }
                                     disabled={disabledButton}
                                 >
-                                    <div
-                                        className={
-                                            "d-flex justify-content-center"
-                                        }
-                                    >
-                                        <div
-                                            className={
-                                                loadingButton ? " visible" : " invisible"
-                                            }
-                                        >
+                                    <div className={"d-flex justify-content-center"}>
+                                        <div className={loadingButton ? " visible" : " invisible"}>
                                             <MDBSpinner
                                                 size="sm"
                                                 role="status"
@@ -148,7 +141,7 @@ function ForgetPasswordScreen() {
                                             Send email
                                         </div>
                                     </div>
-                                </MDBBtn>
+                                </button>
                             </div>
 
                             <div className="d-flex flex-row align-items-center justify-content-center pb-4 mb-4 login-button">
@@ -219,12 +212,13 @@ function ForgetPasswordScreen() {
                         </MDBModalBody>
 
                         <MDBModalFooter>
-                            <MDBBtn
+                            <button
+                                class="back-popup-button"
                                 color="secondary"
                                 onClick={()=>handleLogIn()}
                             >
                                 Back to login
-                            </MDBBtn>
+                            </button>
                         </MDBModalFooter>
                     </MDBModalContent>
                 </MDBModalDialog>

@@ -137,7 +137,7 @@ function Form() {
                 >
                     <MDBInput
                         wrapperClass="mb-5"
-                        label="Username"
+                        label="Username or Email"
                         id="form1"
                         type="text"
                         value={data.username}
