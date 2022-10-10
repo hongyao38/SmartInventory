@@ -20,7 +20,7 @@ import { register, usernameExists } from "../../services/authService";
 import "mdb-react-ui-kit/dist/css/mdb.min.css";
 import "../style/RegistrationScreen.css";
 
-function debounce(cb, delay = 800) {
+function debounce(cb, delay = 2000) {
   let timeout;
 
   return (...args) => {
@@ -32,6 +32,7 @@ function debounce(cb, delay = 800) {
 }
 
 function RegistrationScreen() {
+
   const [data, setData] = useState({
       email: "",
       username: "",
@@ -71,42 +72,42 @@ function RegistrationScreen() {
 
   // Split this into a separate useEffect 
   // to not repeatedly send requests
-  useEffect(() => {
+   useEffect(() => {
+
     // Username field error setting
     setUsernameError("");
-    if (data.username) {
+    if (!data.username) return;
 
-      // Check if it is of desired length
-      if (data.username.length < 6) {
-        setUsernamePass("");
-        setUsernameError("must be at least 6 characters");
-        return;
-      }
-
-      // Send request to backend once 
-      // debounced username is the same as data.username
-      if (username !== data.username) return;
-
-      usernameExists(username).then((exists) => {
-        if (exists) {
-          setUsernamePass("");
-          setUsernameError("Username already taken");
-        } else
-          setUsernamePass("Username available");
-      });
+    // Check if it is of desired length
+    if (data.username.length < 6) {
+      setUsernamePass("");
+      setUsernameError("must be at least 6 characters");
+      return;
     }
+
+    // Send request to backend once 
+    // debounced username is the same as data.username
+    if (username !== data.username) return;
+
+    usernameExists(username).then((exists) => {
+      if (exists) {
+        setUsernamePass("");
+        setUsernameError("Username already taken");
+      } else
+        setUsernamePass("Username available");
+    });
+
   }, [data.username, username]);
 
   const [basicModal, setBasicModal] = useState(false);
   const toggleShow = () => setBasicModal(!basicModal);
 
-  const updateDebouncedUsername = debounce((e) => {
+  const updateDebouncedUsername = debounce( e => {
     setDebouncedUsername(e?.target?.value);
   });
 
   const onChange = (e) => {
     setData({ ...data, [e.target.name]: e.target.value });
-
     updateDebouncedUsername(e);
   };
 
