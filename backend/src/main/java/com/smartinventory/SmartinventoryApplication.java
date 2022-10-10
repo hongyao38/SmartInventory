@@ -30,6 +30,6 @@ public class SmartinventoryApplication {
 	// 	// Forget password
 	// 	authService.forgetUserPassword(new ForgetPasswordDTO(email));
 	// 	System.out.println("Forget password email sent");
-	// }
+	}
 
 }
