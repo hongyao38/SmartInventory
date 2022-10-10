@@ -58,3 +58,61 @@
 .sign-up-text {
     margin-left: -34px;
 }
+
+.signup-button {
+    width: 650px;
+    justify-content: center;
+    margin-bottom: 20px;
+    padding: 5px;
+    padding-left: 10px;
+    padding-right: 10px;
+    border-style: solid;
+    border-radius: 30px;
+    border-color: #7da455;
+    color:white;
+    background-color: #7da455;
+}
+
+.signup-button:hover,
+.signup-button:focus {
+    -moz-box-shadow: 0px 0px 4px 1px grey;
+    -webkit-box-shadow: 0px 0px 4px 1px grey;
+    box-shadow: 0px 0px 4px 1px  grey;
+}
+
+.signup-button:active {
+    border-style: solid;
+}
+
+.back-to-login-button {
+    margin-top: -40px;
+    margin-bottom: 40px;
+    border: 0;
+    background-color: white;
+    color: #626262
+}
+
+.success-back-button {
+    width: 150px;
+    justify-content: center;
+    margin-bottom: 20px;
+    padding: 5px;
+    padding-left: 10px;
+    padding-right: 10px;
+    border-style: solid;
+    border-radius: 30px;
+    border-color: #7da455;
+    color:white;
+    background-color: #7da455;
+}
+
+.success-back-button:hover,
+.success-back-button:focus {
+    -moz-box-shadow: 0px 0px 4px 1px grey;
+    -webkit-box-shadow: 0px 0px 4px 1px grey;
+    box-shadow: 0px 0px 4px 1px  grey;
+}
+
+.success-back-button:active {
+    border-style: solid;
+}

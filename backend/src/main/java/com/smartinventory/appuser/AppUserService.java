@@ -102,10 +102,7 @@ public class AppUserService implements UserDetailsService {
     /*
      * Takes in AppUser object and returns a ResponseEntity with JWT in body
      */
-    public ResponseEntity<JwtDTO> loginUser(AppUser user) {
-
-        String usernameOrEmail = user.getUsername();
-        String password = user.getPassword();
+    public ResponseEntity<JwtDTO> loginUser(String usernameOrEmail, String password) {
 
         // If username does not exist
         Optional<AppUser> userRecord = userRepository.findByUsername(usernameOrEmail);
@@ -114,6 +111,7 @@ public class AppUserService implements UserDetailsService {
             throw new InvalidCredentialsException();
         }
 
+        // Retrieve user to login
         AppUser userToLogin = userRecord.isEmpty() ? userRecordEmail.get() : userRecord.get();
 
         // If password is not matching

@@ -19,7 +19,7 @@ import React, { useEffect, useState } from "react";
 import { register, usernameExists } from "../../services/authService";
 import { useNavigate } from "react-router-dom";
 
-import "mdb-react-ui-kit/dist/css/mdb.min.css";
+// import "mdb-react-ui-kit/dist/css/mdb.min.css";
 import "../style/RegistrationScreen.css";
 
 
@@ -42,6 +42,11 @@ function RegistrationScreen() {
 
     // Email Validation Regex (RFC 5322)
     const emailRegEx = "([!#-'*+/-9=?A-Z^-~-]+(.[!#-'*+/-9=?A-Z^-~-]+)*|\"([]!#-[^-~ \t]|(\\[\t -~]))+\")@([!#-'*+/-9=?A-Z^-~-]+(.[!#-'*+/-9=?A-Z^-~-]+)*|[[\t -Z^-~]*])";
+
+    // Spinner & Button variables
+    const [basicModal, setBasicModal] = useState(false);
+    const [loadingButton, setLoadingButton] = useState(false);
+    const [disabledButton, setdisabledButton] = useState(false);
 
     // Setting errors for conditional rendering
     useEffect(() => {
@@ -93,10 +98,6 @@ function RegistrationScreen() {
 
         return () => clearTimeout(timeout);
     }, [data.username]);
-
-    const [basicModal, setBasicModal] = useState(false);
-    const [loadingButton, setLoadingButton] = useState(false);
-    const [disabledButton, setdisabledButton] = useState(false);
 
     const toggleShow = () => setBasicModal(!basicModal);
 
@@ -192,9 +193,9 @@ function RegistrationScreen() {
                         </MDBModalBody>
 
                         <MDBModalFooter>
-                            <MDBBtn color="secondary" onClick={()=>handleBackToLogin()}>
+                            <button class="success-back-button" onClick={()=>handleBackToLogin()}>
                                 Back to login
-                            </MDBBtn>
+                            </button>
                         </MDBModalFooter>
                     </MDBModalContent>
                 </MDBModalDialog>
@@ -202,18 +203,13 @@ function RegistrationScreen() {
             <MDBContainer className="my-5 gradient-form">
                 <MDBRow>
                     <MDBCol col="6" className="mb-5">
-                        <div className="d-flex flex-column justify-content-center gradient-custom-2 h-100 mb-4">
-                            <div className="text-white px-3 py-4 p-md-5 mx-md-4">
-                                <h4 class="mb-4">
+                        <div className="d-flex flex-column justify-content-center gradient-custom-3 h-100 mb-4">
+                            <div className="text-grey px-3 py-4 p-md-5 mx-md-4">
+                                <h4 class="mb-1 ml-2">
                                     We are more than just a company
                                 </h4>
-                                <p class="small mb-0">
-                                    Lorem ipsum dolor sit amet, consectetur
-                                    adipisicing elit, sed do eiusmod tempor
-                                    incididunt ut labore et dolore magna aliqua.
-                                    Ut enim ad minim veniam, quis nostrud
-                                    exercitation ullamco laboris nisi ut aliquip
-                                    ex ea commodo consequat.
+                                <p class="small mb-12">
+                                    We aim to revolutionise inventory management systems!
                                 </p>
                             </div>
                         </div>
@@ -312,32 +308,16 @@ function RegistrationScreen() {
                                         onChange={onChange}
                                     />
                                 </MDBValidationItem>
-                                {confirmError ? (
-                                    <div className="confirm-error">
-                                        {confirmError}
-                                    </div>
-                                ) : (
-                                    ""
-                                )}
+                                {confirmError ? <div className="confirm-error">{confirmError}</div> : ""}
 
                                 <div className="text-center pt-1 mb-5 pb-1">
-                                    <MDBBtn
-                                        className="mb-4 w-100 gradient-custom-2"
+                                    <button
+                                        class="signup-button"
                                         onClick={handleRegister}
                                         disabled={disabledButton}
                                     >
-                                        <div
-                                            className={
-                                                "d-flex justify-content-center"
-                                            }
-                                        >
-                                            <div
-                                                className={
-                                                    loadingButton
-                                                        ? ""
-                                                        : "invisible"
-                                                }
-                                            >
+                                        <div className={"d-flex justify-content-center"}>
+                                            <div className={ loadingButton ? "" : "invisible" }>
                                                 <MDBSpinner
                                                     size="sm"
                                                     role="status"
@@ -345,21 +325,21 @@ function RegistrationScreen() {
                                                     className={"me-2 ml-2"}
                                                 />
                                             </div>
-
-                                            <div class="sign-up-text">
-                                                Sign Up
-                                            </div>
+                                            <div class="sign-up-text">Sign Up</div>
                                         </div>
-                                    </MDBBtn>
-                                    {regError ? (
-                                        <div className="reg-error">
-                                            {regError}
-                                        </div>
-                                    ) : (
-                                        ""
-                                    )}
+                                    </button>
+                                    {regError ? <div className="reg-error">{regError}</div> : ""}
                                 </div>
                             </MDBValidation>
+                            <MDBBtn
+                                outline
+                                className="text-dark text-muted"
+                                class="back-to-login-button"
+                                color="light"
+                                onClick={() => handleBackToLogin()}
+                            >
+                               Back to Login
+                            </MDBBtn>
                         </div>
                     </MDBCol>
                 </MDBRow>

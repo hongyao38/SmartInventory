@@ -89,11 +89,11 @@ public class AuthService {
     public ResponseEntity<JwtDTO> login(CredDTO request) {
         
         // Get username and password (and encode) from request DTO
-        String username = request.getUsername();
+        String usernameOrEmail = request.getUsername();
         String encodedPassword = request.getPassword();
 
         // Package DTO parameters into User object to login in userService
-        return userService.loginUser(new AppUser(null, username, encodedPassword));
+        return userService.loginUser(usernameOrEmail, encodedPassword);
     }
 
     /*

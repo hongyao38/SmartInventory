@@ -65,14 +65,15 @@ function Form() {
         return (
             <div className="d-flex flex-row align-items-center justify-content-center pb-4 mb-4">
                 <p className="mb-0">Don't have an account?</p>
-                <MDBBtn
-                    outline
-                    className="mx-2"
-                    color="danger"
+                <button class="create-button"
+                    // outline
+                    // className="mx-2"
+                    // color="success"
+                    // border-radius="50%"
                     onClick={() => handleRegistration()}
                 >
                     Create here
-                </MDBBtn>
+                </button>
             </div>
         );
     }
@@ -82,8 +83,9 @@ function Form() {
         return (
             <div className="text-center pt-1 mb-5 pb-1">
                 {/* <div className={loadingButton ? "invisible" : "invisible"}> */}
-                <MDBBtn
+                <button
                     className="mb-4 w-100 gradient-custom-2"
+                    class="sign-in-button"
                     onClick={handleLogin}
                     disabled={disabledButton}
                 >
@@ -98,7 +100,7 @@ function Form() {
                         </div>
                         <div class="sign-in-text">Sign in</div>
                     </div>
-                </MDBBtn>
+                </button>
                 {/* </div> */}
 
                 <MDBBtn
@@ -165,12 +167,12 @@ function Form() {
 
                 {/* Display error message */}
                 {error ? (
-                    <MDBCol className="d-flex justify-content-center error">
+                    <MDBCol className="d-flex justify-content-center login-error">
                         {error}
                     </MDBCol>
-                ) : (
+                ) : 
                     ""
-                )}
+                }
 
                 <SignInAndForgetPassword />
             </MDBValidation>
