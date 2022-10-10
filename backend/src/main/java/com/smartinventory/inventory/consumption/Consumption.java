@@ -34,6 +34,6 @@ public class Consumption {
     private Double amountConsumed;
 
     @ManyToOne
-    @JoinColumn(name="foodId")
+    @JoinColumn(name="id")
     private Food food;
 }

@@ -45,11 +45,11 @@ public class ConsumptionService {
         //Finding the food from the purchase
         Food food = consumption.getFood();
 
-        if (foodRepo.findById(food.getFoodId()).isEmpty()) {
+        if (foodRepo.findById(food.getId()).isEmpty()) {
             return null;
         }
         Double newQuantity = food.getCurrentQuantity() - consumption.getAmountConsumed();
-        foodService.updateCurrentQuantity(food.getFoodId(), newQuantity);
+        foodService.updateCurrentQuantity(food.getId(), newQuantity);
 
         return consumptions.save(consumption);
     }
@@ -59,7 +59,7 @@ public class ConsumptionService {
         if (consumptions.findById(consumptionId).get().getAmountConsumed() != newConsumption.getAmountConsumed()) {
             Food food = newConsumption.getFood();
             Double newQuantity = food.getCurrentQuantity() - newConsumption.getAmountConsumed();
-            foodService.updateCurrentQuantity(food.getFoodId(), newQuantity);
+            foodService.updateCurrentQuantity(food.getId(), newQuantity);
         }
         return consumptions.findById(consumptionId).map(consumption -> {newConsumption.getAmountConsumed();
             newConsumption.getDateConsumed();
