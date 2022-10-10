@@ -33,9 +33,10 @@
     margin-left: 10px;
 }
 .visible {
-    margin-left: 40px;
+    margin-left: 20px
 }
 .reset-text {
     margin-left: -25px;
+    margin-right:20px;
 }
 

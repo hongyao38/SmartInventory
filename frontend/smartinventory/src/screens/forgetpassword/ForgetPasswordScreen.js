@@ -134,7 +134,9 @@ function ForgetPasswordScreen() {
                                     >
                                         <div
                                             className={
-                                                loadingButton ? " visible" : " invisible"
+                                                loadingButton
+                                                    ? " visible"
+                                                    : " invisible"
                                             }
                                         >
                                             <MDBSpinner
@@ -144,9 +146,7 @@ function ForgetPasswordScreen() {
                                                 className={""}
                                             />
                                         </div>
-                                        <div class="send-email-text">
-                                            Send email
-                                        </div>
+                                        <div class="reset-text">Send email</div>
                                     </div>
                                 </MDBBtn>
                             </div>
@@ -221,7 +221,7 @@ function ForgetPasswordScreen() {
                         <MDBModalFooter>
                             <MDBBtn
                                 color="secondary"
-                                onClick={()=>handleLogIn()}
+                                onClick={() => handleLogIn()}
                             >
                                 Back to login
                             </MDBBtn>
