@@ -19,20 +19,9 @@ import React, { useEffect, useState } from "react";
 import { register, usernameExists } from "../../services/authService";
 import { useNavigate } from "react-router-dom";
 
-
 import "mdb-react-ui-kit/dist/css/mdb.min.css";
 import "../style/RegistrationScreen.css";
 
-function debounce(cb, delay = 2000) {
-    let timeout;
-
-    return (...args) => {
-        clearTimeout(timeout);
-        timeout = setTimeout(() => {
-            cb(...args);
-        }, delay);
-    };
-}
 
 function RegistrationScreen() {
     const [data, setData] = useState({
@@ -52,7 +41,7 @@ function RegistrationScreen() {
     const [confirmError, setConfirmError] = useState("");
 
     // Email Validation Regex (RFC 5322)
-    const emailRegEx = "([!#-'*+/-9=?A-Z^-~-]+(\.[!#-'*+/-9=?A-Z^-~-]+)*|\"\(\[\]!#-[^-~ \t]|(\\[\t -~]))+\")@([!#-'*+/-9=?A-Z^-~-]+(\.[!#-'*+/-9=?A-Z^-~-]+)*|\[[\t -Z^-~]*])";
+    const emailRegEx = "([!#-'*+/-9=?A-Z^-~-]+(.[!#-'*+/-9=?A-Z^-~-]+)*|\"([]!#-[^-~ \t]|(\\[\t -~]))+\")@([!#-'*+/-9=?A-Z^-~-]+(.[!#-'*+/-9=?A-Z^-~-]+)*|[[\t -Z^-~]*])";
 
     // Setting errors for conditional rendering
     useEffect(() => {
@@ -77,26 +66,33 @@ function RegistrationScreen() {
     useEffect(() => {
         // Username field error setting
         setUsernameError("");
+        setUsernamePass("");
         if (!data.username) return;
 
         // Check if it is of desired length
         if (data.username.length < 6) {
-            setUsernamePass("");
-            setUsernameError("must be at least 6 characters");
+            setUsernameError("Must be at least 6 characters");
             return;
         }
 
         // Send request to backend once
         // debounced username is the same as data.username
         if (username !== data.username) return;
-
         usernameExists(username).then((exists) => {
             if (exists) {
-                setUsernamePass("");
                 setUsernameError("Username already taken");
             } else setUsernamePass("Username available");
         });
     }, [data.username, username]);
+
+    // Debouncing of username
+    useEffect(() => {
+        const timeout = setTimeout(() => {
+            setDebouncedUsername(data.username);
+        }, 500);
+
+        return () => clearTimeout(timeout);
+    }, [data.username]);
 
     const [basicModal, setBasicModal] = useState(false);
     const [loadingButton, setLoadingButton] = useState(false);
@@ -104,13 +100,8 @@ function RegistrationScreen() {
 
     const toggleShow = () => setBasicModal(!basicModal);
 
-    const updateDebouncedUsername = debounce((e) => {
-        setDebouncedUsername(e?.target?.value);
-    });
-
     const onChange = (e) => {
         setData({ ...data, [e.target.name]: e.target.value });
-        updateDebouncedUsername(e);
     };
 
     const navigate = useNavigate();
@@ -120,71 +111,63 @@ function RegistrationScreen() {
     }
 
     const handleRegister = async (e) => {
+        // Show spinner on click
         setLoadingButton(true);
         setdisabledButton(true);
         e.preventDefault();
 
-        // Ensure non-empty inputs
-        if (!data.email || !data.username || !data.password) {
-            setRegError("Please enter your credentials");
-            setLoadingButton(false);
-            setdisabledButton(false);
-            return;
-        }
-
-        // Check valid email
-        if (!data.email.match(emailRegEx)) {
-            setRegError("Please enter a valid email address");
-            setLoadingButton(false);
-            setdisabledButton(false);
-            return;
-        }
-
-        // Check valid username
-        if (data.username.length < 6) {
-            setRegError("Please enter a valid username");
-            setLoadingButton(false);
-            setdisabledButton(false);
-            return;
-        }
-
-        // Check valid password
-        if (data.password.length < 8) {
-            setRegError("Password must be at least 8 characters");
-            setLoadingButton(false);
-            setdisabledButton(false);
-            return;
-        }
-
-        // Check passwords matching
-        if (data.password !== data.confirmpassword) {
-            setRegError("Passwords entered are not matching");
-            setLoadingButton(false);
-            setdisabledButton(false);
-            return;
-        }
-
-        // Create a DTO for request body
-        const info = {
-            email: data.email,
-            username: data.username,
-            password: data.password,
-        };
-
         try {
-            const res = await register(info);
-            if (res) {
+            // Ensure non-empty inputs
+            if (!data.email || !data.username || !data.password) {
+                setRegError("Please enter your credentials");
+                return;
+            }
+
+            // Check valid email
+            if (!data.email.match(emailRegEx)) {
+                setRegError("Please enter a valid email address");
+                return;
+            }
+
+            // Check valid username
+            if (data.username.length < 6) {
+                setRegError("Please enter a valid username");
+                return;
+            }
+
+            // Check valid password
+            if (data.password.length < 8) {
+                setRegError("Password must be at least 8 characters");
+                return;
+            }
+
+            // Check passwords matching
+            if (data.password !== data.confirmpassword) {
+                setRegError("Passwords entered are not matching");
+                return;
+            }
+
+            // Create a DTO for request body
+            if (
+                await register({
+                    email: data.email,
+                    username: data.username,
+                    password: data.password,
+                    }
+                )) {
                 setRegError("");
                 toggleShow();
-                setLoadingButton(false);
-                setdisabledButton(false);
             }
+
         } catch (err) {
             let errMessage = err.response.data.message;
 
             setRegError(errMessage);
             if (errMessage === "Failed to send email")
               setRegError("Unable to send email. Check the entered email address")
+
+        } finally {
+            // Disable spinner when finish this function
             setLoadingButton(false);
             setdisabledButton(false);
         }
