@@ -51,11 +51,14 @@ function RegistrationScreen() {
     const [passwordError, setPasswordError] = useState("");
     const [confirmError, setConfirmError] = useState("");
 
+    // Email Validation Regex (RFC 5322)
+    const emailRegEx = "([!#-'*+/-9=?A-Z^-~-]+(\.[!#-'*+/-9=?A-Z^-~-]+)*|\"\(\[\]!#-[^-~ \t]|(\\[\t -~]))+\")@([!#-'*+/-9=?A-Z^-~-]+(\.[!#-'*+/-9=?A-Z^-~-]+)*|\[[\t -Z^-~]*])";
+
     // Setting errors for conditional rendering
     useEffect(() => {
         // Email field error setting
         setEmailError("");
-        if (data.email && !data.email.includes("@"))
+        if (data.email && !data.email.match(emailRegEx))
             setEmailError("Please enter valid email address");
 
         // Password field error setting
@@ -130,7 +133,7 @@ function RegistrationScreen() {
         }
 
         // Check valid email
-        if (!data.email.includes("@")) {
+        if (!data.email.match(emailRegEx)) {
             setRegError("Please enter a valid email address");
             setLoadingButton(false);
             setdisabledButton(false);

@@ -104,22 +104,25 @@ public class AppUserService implements UserDetailsService {
      */
     public ResponseEntity<JwtDTO> loginUser(AppUser user) {
 
-        String username = user.getUsername();
+        String usernameOrEmail = user.getUsername();
         String password = user.getPassword();
 
         // If username does not exist
-        Optional<AppUser> userRecord = userRepository.findByUsername(username);
-        if (userRecord.isEmpty()) {
+        Optional<AppUser> userRecord = userRepository.findByUsername(usernameOrEmail);
+        Optional<AppUser> userRecordEmail = userRepository.findByEmailIgnoreCase(usernameOrEmail);
+        if (userRecord.isEmpty() && userRecordEmail.isEmpty()) {
             throw new InvalidCredentialsException();
         }
 
+        AppUser userToLogin = userRecord.isEmpty() ? userRecordEmail.get() : userRecord.get();
+
         // If password is not matching
-        if (!bCryptPasswordEncoder.matches(password, userRecord.get().getPassword())) {
+        if (!bCryptPasswordEncoder.matches(password, userToLogin.getPassword())) {
             throw new InvalidCredentialsException();
         }
 
         // Create JWT token
-        UserDetails userDetails = loadUserByUsername(username);
+        UserDetails userDetails = loadUserByUsername(userToLogin.getUsername());
         String accessToken = JwtUtil.createJWT(userDetails);
 
         return new ResponseEntity<>(new JwtDTO(accessToken), HttpStatus.OK);

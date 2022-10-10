@@ -9,7 +9,7 @@ import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 @Repository
-@Transactional(readOnly = true)
+@Transactional
 public interface AppUserRepository extends JpaRepository<AppUser, Long> {
 
     String findEmailByUsername(String username);
@@ -22,6 +22,9 @@ public interface AppUserRepository extends JpaRepository<AppUser, Long> {
 
     void deleteByEmail(String email);
 
+    @Transactional
+    @Modifying
+    @Query("DELETE FROM AppUser u WHERE u.username = ?1")
     void deleteByUsername(String username);
 
     @Transactional
