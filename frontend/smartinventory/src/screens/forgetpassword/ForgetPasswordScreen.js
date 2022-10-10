@@ -12,6 +12,7 @@ import {
     MDBModalTitle,
     MDBModalBody,
     MDBModalFooter,
+    MDBSpinner,
 } from "mdb-react-ui-kit";
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
@@ -26,6 +27,8 @@ function ForgetPasswordScreen() {
     const [data, setEmail] = useState({ email: "" });
     const [failedModal, setFailedModal] = useState(false);
     const [successModal, setSuccessModal] = useState(false);
+    const [loadingButton, setLoadingButton] = useState(false);
+    const [disabledButton, setdisabledButton] = useState(false);
 
     const toggleFailedModal = () => setFailedModal(!failedModal);
     const toggleSuccessModal = () => setSuccessModal(!successModal);
@@ -36,6 +39,8 @@ function ForgetPasswordScreen() {
 
     const sendEmail = async (e) => {
         e.preventDefault();
+        setLoadingButton(true);
+        setdisabledButton(true);
         console.log(data.email);
         try {
             const res = await forgetPassword(data.email);
@@ -43,16 +48,22 @@ function ForgetPasswordScreen() {
             if (res) {
                 // console.log("success clause");
                 toggleSuccessModal();
+                setLoadingButton(false);
+                setdisabledButton(false);
                 // navigate("/resendEmailScreen");
             } else {
                 //handle send email failed, either no registered email found
                 // console.log("fail clause");
 
                 toggleFailedModal();
+                setLoadingButton(false);
+                setdisabledButton(false);
             }
         } catch (error) {
             console.log("fail clause");
             toggleFailedModal();
+            setLoadingButton(false);
+            setdisabledButton(false);
 
             console.log(error);
         }
@@ -66,7 +77,7 @@ function ForgetPasswordScreen() {
 
     return (
         <>
-        <MDBContainer className="mb-8"></MDBContainer>
+            <MDBContainer className="mb-8"></MDBContainer>
             <MDBContainer className="pt-6 gradient-form">
                 <MDBRow>
                     <MDBCol col="6" className="mb-5">
@@ -114,8 +125,29 @@ function ForgetPasswordScreen() {
                                         (e) => sendEmail(e)
                                         // handleResendEmail();
                                     }
+                                    disabled={disabledButton}
                                 >
-                                    Send email
+                                    <div
+                                        className={
+                                            "d-flex justify-content-center"
+                                        }
+                                    >
+                                        <div
+                                            className={
+                                                loadingButton ? "visible" : "invisible"
+                                            }
+                                        >
+                                            <MDBSpinner
+                                                size="sm"
+                                                role="status"
+                                                tag="span"
+                                                className={""}
+                                            />
+                                        </div>
+                                        <div class="send-email-text">
+                                            Send email
+                                        </div>
+                                    </div>
                                 </MDBBtn>
                             </div>
 
@@ -127,7 +159,6 @@ function ForgetPasswordScreen() {
                                     outline
                                     className="text-dark text-muted"
                                     color="light"
-                                    
                                     onClick={() => handleLogIn()}
                                 >
                                     Back to log in
@@ -137,7 +168,7 @@ function ForgetPasswordScreen() {
                     </MDBCol>
                 </MDBRow>
             </MDBContainer>
-            
+
             <MDBModal show={failedModal} setShow={setFailedModal} tabIndex="-1">
                 <MDBModalDialog>
                     <MDBModalContent>
