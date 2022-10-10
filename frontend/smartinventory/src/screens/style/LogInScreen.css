@@ -1,6 +1,7 @@
 .gradient-custom-2 {
     /* fallback for old browsers */
     background: #fccb90;
+    background-image: url("");
 
     /* Chrome 10-25, Safari 5.1-6 */
     background: #205be4;

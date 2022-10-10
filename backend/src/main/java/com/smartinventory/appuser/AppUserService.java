@@ -45,6 +45,10 @@ public class AppUserService implements UserDetailsService {
                 .orElseThrow(() -> new UserEmailNotFoundException(email));
     }
 
+    public void deleteUserByUsername(String username) {
+        userRepository.deleteByUsername(username);
+    }
+
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {

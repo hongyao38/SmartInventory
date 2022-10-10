@@ -22,6 +22,8 @@ public interface AppUserRepository extends JpaRepository<AppUser, Long> {
 
     void deleteByEmail(String email);
 
+    void deleteByUsername(String username);
+
     @Transactional
     @Modifying
     @Query("UPDATE AppUser u SET u.isEnabled = TRUE WHERE u.email = ?1")

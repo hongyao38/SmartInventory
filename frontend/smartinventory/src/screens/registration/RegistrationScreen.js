@@ -153,6 +153,14 @@ function RegistrationScreen() {
             return;
         }
 
+        // Check passwords matching
+        if (data.password !== data.confirmpassword) {
+            setRegError("Passwords entered are not matching");
+            setLoadingButton(false);
+            setdisabledButton(false);
+            return;
+        }
+
         // Create a DTO for request body
         const info = {
             email: data.email,
@@ -169,7 +177,11 @@ function RegistrationScreen() {
                 setdisabledButton(false);
             }
         } catch (err) {
-            setRegError(err.response.data.message);
+            let errMessage = err.response.data.message;
+
+            setRegError(errMessage);
+            if (errMessage === "Failed to send email")
+              setRegError("Unable to send email. Check the entered email address")
             setLoadingButton(false);
             setdisabledButton(false);
         }

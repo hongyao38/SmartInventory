@@ -47,15 +47,22 @@ public class AuthService {
 
         // Register user and get token
         String token = userService.registerUser(
-                new AppUser(reqEmail, reqUsername, request.getPassword()));
+            new AppUser(reqEmail, reqUsername, request.getPassword()));
 
         // Form email body
         String confirmationLink = FRONTEND_BASE_URL + "/registration/confirm?token=" + token;
         String emailBody = emailSender.readHTML(CONFIRMATION_EMAIL);
         emailBody = emailBody.replace("INSERT CONFIRMATION LINK", confirmationLink);
 
-        // Send email
-        emailSender.send(reqEmail, emailBody, "SmartInventory: Confirm Your Email");
+        try {
+            // Send email
+            emailSender.send(reqEmail, emailBody, "SmartInventory: Confirm Your Email");
+
+        } catch (Exception e) {
+            System.out.println("Cannot send email. Emailed entered is not valid.");
+            userService.deleteUserByUsername(reqUsername);
+            throw e;
+        }
         return token;
     }
 
