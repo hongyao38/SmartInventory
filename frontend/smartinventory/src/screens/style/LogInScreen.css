@@ -41,9 +41,11 @@
   position:absolute;
   bottom: 100px;
 } */
-.visible {
-    visibility: visible !important;
-}
+
 .invisible {
     visibility: hidden !important;
+}
+
+.sign-in-text{
+    margin-left: -34px;
 }

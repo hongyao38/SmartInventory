@@ -21,10 +21,12 @@ function Form() {
     const [error, setError] = useState("");
 
     const [loadingButton, setLoadingButton] = useState(false);
+    const [disabledButton, setdisabledButton] = useState(false);
     const navigate = useNavigate();
 
     const handleLogin = async (e) => {
         setLoadingButton(true);
+        setdisabledButton(true);
         // this.forceUpdate();
         try {
             const isLoggedIn = await login({
@@ -34,11 +36,13 @@ function Form() {
             if (isLoggedIn) {
                 navigate("/dashboard");
                 setLoadingButton(false);
+                setdisabledButton(false);
             }
         } catch (e) {
             setError("Invalid Username or Password. Please try Again!");
 
             setLoadingButton(false);
+            setdisabledButton(false);
             // this.forceUpd ate();
             console.log("error trigger:", loadingButton);
         }
@@ -81,8 +85,9 @@ function Form() {
                 <MDBBtn
                     className="mb-4 w-100 gradient-custom-2"
                     onClick={handleLogin}
+                    disabled={disabledButton}
                 >
-                    <div className={"d-flex justify-content-center "}>
+                    <div className={"d-flex justify-content-center"}>
                         <div className={loadingButton ? "" : "invisible"}>
                             <MDBSpinner
                                 size="sm"
@@ -91,7 +96,7 @@ function Form() {
                                 className={"me-2 ml-2"}
                             />
                         </div>
-                        <div>Sign in</div>
+                        <div class="sign-in-text">Sign in</div>
                     </div>
                 </MDBBtn>
                 {/* </div> */}
