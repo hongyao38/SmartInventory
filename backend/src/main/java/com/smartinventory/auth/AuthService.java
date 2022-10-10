@@ -1,5 +1,6 @@
 package com.smartinventory.auth;
 
+import java.sql.SQLIntegrityConstraintViolationException;
 import java.time.ZonedDateTime;
 
 import org.springframework.http.ResponseEntity;
@@ -54,7 +55,7 @@ public class AuthService {
         emailBody = emailBody.replace("INSERT CONFIRMATION LINK", confirmationLink);
 
         // Send email
-        // emailSender.send(reqEmail, emailBody, "SmartInventory: Confirm Your Email");
+        emailSender.send(reqEmail, emailBody, "SmartInventory: Confirm Your Email");
         return token;
     }
 
@@ -117,6 +118,7 @@ public class AuthService {
 
         // Send email
         emailSender.send(reqEmail, emailBody, "SmartInventory: Reset Password");
+        System.out.println("here");
         return token;
     }
 

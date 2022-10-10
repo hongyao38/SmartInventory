@@ -25,7 +25,7 @@ function ResetScreen() {
     const [error, setError] = useState("");
     const [field1Error, setField1Error] = useState("");
     const [field2Error, setField2Error] = useState("");
-    const [loadingButton, setLoadingButton] = useState(true);
+    const [loadingButton, setLoadingButton] = useState(false);
     const [disabledButton, setdisabledButton] = useState(false);
 
     // Setting errors for conditional rendering
@@ -189,18 +189,18 @@ function ResetScreen() {
                                     >
                                         <div
                                             className={
-                                                loadingButton ? "" : "invisible"
+                                                loadingButton ? " visible" : " invisible"
                                             }
                                         >
                                             <MDBSpinner
                                                 size="sm"
                                                 role="status"
                                                 tag="span"
-                                                className={"me-2 ml-2"}
+                                                className={""}
                                             />
                                         </div>
-                                        <div class="reset-text">
-                                            Reset Password
+                                        <div class="send-email-text">
+                                            Reset Email
                                         </div>
                                     </div>
                                 </MDBBtn>
