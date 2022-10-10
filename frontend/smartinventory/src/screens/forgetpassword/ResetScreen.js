@@ -189,18 +189,18 @@ function ResetScreen() {
                                     >
                                         <div
                                             className={
-                                                loadingButton ? " visible" : " invisible"
+                                                loadingButton ? "" : "invisible"
                                             }
                                         >
                                             <MDBSpinner
                                                 size="sm"
                                                 role="status"
                                                 tag="span"
-                                                className={""}
+                                                className={"me-2 ml-2"}
                                             />
                                         </div>
-                                        <div class="send-email-text">
-                                            Reset Email
+                                        <div class="reset-text">
+                                            Reset Password
                                         </div>
                                     </div>
                                 </MDBBtn>
