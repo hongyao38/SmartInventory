@@ -1,17 +1,26 @@
-import { NavigationContainer } from '@react-navigation/native';
-import { createStackNavigator } from '@react-navigation/stack';
+import { BrowserRouter, Routes, Route } from "react-router-dom";
 
-
-const Stack = createStackNavigator();
+import LoginScreen from "./screens/login/LogInScreen.js";
+import RegistrationScreen from "./screens/registration/RegistrationScreen.js";
+import ResetScreen from "./screens/forgetpassword/ResetScreen.js";
+import RegSuccessScreen from "./screens/login/RegSuccessScreen.js";
+import ForgetPasswordScreen from "./screens/forgetpassword/ForgetPasswordScreen.js";
+import LoginSuccessScreen from "./screens/login/LoginSuccessScreen.js";
 
 function App() {
   return (
-		<NavigationContainer>
-			<Stack.Navigator screenOptions={{ headerShown: false }}>
-        
-			</Stack.Navigator>
-		</NavigationContainer>
-	);
+    <BrowserRouter>
+      <Routes>
+        <Route path="/" element={<LoginScreen />} />
+        <Route path="/registration" element={<RegistrationScreen />} />
+        <Route path="/registration/confirm" element={<RegSuccessScreen />} />
+
+        <Route path="/forget-password/reset" element={<ResetScreen />} />
+        <Route path="/forget-password" element={<ForgetPasswordScreen />} />
+        <Route path="/dashboard" element={<LoginSuccessScreen />} />
+      </Routes>
+    </BrowserRouter>
+  );
 }
 
 export default App;

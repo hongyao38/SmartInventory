@@ -1,27 +1,34 @@
 package com.smartinventory.auth;
 
-import com.smartinventory.auth.dto.*;
-
 import java.time.ZonedDateTime;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.smartinventory.appuser.AppUser;
+import com.smartinventory.appuser.AppUserService;
+import com.smartinventory.auth.dto.ForgetPasswordDTO;
+import com.smartinventory.auth.dto.JwtDTO;
+import com.smartinventory.auth.dto.CredDTO;
+import com.smartinventory.auth.dto.RegistrationDTO;
+import com.smartinventory.auth.dto.ResetPasswordDTO;
 import com.smartinventory.email.EmailSenderService;
 import com.smartinventory.exceptions.token.EmailAlreadyVerifiedException;
 import com.smartinventory.exceptions.token.InvalidTokenException;
 import com.smartinventory.exceptions.user.PasswordNotMatchingException;
 import com.smartinventory.security.token.ConfirmationToken;
 import com.smartinventory.security.token.ConfirmationTokenService;
-import com.smartinventory.appuser.AppUser;
-import com.smartinventory.appuser.AppUserService;
 
 import lombok.AllArgsConstructor;
 
 @Service
 @AllArgsConstructor
 public class AuthService {
+
+    private final String FRONTEND_BASE_URL = "http://localhost:3000";
+    private final String CONFIRMATION_EMAIL = "src\\main\\java\\com\\smartinventory\\email\\html\\confirmationemail.html";
+    private final String RESET_PASSWORD_EMAIL = "src\\main\\java\\com\\smartinventory\\email\\html\\forgetpassword.html";
 
     private final AppUserService userService;
     private final ConfirmationTokenService tokenService;
@@ -42,13 +49,12 @@ public class AuthService {
                 new AppUser(reqEmail, reqUsername, request.getPassword()));
 
         // Form email body
-        String confirmationLink = "localhost:8080/api/v1/registration/confirm?token=" + token;
-        String emailBody = String.format("Hi, %s!%n%n" +
-                "Confirm your email: %s\n\n" +
-                "Link will expire in 15 minutes.%n", reqUsername, confirmationLink);
+        String confirmationLink = FRONTEND_BASE_URL + "/registration/confirm?token=" + token;
+        String emailBody = emailSender.readHTML(CONFIRMATION_EMAIL);
+        emailBody = emailBody.replace("INSERT CONFIRMATION LINK", confirmationLink);
 
         // Send email
-        emailSender.send(reqEmail, emailBody, "SmartInventory: Confirm Your Email");
+        // emailSender.send(reqEmail, emailBody, "SmartInventory: Confirm Your Email");
         return token;
     }
 
@@ -80,8 +86,8 @@ public class AuthService {
         return "confirmed";
     }
 
-    public ResponseEntity<JwtDTO> login(LoginDTO request) {
-
+    public ResponseEntity<JwtDTO> login(CredDTO request) {
+        
         // Get username and password (and encode) from request DTO
         String username = request.getUsername();
         String encodedPassword = request.getPassword();
@@ -103,20 +109,14 @@ public class AuthService {
 
         // Get token for resetting password
         String token = userService.forgetUserPassword(user);
-        String reqUsername = user.getUsername();
 
         // Form email body
-        // TODO: URL to be changed to frontend URL
-        String confirmationLink = "localhost:8080/api/v1/forget-password/reset?token=" + token;
-        String emailBody = String.format("Hi, %s!%n%n" +
-                "Reset your password: %s\n\n" +
-                "Link will expire in 15 minutes.%n" +
-                "If you did not request for a password reset" +
-                "you may ignore this email&n", reqUsername, confirmationLink);
+        String confirmationLink = FRONTEND_BASE_URL + "/forget-password/reset?token=" + token;
+        String emailBody = emailSender.readHTML(RESET_PASSWORD_EMAIL);
+        emailBody = emailBody.replace("INSERT CONFIRMATION LINK", confirmationLink);
 
         // Send email
         emailSender.send(reqEmail, emailBody, "SmartInventory: Reset Password");
-        System.out.println("Reset password email sent");
         return token;
     }
 
@@ -139,9 +139,6 @@ public class AuthService {
 
         String newPassword = request.getNewPassword();
         String confirmNewPassword = request.getConfirmNewPassword();
-
-        System.out.println(newPassword);
-        System.out.println(confirmNewPassword);
 
         // If passwords entered does not matc
         if (!newPassword.equals(confirmNewPassword)) {

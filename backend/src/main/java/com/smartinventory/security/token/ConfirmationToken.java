@@ -44,10 +44,10 @@ public class ConfirmationToken {
     @JoinColumn(name = "user_id", nullable = false)
     private AppUser user;
 
-    public ConfirmationToken(ZonedDateTime createdAt, ZonedDateTime expiresAt, AppUser user) {
-        token = UUID.randomUUID().toString();
-        this.createdAt = createdAt;
-        this.expiresAt = expiresAt;
+    public ConfirmationToken(AppUser user) {
         this.user = user;
+        token = UUID.randomUUID().toString();
+        createdAt = ZonedDateTime.now();
+        expiresAt = createdAt.plusMinutes(15);
     }
 }

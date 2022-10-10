@@ -43,9 +43,13 @@ public class SecurityConfig {
         http
         .httpBasic()
             .and()
+        .cors()
+            .and()
+        .addFilterBefore(new JwtRequestFilter(), UsernamePasswordAuthenticationFilter.class)
         .authorizeRequests()
             // Authentication NOT NEEDED 
             .antMatchers(HttpMethod.POST, "/api/v1/login").permitAll()
+            .antMatchers(HttpMethod.GET, "api/v1/users/check-username").permitAll()
             .antMatchers(HttpMethod.POST, "/api/v1/registration").permitAll()
             .antMatchers(HttpMethod.GET, "/api/v1/registration/confirm?token=**").permitAll()
             .antMatchers(HttpMethod.POST, "/api/v1/forget-password").permitAll()
@@ -53,10 +57,8 @@ public class SecurityConfig {
 
             // Authentication NEEDED
             .antMatchers(HttpMethod.GET, "/api/v1/users").hasRole("ADMIN")
-            .antMatchers(HttpMethod.GET, "/api/v1/users").authenticated()
             
             .and()
-        .addFilterBefore(new JwtRequestFilter(), UsernamePasswordAuthenticationFilter.class)
         .authenticationProvider(authenticationProvider())
         .csrf().disable()
         .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)

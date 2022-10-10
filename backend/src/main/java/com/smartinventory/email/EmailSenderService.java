@@ -1,5 +1,9 @@
 package com.smartinventory.email;
 
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
+
 import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
 
@@ -19,6 +23,22 @@ public class EmailSenderService implements EmailSender {
     private final JavaMailSender mailSender;
     private final static Logger LOGGER = LoggerFactory.getLogger(EmailSender.class);
 
+    @Async
+    public String readHTML(String filepath) {
+        StringBuilder htmlBuilder = new StringBuilder();
+        try {
+            BufferedReader file = new BufferedReader(new FileReader(filepath));
+            String html;
+            while ((html = file.readLine()) != null) {
+                htmlBuilder.append(html);
+            }
+            file.close();
+        } catch (IOException e) {
+            LOGGER.error("File not found");
+        }
+        return htmlBuilder.toString();
+    }
+
     @Override
     @Async
     public void send(String to, String emailBody, String subject) {
@@ -27,7 +47,7 @@ public class EmailSenderService implements EmailSender {
             MimeMessageHelper helper = new MimeMessageHelper(mimeMessage, "utf-8");
 
             // Configure email sender
-            helper.setText(emailBody, false);
+            helper.setText(emailBody, true);
             helper.setTo(to);
             helper.setFrom("smartinventoryCS203@gmail.com");
             helper.setSubject(subject);

@@ -1,11 +1,11 @@
 GET http://localhost:8080/api/v1/users
-Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ4aWFvZGlkaSIsInJvbGVzIjpbIlJPTEVfQURNSU4iXSwiaXNzIjoibG9jYWxob3N0OjgwODAvYXBpL3YxL2xvZ2luIiwiZXhwIjoxNjY0NzA5MzQyfQ.Sx-HoMergbArOoFxryYzk02rJDCRE_Dg_PfRytfJP4M
+Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ4aWFvZGlkaSIsInJvbGVzIjpbIlJPTEVfVVNFUiJdLCJpc3MiOiJsb2NhbGhvc3Q6ODA4MC9hcGkvdjEvbG9naW4iLCJleHAiOjE2NjUxMzk5ODB9.JtvX99BPsGLAkhPXHb-6y_7fOjiHXlnhua1uN4iIvVk
 
 ###
 GET http://localhost:8080/api/v1/users/1
 Accept: application/json
 
-### SUCCESS
+### REGISTER SUCCESS (USER)
 POST http://localhost:8080/api/v1/registration
 Content-Type: application/json
 
@@ -15,18 +15,23 @@ Content-Type: application/json
     "password": "baby123!"
 }
 
-### FAIL USERNAME TAKEN
+### REGISTER SUCCESS (ADMIN)
 POST http://localhost:8080/api/v1/registration
 Content-Type: application/json
 
 {
     "email": "me4033@gmail.com",
-    "username": "xiaodidi",
-    "password": "baby123!"
+    "username": "littleboi",
+    "password": "baby123!",
+    "authorities": "ROLE_ADMIN"
 }
 
 ### CONFIRM REGISTRATION TOKEN
+<<<<<<< HEAD
 GET http://localhost:8080/api/v1/registration/confirm?token=374dacaa-0f10-4630-a83b-94bcfd279e71
+=======
+GET http://localhost:8080/api/v1/registration/confirm?token=cf45741b-2070-40d3-8523-fd7008d91106
+>>>>>>> main
 
 ### LOGIN (SUCCESS)
 POST http://localhost:8080/api/v1/login
@@ -34,7 +39,7 @@ Content-Type: application/json
 
 {
     "username": "xiaodidi",
-    "password": "baby123!"
+    "password": "12345"
 }
 
 ### LOGIN (FAIL INVALID USERNAME)
@@ -65,7 +70,7 @@ Content-Type: application/json
 }
 
 ### RESET PASSWORD (SUCCESS)
-PUT http://localhost:8080/api/v1/forget-password/reset?token=03a488c7-98a4-41e1-8fa4-ed3c649375cf
+PUT http://localhost:8080/api/v1/forget-password/reset?token=d1f268e6-9a09-45c0-a286-27e5b6c2b7d1
 Content-Type: application/json
 
 {
@@ -74,7 +79,7 @@ Content-Type: application/json
 }
 
 ### RESET PASSWORD (PasswordNotMatchingException)
-PUT http://localhost:8080/api/v1/forget-password/reset?token=03a488c7-98a4-41e1-8fa4-ed3c649375cf
+PUT http://localhost:8080/api/v1/forget-password/reset?token=1f06f98d-9fac-44ad-b2ab-0143946b41ec
 Content-Type: application/json
 
 {
@@ -169,3 +174,11 @@ Content-Type: application/json
 ### DELETE CONSUMPTION
 DELETE http://localhost:8080/api/v1/consumptions/1
 Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ4aWFvZGlkaSIsInJvbGVzIjpbIlJPTEVfQURNSU4iXSwiaXNzIjoibG9jYWxob3N0OjgwODAvYXBpL3YxL2xvZ2luIiwiZXhwIjoxNjY1MTExMzU3fQ.pYszOHmQAFvbkPl_0jPWEIdNEWNe3BpMcxzrbcXJoME
+### CHECK USERNAME EXISTS
+POST http://localhost:8080/api/v1/users/check-username
+Content-Type: application/json
+
+{
+    "username": "xiaodidi",
+    "password": ""
+}

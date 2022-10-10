@@ -1,29 +1,23 @@
 package com.smartinventory.appuser;
 
-import java.time.ZonedDateTime;
-import java.util.Date;
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import com.auth0.jwt.JWT;
-import com.auth0.jwt.algorithms.Algorithm;
-import com.smartinventory.auth.dto.*;
-import com.smartinventory.exceptions.user.InvalidPasswordException;
+import com.smartinventory.auth.dto.JwtDTO;
+import com.smartinventory.exceptions.user.InvalidCredentialsException;
 import com.smartinventory.exceptions.user.UserEmailNotFoundException;
 import com.smartinventory.exceptions.user.UserEmailTakenException;
 import com.smartinventory.exceptions.user.UserIdNotFoundException;
-import com.smartinventory.exceptions.user.UsernameInvalidException;
 import com.smartinventory.exceptions.user.UsernameTakenException;
+import com.smartinventory.security.config.JwtUtil;
 import com.smartinventory.security.token.ConfirmationToken;
 import com.smartinventory.security.token.ConfirmationTokenService;
 
@@ -41,7 +35,6 @@ public class AppUserService implements UserDetailsService {
         return userRepository.findAll();
     }
 
-    // TODO: Propagate the exception to Controller
     public AppUser getUserById(Long id) {
         return userRepository.findById(id)
                 .orElseThrow(() -> new UserIdNotFoundException(id));
@@ -52,20 +45,12 @@ public class AppUserService implements UserDetailsService {
                 .orElseThrow(() -> new UserEmailNotFoundException(email));
     }
 
-    // POSSIBLY REDUNDANT
-    // public String getEmail(String username) {
-    // return userRepository.findEmailByUsername(username);
-    // }
-
-    // public void deleteUser(String email) {
-    // userRepository.deleteByEmail(email);
-    // }
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         return userRepository.findByUsername(username)
                 .orElseThrow(() -> new UsernameNotFoundException(
-                    String.format("Username: %s not found", username)));
+                        String.format("Username: %s not found", username)));
     }
 
     /*
@@ -88,11 +73,11 @@ public class AppUserService implements UserDetailsService {
 
         // If email is taken, throw exception
         if (userRepository.findByEmailIgnoreCase(email).isPresent()) {
-            throw new UserEmailTakenException(email);
+            throw new UserEmailTakenException();
         }
         // If username is taken, throw exception
         if (userRepository.findByUsername(username).isPresent()) {
-            throw new UsernameTakenException(user);
+            throw new UsernameTakenException();
         }
 
         // Encrypt and set password
@@ -103,10 +88,7 @@ public class AppUserService implements UserDetailsService {
         userRepository.save(user);
 
         // Create a confirmationToken object to match to user
-        ConfirmationToken confirmationToken = new ConfirmationToken(
-                ZonedDateTime.now(),
-                ZonedDateTime.now().plusMinutes(15),
-                user);
+        ConfirmationToken confirmationToken = new ConfirmationToken(user);
 
         // Save token to database
         tokenService.saveConfirmationToken(confirmationToken);
@@ -121,32 +103,27 @@ public class AppUserService implements UserDetailsService {
         String username = user.getUsername();
         String password = user.getPassword();
 
-        // If username does not exist, throw UsernameNotFoundException
+        // If username does not exist
         Optional<AppUser> userRecord = userRepository.findByUsername(username);
         if (userRecord.isEmpty()) {
-            throw new UsernameInvalidException();
+            throw new InvalidCredentialsException();
         }
 
-        // If password is not matching, throw BadCredentialsException
+        // If password is not matching
         if (!bCryptPasswordEncoder.matches(password, userRecord.get().getPassword())) {
-            throw new InvalidPasswordException();
+            throw new InvalidCredentialsException();
         }
 
         // Create JWT token
         UserDetails userDetails = loadUserByUsername(username);
-        Algorithm algorithm = Algorithm.HMAC256("secret".getBytes());
-        String accessToken = JWT.create()
-                            .withSubject(username)
-                            .withExpiresAt(new Date(System.currentTimeMillis() + 30 * 60 * 1000))
-                            .withIssuer("localhost:8080/api/v1/login")
-                            .withClaim("roles", userDetails.getAuthorities().stream().map(GrantedAuthority::getAuthority).collect(Collectors.toList()))
-                            .sign(algorithm);
+        String accessToken = JwtUtil.createJWT(userDetails);
 
         return new ResponseEntity<>(new JwtDTO(accessToken), HttpStatus.OK);
     }
 
     /*
      * Finds user by email, and updates password
+     * For reseting of password
      */
     public int updateUserPassword(String email, String password) {
         password = bCryptPasswordEncoder.encode(password);
@@ -161,13 +138,19 @@ public class AppUserService implements UserDetailsService {
     public String forgetUserPassword(AppUser user) {
 
         // Creates a confirmation token
-        ConfirmationToken confirmationToken = new ConfirmationToken(
-                ZonedDateTime.now(),
-                ZonedDateTime.now().plusMinutes(15),
-                user);
+        ConfirmationToken confirmationToken = new ConfirmationToken(user);
 
         // Saves confirmation token to database
         tokenService.saveConfirmationToken(confirmationToken);
         return confirmationToken.getToken();
+    }
+
+
+    /*
+     * Check if a username already exists
+     * Used for real-time validation for front-end form
+     */
+    public boolean usernameExists(String username) {
+        return userRepository.findByUsername(username).isPresent();
     }
 }

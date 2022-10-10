@@ -44,7 +44,6 @@ public class AppUser implements UserDetails {
     @Size(min = 5, max = 50)
     private String password;
 
-    // TODO: Implement the roles for the users (for authorization)
     @NotNull
     private String authorities;
 
@@ -54,7 +53,14 @@ public class AppUser implements UserDetails {
         this.email = email;
         this.username = username;
         this.password = password;
-        authorities = "ROLE_ADMIN"; // FOR NOW: Default is USER
+        authorities = "ROLE_ADMIN"; // FOR NOW: Default is ADMIN
+    }
+
+    public AppUser(String email, String username, String password, String authorities) {
+        this.email = email;
+        this.username = username;
+        this.password = password;
+        this.authorities = authorities;
     }
 
     @Override

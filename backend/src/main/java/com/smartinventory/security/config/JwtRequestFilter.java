@@ -1,9 +1,6 @@
 package com.smartinventory.security.config;
 
-import static java.util.Arrays.stream;
-
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.Collection;
 
 import javax.servlet.FilterChain;
@@ -17,11 +14,6 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
-import com.auth0.jwt.JWT;
-import com.auth0.jwt.JWTVerifier;
-import com.auth0.jwt.algorithms.Algorithm;
-import com.auth0.jwt.interfaces.DecodedJWT;
-
 @Component
 public class JwtRequestFilter extends OncePerRequestFilter {
 
@@ -31,6 +23,7 @@ public class JwtRequestFilter extends OncePerRequestFilter {
         
         // No need to authorize if user is doing these
         if (request.getServletPath().equals("/api/v1/login") ||
+            request.getServletPath().equals("/api/v1/users/check-username") ||
             request.getServletPath().startsWith("/api/v1/registration") ||
             request.getServletPath().startsWith("/api/v1/forget-password")) {
             filterChain.doFilter(request, response);
@@ -49,17 +42,8 @@ public class JwtRequestFilter extends OncePerRequestFilter {
         try {
 
             String token = authorizationHeader.substring("Bearer ".length()); // Remove "Bearer "
-            Algorithm algorithm = Algorithm.HMAC256("secret".getBytes());
-            JWTVerifier verifier = JWT.require(algorithm).build();
-
-            // Break down JWT into username and authorities of the user
-            DecodedJWT decodedJWT = verifier.verify(token);
-            String username = decodedJWT.getSubject();
-            String[] roles = decodedJWT.getClaim("roles").asArray(String.class);
-            Collection<SimpleGrantedAuthority> authorities = new ArrayList<>();
-            stream(roles).forEach(role -> {
-                authorities.add(new SimpleGrantedAuthority(role));
-            });
+            String username = JwtUtil.getUsername(token);
+            Collection<SimpleGrantedAuthority> authorities = JwtUtil.getAuthorities(token);
 
             // Tell spring boot how to make use of above to authorize
             UsernamePasswordAuthenticationToken authenticationToken = 
@@ -70,7 +54,6 @@ public class JwtRequestFilter extends OncePerRequestFilter {
             filterChain.doFilter(request, response);
 
         } catch (Exception e) {
-            System.out.println(String.format("Error logging in: ", e.getMessage()));
             response.setHeader("Error: ", e.getMessage());
             response.sendError(403, "Invalid token"); // FORBIDDEN
         }
