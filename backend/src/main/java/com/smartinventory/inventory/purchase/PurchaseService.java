@@ -4,6 +4,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
+import com.smartinventory.exceptions.inventory.FoodNotFoundException;
 import com.smartinventory.inventory.food.Food;
 import com.smartinventory.inventory.food.FoodRepository;
 import com.smartinventory.inventory.food.FoodService;
@@ -45,8 +46,8 @@ public class PurchaseService {
         //Finding the food from the purchase
         Food food = purchase.getFood();
 
-        if (foodRepo.findById(food.getId()).isEmpty()) {
-            return null;
+        if (foodRepo.findByFoodName(food.getFoodName()).isEmpty()) {
+            throw new FoodNotFoundException(food.getFoodName());
         }
         Double newQuantity = food.getCurrentQuantity() + purchase.getAmountBought();
         foodService.updateCurrentQuantity(food.getId(), newQuantity);
