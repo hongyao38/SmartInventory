@@ -1,6 +1,7 @@
 package com.smartinventory.inventory.food;
 
 import java.util.List;
+import java.util.Optional;
 
 import javax.validation.Valid;
 
@@ -29,6 +30,11 @@ public class FoodController {
     @GetMapping("/food")
     public List<Food> getAllFood(){
         return foodService.listFood();
+    }
+
+    @GetMapping("/food/{foodId}")
+    public Food getFood(@PathVariable Long foodId, @Valid @RequestBody FoodDTO foodRequest){
+        return foodService.getFood(foodRequest.getFoodName());
     }
 
     @ResponseStatus(HttpStatus.CREATED)

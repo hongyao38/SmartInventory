@@ -85,11 +85,17 @@ Content-Type: application/json
 
 ### GET FOOD 
 GET http://localhost:8080/api/v1/food/1
-Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ4aWFvZGlkaSIsInJvbGVzIjpbIlJPTEVfQURNSU4iXSwiaXNzIjoibG9jYWxob3N0OjgwODAvYXBpL3YxL2xvZ2luIiwiZXhwIjoxNjY1NDU3MDgyfQ.ac7Xji51XiRifO--rm5aeN9f5soSJXmwrRRuY4kpY0o
+Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ4aWFvZGlkaSIsInJvbGVzIjpbIlJPTEVfQURNSU4iXSwiaXNzIjoibG9jYWxob3N0OjgwODAvYXBpL3YxL2xvZ2luIiwiZXhwIjoxNjY1NDU3ODY2fQ.obEA1yUGDmllNdkXqEWWTqrAnwJvm-MF3ePczE_N2zk
+Accept: application/json
+Content-Type: application/json
+
+{
+    "foodName": "Milk"
+}
 
 ### NEW FOOD
 POST http://localhost:8080/api/v1/food
-Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ4aWFvZGlkaSIsInJvbGVzIjpbIlJPTEVfQURNSU4iXSwiaXNzIjoibG9jYWxob3N0OjgwODAvYXBpL3YxL2xvZ2luIiwiZXhwIjoxNjY1NDU3MDgyfQ.ac7Xji51XiRifO--rm5aeN9f5soSJXmwrRRuY4kpY0o
+Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ4aWFvZGlkaSIsInJvbGVzIjpbIlJPTEVfQURNSU4iXSwiaXNzIjoibG9jYWxob3N0OjgwODAvYXBpL3YxL2xvZ2luIiwiZXhwIjoxNjY1NDU3ODY2fQ.obEA1yUGDmllNdkXqEWWTqrAnwJvm-MF3ePczE_N2zk
 Content-Type: application/json
 
 {
