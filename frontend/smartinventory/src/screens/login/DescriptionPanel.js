@@ -1,8 +1,9 @@
 import { Carousel } from "react-responsive-carousel";
+// import "../style/LogInScreen.css";
 
 function DescriptionPanel() {
     return (
-        <div className="d-flex flex-column justify-content-center gradient-custom-2 h-100 mb-4">
+        <div className="d-flex flex-column justify-content-center login-gradient-custom h-100 mb-4">
             <div className="text-white px-3 py-4 p-md-5 mx-md-4">
                 <Carousel
                     className="carousel"

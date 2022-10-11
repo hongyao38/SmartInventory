@@ -1,3 +1,17 @@
+.registration-gradient-custom {
+    /* fallback for old browsers */
+    background: #fccb90;
+
+    /* Chrome 10-25, Safari 5.1-6 */
+    background: #FFE699;
+    background-image: url("/public/carousel_registration.gif");
+    background-size: cover;
+    background-position-x: -250px;
+    background-position-y: 0px;
+
+    border-radius: 20px;
+}
+
 
 .email-error {
     color: #ff6961;

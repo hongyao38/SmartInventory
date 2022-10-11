@@ -1,9 +1,21 @@
-
-
 .login-error {
     margin-top: -33px;
     margin-bottom: 9px;
     color: #ff6961;
+}
+
+.login-gradient-custom {
+    /* fallback for old browsers */
+    background: #fccb90;
+
+    /* Chrome 10-25, Safari 5.1-6 */
+    background: #B09782;
+    background-image: url("/public/carousel_login.gif");
+    background-size: cover;
+    background-position-x: -250px;
+    background-position-y: 0px;
+
+    border-radius: 20px;
 }
 
 @media (min-width: 768px) {

@@ -203,7 +203,7 @@ function RegistrationScreen() {
             <MDBContainer className="my-5 gradient-form">
                 <MDBRow>
                     <MDBCol col="6" className="mb-5">
-                        <div className="d-flex flex-column justify-content-center gradient-custom-3 h-100 mb-4">
+                        <div className="d-flex flex-column justify-content-center registration-gradient-custom h-100 mb-4">
                             <div className="text-grey px-3 py-4 p-md-5 mx-md-4">
                                 <h4 class="mb-1 ml-2 carousel-text">
                                     <strong>We are more than just a company</strong>
