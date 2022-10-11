@@ -16,7 +16,7 @@ import {
 } from "mdb-react-ui-kit";
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import "mdb-react-ui-kit/dist/css/mdb.min.css";
+// import "mdb-react-ui-kit/dist/css/mdb.min.css";
 import "../style/ForgetPasswordScreen.css";
 import { forgetPassword } from "../../services/authService";
 
@@ -25,6 +25,7 @@ import { forgetPassword } from "../../services/authService";
 function ForgetPasswordScreen() {
     // setEmail: the email to be sent to
     const [data, setEmail] = useState({ email: "" });
+    const [error, setError] = useState("");
     const [failedModal, setFailedModal] = useState(false);
     const [successModal, setSuccessModal] = useState(false);
     const [loadingButton, setLoadingButton] = useState(false);
@@ -38,7 +39,13 @@ function ForgetPasswordScreen() {
     };
 
     const sendEmail = async (e) => {
+        if (!data.email) {
+            setError("Please enter your email address");
+            return;
+        }
+
         e.preventDefault();
+        setError("");
         setLoadingButton(true);
         setdisabledButton(true);
         console.log(data.email);
@@ -76,9 +83,11 @@ function ForgetPasswordScreen() {
     };
 
     return (
-        <>
+        <div>
+            <img class="bg-img" src="/forget-password-page.gif" alt="background"></img>
+            {/* TODO: REMOVE redundant MDB tags */}
             <MDBContainer className="mb-8"></MDBContainer>
-            <MDBContainer className="pt-6 gradient-form">
+            <MDBContainer className="pt-6">
                 <MDBRow>
                     <MDBCol col="6" className="mb-5">
                         <div className="d-flex flex-column mt-5 mb-">
@@ -116,6 +125,7 @@ function ForgetPasswordScreen() {
                                     // ) : null}
                                 />
                             </div>
+                            {error ? <div class="email-fail-error">{error}</div> : ""}
 
                             <div className="d-grid gap-2 col-5 mx-auto mb-4 mt-3 send-button">
                                 <button
@@ -178,12 +188,12 @@ function ForgetPasswordScreen() {
                         </MDBModalBody>
 
                         <MDBModalFooter>
-                            <MDBBtn
+                            <button class="email-fail-close-button"
                                 color="secondary"
                                 onClick={toggleFailedModal}
                             >
                                 Close
-                            </MDBBtn>
+                            </button>
                         </MDBModalFooter>
                     </MDBModalContent>
                 </MDBModalDialog>
@@ -223,7 +233,7 @@ function ForgetPasswordScreen() {
                     </MDBModalContent>
                 </MDBModalDialog>
             </MDBModal>
-        </>
+        </div>
     );
 }
 

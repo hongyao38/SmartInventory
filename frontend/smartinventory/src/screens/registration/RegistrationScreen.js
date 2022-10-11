@@ -205,11 +205,11 @@ function RegistrationScreen() {
                     <MDBCol col="6" className="mb-5">
                         <div className="d-flex flex-column justify-content-center gradient-custom-3 h-100 mb-4">
                             <div className="text-grey px-3 py-4 p-md-5 mx-md-4">
-                                <h4 class="mb-1 ml-2">
-                                    We are more than just a company
+                                <h4 class="mb-1 ml-2 carousel-text">
+                                    <strong>We are more than just a company</strong>
                                 </h4>
-                                <p class="small mb-12">
-                                    We aim to revolutionise inventory management systems!
+                                <p class="small mb-12 carousel-text">
+                                    We aim to revolutionize inventory management!
                                 </p>
                             </div>
                         </div>

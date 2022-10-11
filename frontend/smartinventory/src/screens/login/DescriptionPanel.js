@@ -12,36 +12,29 @@ function DescriptionPanel() {
                     showArrows={false}
                     showThumbs={false}
                     showIndicators={false}
-                    interval={5000}
+                    interval={2000}
                 >
                     <div>
-                        
-                             
-                        
-                        <p class="small mb-0">
-                            1. Lorem ipsum dolor sit amet, consectetur
-                            adipisicing elit, sed do eiusmod tempor incididunt
-                            ut labore et dolore magna aliqua. Ut enim ad minim
-                            veniam, quis nostrud exercitation ullamco laboris
-                            nisi ut aliquip ex ea commodo consequat.
+                        <p class="small mb-0 carousel-text-login">
+                            Food wastage is a major source of greenhouse gases, accounting 
+                            for around 8% of global greenhouse gas emissions In Singapore, 
+                            food wastage makes up more than 10% of the total waste generated 
+                            in Singapore.
                         </p>
                     </div>
                     <div>
-                        <p class="small mb-0">
-                            2. Lorem ipsum dolor sit amet, consectetur
-                            adipisicing elit, sed do eiusmod tempor incididunt
-                            ut labore et dolore magna aliqua. Ut enim ad minim
-                            veniam, quis nostrud exercitation ullamco laboris
-                            nisi ut aliquip ex ea commodo consequat.
+                        <p class="small mb-0  carousel-text-login">
+                            Food wastage exacerbates the worsening climate change 
+                            crisis due to its significant carbon footprint.
+                            As such, it is important, more now than ever, to reduce 
+                            food waste. 
                         </p>
                     </div>
                     <div>
-                        <p class="small mb-0">
-                            3. Lorem ipsum dolor sit amet, consectetur
-                            adipisicing elit, sed do eiusmod tempor incididunt
-                            ut labore et dolore magna aliqua. Ut enim ad minim
-                            veniam, quis nostrud exercitation ullamco laboris
-                            nisi ut aliquip ex ea commodo consequat.
+                        <p class="small mb-0  carousel-text-login">
+                            Our solution is a centralised platform for consumers 
+                            and supermarkets to carry out inventory 
+                            tracking to allow better decision making. 
                         </p>
                     </div>
                 </Carousel>

@@ -1,10 +1,4 @@
-.gradient-custom-2 {
-    /* fallback for old browsers */
-    background: #fccb90;
 
-    /* Chrome 10-25, Safari 5.1-6 */
-    background: #205be4;
-}
 
 .login-error {
     margin-top: -33px;
@@ -42,6 +36,11 @@
   position:absolute;
   bottom: 100px;
 } */
+
+.carousel-text {
+    font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+    font-size: larger;
+}
 
 .invisible {
     visibility: hidden !important;
