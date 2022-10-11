@@ -84,11 +84,12 @@ Content-Type: application/json
 }
 
 ### GET FOOD 
-GET http://localhost:8080/api/v1/food
+GET http://localhost:8080/api/v1/food/1
+Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ4aWFvZGlkaSIsInJvbGVzIjpbIlJPTEVfQURNSU4iXSwiaXNzIjoibG9jYWxob3N0OjgwODAvYXBpL3YxL2xvZ2luIiwiZXhwIjoxNjY1NDU3MDgyfQ.ac7Xji51XiRifO--rm5aeN9f5soSJXmwrRRuY4kpY0o
 
 ### NEW FOOD
 POST http://localhost:8080/api/v1/food
-Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ4aWFvZGlkaSIsInJvbGVzIjpbIlJPTEVfQURNSU4iXSwiaXNzIjoibG9jYWxob3N0OjgwODAvYXBpL3YxL2xvZ2luIiwiZXhwIjoxNjY1Mzg1NTc0fQ.fkZZIkjsJ1zZ2i87dsm1e80ErP5LcUb5LCAd26I6XHE
+Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ4aWFvZGlkaSIsInJvbGVzIjpbIlJPTEVfQURNSU4iXSwiaXNzIjoibG9jYWxob3N0OjgwODAvYXBpL3YxL2xvZ2luIiwiZXhwIjoxNjY1NDU3MDgyfQ.ac7Xji51XiRifO--rm5aeN9f5soSJXmwrRRuY4kpY0o
 Content-Type: application/json
 
 {
@@ -99,7 +100,7 @@ Content-Type: application/json
 
 ### UPDATE FOOD
 PUT http://localhost:8080/api/v1/food/1
-Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ4aWFvZGlkaSIsInJvbGVzIjpbIlJPTEVfQURNSU4iXSwiaXNzIjoibG9jYWxob3N0OjgwODAvYXBpL3YxL2xvZ2luIiwiZXhwIjoxNjY1MTExMzU3fQ.pYszOHmQAFvbkPl_0jPWEIdNEWNe3BpMcxzrbcXJoME
+Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ4aWFvZGlkaSIsInJvbGVzIjpbIlJPTEVfQURNSU4iXSwiaXNzIjoibG9jYWxob3N0OjgwODAvYXBpL3YxL2xvZ2luIiwiZXhwIjoxNjY1NDU3MDgyfQ.ac7Xji51XiRifO--rm5aeN9f5soSJXmwrRRuY4kpY0o
 Content-Type: application/json
 
 {
@@ -110,7 +111,7 @@ Content-Type: application/json
 
 ### DELETE FOOD
 DELETE http://localhost:8080/api/v1/food/1
-Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ4aWFvZGlkaSIsInJvbGVzIjpbIlJPTEVfQURNSU4iXSwiaXNzIjoibG9jYWxob3N0OjgwODAvYXBpL3YxL2xvZ2luIiwiZXhwIjoxNjY1MTExMzU3fQ.pYszOHmQAFvbkPl_0jPWEIdNEWNe3BpMcxzrbcXJoME
+Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ4aWFvZGlkaSIsInJvbGVzIjpbIlJPTEVfQURNSU4iXSwiaXNzIjoibG9jYWxob3N0OjgwODAvYXBpL3YxL2xvZ2luIiwiZXhwIjoxNjY1NDU3MDgyfQ.ac7Xji51XiRifO--rm5aeN9f5soSJXmwrRRuY4kpY0o
 
 ### GET FOOD 
 GET http://localhost:8080/api/v1/food
@@ -170,6 +171,7 @@ Content-Type: application/json
 ### DELETE CONSUMPTION
 DELETE http://localhost:8080/api/v1/consumptions/1
 Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ4aWFvZGlkaSIsInJvbGVzIjpbIlJPTEVfQURNSU4iXSwiaXNzIjoibG9jYWxob3N0OjgwODAvYXBpL3YxL2xvZ2luIiwiZXhwIjoxNjY1MTExMzU3fQ.pYszOHmQAFvbkPl_0jPWEIdNEWNe3BpMcxzrbcXJoME
+
 ### CHECK USERNAME EXISTS
 POST http://localhost:8080/api/v1/users/check-username
 Content-Type: application/json

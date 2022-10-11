@@ -57,7 +57,13 @@ public class SecurityConfig {
 
             // Authentication NEEDED
             .antMatchers(HttpMethod.GET, "/api/v1/users").hasRole("ADMIN")
+
+            //authentication for food
             .antMatchers(HttpMethod.POST, "/api/v1/food").hasRole("ADMIN")
+            .antMatchers(HttpMethod.GET, "/api/v1/food").hasRole("ADMIN")
+            .antMatchers(HttpMethod.GET, "/api/v1/food/*").hasRole("ADMIN")
+            .antMatchers(HttpMethod.PUT, "/api/v1/food/*").hasRole("ADMIN")
+            .antMatchers(HttpMethod.DELETE, "/api/v1/food/*").hasRole("ADMIN")
             
             .and()
         .authenticationProvider(authenticationProvider())
