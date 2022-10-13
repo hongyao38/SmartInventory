@@ -1,16 +1,8 @@
-import {
-    MDBCol,
-    MDBContainer,
-    MDBRow,
-    MDBTypography,
-    MDBBtn,
-    MDBIcon,
-} from "mdb-react-ui-kit";
-import "mdb-react-ui-kit/dist/css/mdb.min.css";
+// import "mdb-react-ui-kit/dist/css/mdb.min.css";
 import React from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { confirmEmail } from "../../services/authService";
-import "../style/LogInScreen.css";
+import "../style/ConfirmEmailScreen.css";
 
 function ConfirmRegistration() {
     const location = useLocation();
@@ -33,45 +25,24 @@ function ConfirmRegistration() {
         navigate("/");
     };
     return (
-        <>
-            <MDBContainer className="mb-8"></MDBContainer>
+        <div class="background">
+            <div class="email-confirmed-container">
+                <div class="email-confirmed-title">
+                    <h2>
+                        Email has been confirmed
+                    </h2>
+                </div>
 
-            <MDBContainer className="my-6 gradient-form">
-                <MDBRow>
-                    <MDBCol className="mb-5">
-                        <div className="d-flex flex-column mt-4 mb-3 pl-2">
-                            <div className="text-center">
-                                <img
-                                    src="/email2.png"
-                                    style={{ width: "150px" }}
-                                    alt="icon"
-                                />
-                            </div>
-                        </div>
-                        <MDBIcon fas icon="check" />
-                        <MDBTypography tag="strong" className="pb-3">
-                            <div class="text-center">
-                                <h2 class="fw-bold">
-                                    Email has been confirmed
-                                </h2>
-                            </div>
-
-                            <div className="d-flex flex-row align-items-center justify-content-center pb-4 mb-4">
-                                <i class="fas fa-arrow-left"></i>
-                                <MDBBtn
-                                    // outline
-                                    // className="text-dark text-muted"
-                                    // color="light"
-                                    onClick={() => handleBackToLogin()}
-                                >
-                                    Back To Login
-                                </MDBBtn>
-                            </div>
-                        </MDBTypography>
-                    </MDBCol>
-                </MDBRow>
-            </MDBContainer>
-        </>
+                <button class="confirm-button"
+                    // outline
+                    // className="text-dark text-muted"
+                    // color="light"
+                    onClick={() => handleBackToLogin()}
+                >
+                    Back To Login
+                </button>
+            </div>
+        </div>
     );
 }
 

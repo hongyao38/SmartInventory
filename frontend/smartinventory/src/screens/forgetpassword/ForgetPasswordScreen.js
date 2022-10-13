@@ -83,94 +83,78 @@ function ForgetPasswordScreen() {
     };
 
     return (
-        <div>
-            <img class="bg-img" src="/forget-password-page.gif" alt="background"></img>
+        <div class="forget-password-page-container">
+            {/* <img class="bg-img" src="/forget-password-page.gif" alt="background"></img> */}
             {/* TODO: REMOVE redundant MDB tags */}
-            <MDBContainer className="mb-8"></MDBContainer>
-            <MDBContainer className="pt-6">
-                <MDBRow>
-                    <MDBCol col="6" className="mb-5">
-                        <div className="d-flex flex-column mt-5 mb-">
-                            <div className="text-center">
-                                <img
-                                    src="resetpassword.png"
-                                    style={{ width: "55px" }}
-                                    alt="logo"
-                                />
-                            </div>
-                        </div>
+                <div class="forget-password-form">
+                    {/* <img
+                        src="resetpassword.png"
+                        style={{ width: "55px" }}
+                        alt="logo"
+                    /> */}
 
-                        <MDBTypography tag="strong" className="pb-3">
-                            <div class="text-center">
-                                <h2 class="fw-bold">Forgot Password?</h2>
-                                <p class="fw-normal">
-                                    No worries, we'll send you reset
-                                    instructions.
-                                </p>
-                            </div>
+                    <div class="form-title">
+                        <h2><strong>Forgot Password?</strong></h2>
+                        <p>
+                            No worries, we'll send you reset
+                            instructions.
+                        </p>
+                    </div>
 
-                            <div className="d-flex flex-row align-items-center justify-content-center pb-4 mb-4 email-field">
-                                <MDBInput
-                                    wrapperClass="w-25 mb-4b"
-                                    label="Email"
-                                    id="form1"
-                                    type="text"
-                                    value={data.email}
-                                    name="email"
-                                    required
-                                    onChange={onChange}
-                                    //TO ASK: error when using this
-                                    // {email.check_textInputChange ? (
-                                    //     <MDBIcon fas icon="check" />
-                                    // ) : null}
-                                />
-                            </div>
-                            {error ? <div class="email-fail-error">{error}</div> : ""}
+                    <div class="email-input-field">
+                        <MDBInput
+                            label="Email"
+                            id="form1"
+                            type="text"
+                            value={data.email}
+                            name="email"
+                            required
+                            onChange={onChange}
+                        />
+                    </div>
+                    {error ? <div class="email-fail-error">{error}</div> : ""}
 
-                            <div className="d-grid gap-2 col-5 mx-auto mb-4 mt-3 send-button">
-                                <button
-                                    class="send-email-button"
-                                    // className="text-center"
-                                    id="send-email-btn"
-                                    onClick={
-                                        (e) => sendEmail(e)
-                                        // handleResendEmail();
-                                    }
-                                    disabled={disabledButton}
-                                >
-                                    <div className={"d-flex justify-content-center"}>
-                                        <div className={loadingButton ? " visible" : " invisible"}>
-                                            <MDBSpinner
-                                                size="sm"
-                                                role="status"
-                                                tag="span"
-                                                className={""}
-                                            />
-                                        </div>
-                                        <div class="send-email-text">
-                                            Send email
-                                        </div>
-                                    </div>
-                                </button>
+                    <div class="send-button">
+                        <button
+                            class="send-email-button"
+                            // className="text-center"
+                            id="send-email-btn"
+                            onClick={
+                                (e) => sendEmail(e)
+                                // handleResendEmail();
+                            }
+                            disabled={disabledButton}
+                        >
+                            <div class="send-email-label">
+                                <div className={loadingButton ? " visible" : " invisible"}>
+                                    <MDBSpinner
+                                        size="sm"
+                                        role="status"
+                                        tag="span"
+                                        className={""}
+                                    />
+                                </div>
+                                <div class="send-email-text">
+                                    Send email
+                                </div>
                             </div>
+                        </button>
+                    </div>
 
-                            <div className="d-flex flex-row align-items-center justify-content-center pb-4 mb-4 login-button">
-                                {/* to ask: arrow never appear :( */}
-                                <i class="fas fa-arrow-left"></i>
+                    <div class="back-to-home-button">
+                        {/* to ask: arrow never appear :( */}
+                        <i class="fas fa-arrow-left"></i>
 
-                                <MDBBtn
-                                    outline
-                                    className="text-dark text-muted"
-                                    color="light"
-                                    onClick={() => handleLogIn()}
-                                >
-                                    Back to log in
-                                </MDBBtn>
-                            </div>
-                        </MDBTypography>
-                    </MDBCol>
-                </MDBRow>
-            </MDBContainer>
+                        <MDBBtn
+                            outline
+                            className="text-dark text-muted"
+                            color="light"
+                            onClick={() => handleLogIn()}
+                        >
+                            Back to log in
+                        </MDBBtn>
+                    </div>
+                </div>
 
             <MDBModal show={failedModal} setShow={setFailedModal} tabIndex="-1">
                 <MDBModalDialog>
