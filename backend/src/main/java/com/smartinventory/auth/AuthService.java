@@ -8,9 +8,9 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.smartinventory.appuser.AppUser;
 import com.smartinventory.appuser.AppUserService;
+import com.smartinventory.auth.dto.CredDTO;
 import com.smartinventory.auth.dto.ForgetPasswordDTO;
 import com.smartinventory.auth.dto.JwtDTO;
-import com.smartinventory.auth.dto.CredDTO;
 import com.smartinventory.auth.dto.RegistrationDTO;
 import com.smartinventory.auth.dto.ResetPasswordDTO;
 import com.smartinventory.email.EmailSenderService;
@@ -46,7 +46,7 @@ public class AuthService {
 
         // Register user and get token
         String token = userService.registerUser(
-                new AppUser(reqEmail, reqUsername, request.getPassword()));
+            new AppUser(reqEmail, reqUsername, request.getPassword()));
 
         // Form email body
         String confirmationLink = FRONTEND_BASE_URL + "/registration/confirm?token=" + token;
@@ -54,7 +54,7 @@ public class AuthService {
         emailBody = emailBody.replace("INSERT CONFIRMATION LINK", confirmationLink);
 
         // Send email
-        // emailSender.send(reqEmail, emailBody, "SmartInventory: Confirm Your Email");
+        emailSender.send(reqEmail, emailBody, "SmartInventory: Confirm Your Email");
         return token;
     }
 
@@ -89,11 +89,11 @@ public class AuthService {
     public ResponseEntity<JwtDTO> login(CredDTO request) {
         
         // Get username and password (and encode) from request DTO
-        String username = request.getUsername();
+        String usernameOrEmail = request.getUsername();
         String encodedPassword = request.getPassword();
 
         // Package DTO parameters into User object to login in userService
-        return userService.loginUser(new AppUser(null, username, encodedPassword));
+        return userService.loginUser(usernameOrEmail, encodedPassword);
     }
 
     /*

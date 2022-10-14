@@ -12,10 +12,11 @@ import {
     MDBModalTitle,
     MDBModalBody,
     MDBModalFooter,
+    MDBSpinner,
 } from "mdb-react-ui-kit";
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import "mdb-react-ui-kit/dist/css/mdb.min.css";
+// import "mdb-react-ui-kit/dist/css/mdb.min.css";
 import "../style/ForgetPasswordScreen.css";
 import { forgetPassword } from "../../services/authService";
 
@@ -24,8 +25,11 @@ import { forgetPassword } from "../../services/authService";
 function ForgetPasswordScreen() {
     // setEmail: the email to be sent to
     const [data, setEmail] = useState({ email: "" });
+    const [error, setError] = useState("");
     const [failedModal, setFailedModal] = useState(false);
     const [successModal, setSuccessModal] = useState(false);
+    const [loadingButton, setLoadingButton] = useState(false);
+    const [disabledButton, setdisabledButton] = useState(false);
 
     const toggleFailedModal = () => setFailedModal(!failedModal);
     const toggleSuccessModal = () => setSuccessModal(!successModal);
@@ -35,7 +39,15 @@ function ForgetPasswordScreen() {
     };
 
     const sendEmail = async (e) => {
+        if (!data.email) {
+            setError("Please enter your email address");
+            return;
+        }
+
         e.preventDefault();
+        setError("");
+        setLoadingButton(true);
+        setdisabledButton(true);
         console.log(data.email);
         try {
             const res = await forgetPassword(data.email);
@@ -43,16 +55,22 @@ function ForgetPasswordScreen() {
             if (res) {
                 // console.log("success clause");
                 toggleSuccessModal();
+                setLoadingButton(false);
+                setdisabledButton(false);
                 // navigate("/resendEmailScreen");
             } else {
                 //handle send email failed, either no registered email found
                 // console.log("fail clause");
 
                 toggleFailedModal();
+                setLoadingButton(false);
+                setdisabledButton(false);
             }
         } catch (error) {
             console.log("fail clause");
             toggleFailedModal();
+            setLoadingButton(false);
+            setdisabledButton(false);
 
             console.log(error);
         }
@@ -65,79 +83,79 @@ function ForgetPasswordScreen() {
     };
 
     return (
-        <>
-        <MDBContainer className="mb-8"></MDBContainer>
-            <MDBContainer className="pt-6 gradient-form">
-                <MDBRow>
-                    <MDBCol col="6" className="mb-5">
-                        <div className="d-flex flex-column mt-5 mb-">
-                            <div className="text-center">
-                                <img
-                                    src="resetpassword.png"
-                                    style={{ width: "55px" }}
-                                    alt="logo"
-                                />
-                            </div>
-                        </div>
+        <div class="forget-password-page-container">
+            {/* <img class="bg-img" src="/forget-password-page.gif" alt="background"></img> */}
+            {/* TODO: REMOVE redundant MDB tags */}
+                <div class="forget-password-form">
+                    {/* <img
+                        src="resetpassword.png"
+                        style={{ width: "55px" }}
+                        alt="logo"
+                    /> */}
 
-                        <MDBTypography tag="strong" className="pb-3">
-                            <div class="text-center">
-                                <h2 class="fw-bold">Forgot Password?</h2>
-                                <p class="fw-normal">
-                                    No worries, we'll send you reset
-                                    instructions.
-                                </p>
-                            </div>
+                    <div class="form-title">
+                        <h2><strong>Forgot Password?</strong></h2>
+                        <p>
+                            No worries, we'll send you reset
+                            instructions.
+                        </p>
+                    </div>
 
-                            <div className="d-flex flex-row align-items-center justify-content-center pb-4 mb-4 email-field">
-                                <MDBInput
-                                    wrapperClass="w-25 mb-4b"
-                                    label="Email"
-                                    id="form1"
-                                    type="text"
-                                    value={data.email}
-                                    name="email"
-                                    required
-                                    onChange={onChange}
-                                    //TO ASK: error when using this
-                                    // {email.check_textInputChange ? (
-                                    //     <MDBIcon fas icon="check" />
-                                    // ) : null}
-                                />
-                            </div>
+                    <div class="email-input-field">
+                        <MDBInput
+                            label="Email"
+                            id="form1"
+                            type="text"
+                            value={data.email}
+                            name="email"
+                            required
+                            onChange={onChange}
+                        />
+                    </div>
+                    {error ? <div class="email-fail-error">{error}</div> : ""}
 
-                            <div className="d-grid gap-2 col-5 mx-auto mb-4 mt-3 send-button">
-                                <MDBBtn
-                                    className="text-center"
-                                    id="send-email-btn"
-                                    onClick={
-                                        (e) => sendEmail(e)
-                                        // handleResendEmail();
-                                    }
-                                >
+                    <div class="send-button">
+                        <button
+                            class="send-email-button"
+                            // className="text-center"
+                            id="send-email-btn"
+                            onClick={
+                                (e) => sendEmail(e)
+                                // handleResendEmail();
+                            }
+                            disabled={disabledButton}
+                        >
+                            <div class="send-email-label">
+                                <div className={loadingButton ? " visible" : " invisible"}>
+                                    <MDBSpinner
+                                        size="sm"
+                                        role="status"
+                                        tag="span"
+                                        className={""}
+                                    />
+                                </div>
+                                <div class="send-email-text">
                                     Send email
-                                </MDBBtn>
+                                </div>
                             </div>
+                        </button>
+                    </div>
 
-                            <div className="d-flex flex-row align-items-center justify-content-center pb-4 mb-4 login-button">
-                                {/* to ask: arrow never appear :( */}
-                                <i class="fas fa-arrow-left"></i>
+                    <div class="back-to-home-button">
+                        {/* to ask: arrow never appear :( */}
+                        <i class="fas fa-arrow-left"></i>
 
-                                <MDBBtn
-                                    outline
-                                    className="text-dark text-muted"
-                                    color="light"
-                                    
-                                    onClick={() => handleLogIn()}
-                                >
-                                    Back to log in
-                                </MDBBtn>
-                            </div>
-                        </MDBTypography>
-                    </MDBCol>
-                </MDBRow>
-            </MDBContainer>
-            
+                        <MDBBtn
+                            outline
+                            className="text-dark text-muted"
+                            color="light"
+                            onClick={() => handleLogIn()}
+                        >
+                            Back to log in
+                        </MDBBtn>
+                    </div>
+                </div>
+
             <MDBModal show={failedModal} setShow={setFailedModal} tabIndex="-1">
                 <MDBModalDialog>
                     <MDBModalContent>
@@ -154,12 +172,12 @@ function ForgetPasswordScreen() {
                         </MDBModalBody>
 
                         <MDBModalFooter>
-                            <MDBBtn
+                            <button class="email-fail-close-button"
                                 color="secondary"
                                 onClick={toggleFailedModal}
                             >
                                 Close
-                            </MDBBtn>
+                            </button>
                         </MDBModalFooter>
                     </MDBModalContent>
                 </MDBModalDialog>
@@ -188,17 +206,18 @@ function ForgetPasswordScreen() {
                         </MDBModalBody>
 
                         <MDBModalFooter>
-                            <MDBBtn
+                            <button
+                                class="back-popup-button"
                                 color="secondary"
-                                onClick={toggleSuccessModal}
+                                onClick={()=>handleLogIn()}
                             >
-                                Close
-                            </MDBBtn>
+                                Back to login
+                            </button>
                         </MDBModalFooter>
                     </MDBModalContent>
                 </MDBModalDialog>
             </MDBModal>
-        </>
+        </div>
     );
 }
 

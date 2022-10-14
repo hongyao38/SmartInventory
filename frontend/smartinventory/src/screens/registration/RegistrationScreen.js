@@ -1,158 +1,178 @@
 import {
-  MDBBtn,
-  MDBCol,
-  MDBContainer,
-  MDBInput,
-  MDBModal,
-  MDBModalBody,
-  MDBModalContent,
-  MDBModalDialog,
-  MDBModalFooter,
-  MDBModalHeader,
-  MDBModalTitle,
-  MDBRow,
-  MDBValidation,
-  MDBValidationItem
+    MDBBtn,
+    MDBCol,
+    MDBContainer,
+    MDBInput,
+    MDBModal,
+    MDBModalBody,
+    MDBModalContent,
+    MDBModalDialog,
+    MDBModalFooter,
+    MDBModalHeader,
+    MDBModalTitle,
+    MDBRow,
+    MDBValidation,
+    MDBValidationItem,
+    MDBSpinner,
 } from "mdb-react-ui-kit";
 import React, { useEffect, useState } from "react";
 import { register, usernameExists } from "../../services/authService";
+import { useNavigate } from "react-router-dom";
 
-import "mdb-react-ui-kit/dist/css/mdb.min.css";
+// import "mdb-react-ui-kit/dist/css/mdb.min.css";
 import "../style/RegistrationScreen.css";
 
-function debounce(cb, delay = 800) {
-  let timeout;
-
-  return (...args) => {
-    clearTimeout(timeout);
-    timeout = setTimeout(() => {
-      cb(...args)
-    }, delay);
-  }
-}
 
 function RegistrationScreen() {
-  const [data, setData] = useState({
-      email: "",
-      username: "",
-      password: "",
-      confirmpassword: "",
-  });
-  const [username, setDebouncedUsername] = useState("");
+    const [data, setData] = useState({
+        email: "",
+        username: "",
+        password: "",
+        confirmpassword: "",
+    });
+    const [username, setDebouncedUsername] = useState("");
 
-  // Errors
-  const [regError, setRegError] = useState("");
-  const [emailError, setEmailError] = useState("");
-  const [usernameError, setUsernameError] = useState("");
-  const [usernamePass, setUsernamePass] = useState("");
-  const [passwordError, setPasswordError] = useState("");
-  const [confirmError, setConfirmError] = useState("");
+    // Errors
+    const [regError, setRegError] = useState("");
+    const [emailError, setEmailError] = useState("");
+    const [usernameError, setUsernameError] = useState("");
+    const [usernamePass, setUsernamePass] = useState("");
+    const [passwordError, setPasswordError] = useState("");
+    const [confirmError, setConfirmError] = useState("");
 
-  // Setting errors for conditional rendering
-  useEffect(() => {
+    // Email Validation Regex (RFC 5322)
+    const emailRegEx = "([!#-'*+/-9=?A-Z^-~-]+(.[!#-'*+/-9=?A-Z^-~-]+)*|\"([]!#-[^-~ \t]|(\\[\t -~]))+\")@([!#-'*+/-9=?A-Z^-~-]+(.[!#-'*+/-9=?A-Z^-~-]+)*|[[\t -Z^-~]*])";
 
-    // Email field error setting
-    setEmailError("");
-    if (data.email && !data.email.includes("@"))
-      setEmailError("Please enter valid email address");
+    // Spinner & Button variables
+    const [basicModal, setBasicModal] = useState(false);
+    const [loadingButton, setLoadingButton] = useState(false);
+    const [disabledButton, setdisabledButton] = useState(false);
 
-    // Password field error setting
-    setPasswordError("");
-    if (data.password && data.password.length < 8)
-      setPasswordError("Password must be at least 8 characters");
+    // Setting errors for conditional rendering
+    useEffect(() => {
+        // Email field error setting
+        setEmailError("");
+        if (data.email && !data.email.match(emailRegEx))
+            setEmailError("Please enter valid email address");
 
-    // Confirm password field error setting
-    setConfirmError("");
-    if (data.confirmpassword && data.confirmpassword !== data.password)
-      setConfirmError("Passwords need to match");
+        // Password field error setting
+        setPasswordError("");
+        if (data.password && data.password.length < 8)
+            setPasswordError("Password must be at least 8 characters");
 
-  }, [data.email, data.password, data.confirmpassword]);
+        // Confirm password field error setting
+        setConfirmError("");
+        if (data.confirmpassword && data.confirmpassword !== data.password)
+            setConfirmError("Passwords need to match");
+    }, [data.email, data.password, data.confirmpassword]);
 
+    // Split this into a separate useEffect
+    // to not repeatedly send requests
+    useEffect(() => {
+        // Username field error setting
+        setUsernameError("");
+        setUsernamePass("");
+        if (!data.username) return;
 
-  // Split this into a separate useEffect 
-  // to not repeatedly send requests
-  useEffect(() => {
-    // Username field error setting
-    setUsernameError("");
-    if (data.username) {
+        // Check if it is of desired length
+        if (data.username.length < 6) {
+            setUsernameError("Must be at least 6 characters");
+            return;
+        }
 
-      // Check if it is of desired length
-      if (data.username.length < 6) {
-        setUsernameError("must be at least 6 characters");
-        return;
-      }
+        // Send request to backend once
+        // debounced username is the same as data.username
+        if (username !== data.username) return;
+        usernameExists(username).then((exists) => {
+            if (exists) {
+                setUsernameError("Username already taken");
+            } else setUsernamePass("Username available");
+        });
+    }, [data.username, username]);
 
-      // Send request to backend once 
-      // debounced username is the same as data.username
-      if (username !== data.username) return;
+    // Debouncing of username
+    useEffect(() => {
+        const timeout = setTimeout(() => {
+            setDebouncedUsername(data.username);
+        }, 500);
 
-      usernameExists(username).then((exists) => {
-        if (exists) {
-          setUsernamePass("");
-          setUsernameError("Username already taken");
-        } else
-          setUsernamePass("Username available");
-      });
-    }
-  }, [data.username, username]);
+        return () => clearTimeout(timeout);
+    }, [data.username]);
 
-  const [basicModal, setBasicModal] = useState(false);
-  const toggleShow = () => setBasicModal(!basicModal);
+    const toggleShow = () => setBasicModal(!basicModal);
 
-  const updateDebouncedUsername = debounce((e) => {
-    setDebouncedUsername(e?.target?.value);
-  });
-
-  const onChange = (e) => {
-    setData({ ...data, [e.target.name]: e.target.value });
-
-    updateDebouncedUsername(e);
-  };
-
-  const handleRegister = async (e) => {
-    e.preventDefault();
-
-    // Ensure non-empty inputs
-    if (!data.email || !data.username || !data.password) {
-      setRegError("Please enter your credentials");
-      return;
-    }
-
-    // Check valid email
-    if (!data.email.includes("@")) {
-      setRegError("Please enter a valid email address");
-      return;
-    }
-
-    // Check valid username
-    if (data.username.length < 6) {
-      setRegError("Please enter a valid username");
-      return;
-    }
-
-    // Check valid password
-    if (data.password.length < 8) {
-      setRegError("Password must be at least 8 characters");
-      return;
-    }
-
-    // Create a DTO for request body
-    const info = {
-      email: data.email,
-      username: data.username,
-      password: data.password,
+    const onChange = (e) => {
+        setData({ ...data, [e.target.name]: e.target.value });
     };
 
-    try {
-      const res = await register(info);
-      if (res) {
-        setRegError("");
-        toggleShow();
-      }
-    } catch (err) {
-      setRegError(err.response.data.message);
+    const navigate = useNavigate();
+
+    const handleBackToLogin = ()=>{
+      navigate("/");
     }
-  };
+
+    const handleRegister = async (e) => {
+        // Show spinner on click
+        setLoadingButton(true);
+        setdisabledButton(true);
+        e.preventDefault();
+
+        try {
+            // Ensure non-empty inputs
+            if (!data.email || !data.username || !data.password) {
+                setRegError("Please enter your credentials");
+                return;
+            }
+
+            // Check valid email
+            if (!data.email.match(emailRegEx)) {
+                setRegError("Please enter a valid email address");
+                return;
+            }
+
+            // Check valid username
+            if (data.username.length < 6) {
+                setRegError("Please enter a valid username");
+                return;
+            }
+
+            // Check valid password
+            if (data.password.length < 8) {
+                setRegError("Password must be at least 8 characters");
+                return;
+            }
+
+            // Check passwords matching
+            if (data.password !== data.confirmpassword) {
+                setRegError("Passwords entered are not matching");
+                return;
+            }
+
+            // Create a DTO for request body
+            if (
+                await register({
+                    email: data.email,
+                    username: data.username,
+                    password: data.password,
+                    }
+                )) {
+                setRegError("");
+                toggleShow();
+            }
+
+        } catch (err) {
+            let errMessage = err.response.data.message;
+
+            setRegError(errMessage);
+            if (errMessage === "Failed to send email")
+              setRegError("Unable to send email. Check the entered email address")
+
+        } finally {
+            // Disable spinner when finish this function
+            setLoadingButton(false);
+            setdisabledButton(false);
+        }
+    };
 
     return (
         <>
@@ -172,123 +192,160 @@ function RegistrationScreen() {
                             Confirmation link expires in 15 minutes.
                         </MDBModalBody>
 
-            <MDBModalFooter>
-              <MDBBtn color="secondary" onClick={toggleShow}>
-                Close
-              </MDBBtn>
-            </MDBModalFooter>
-          </MDBModalContent>
-        </MDBModalDialog>
-      </MDBModal>
-      <MDBContainer className="my-5 gradient-form">
-        <MDBRow>
-          <MDBCol col="6" className="mb-5">
-            <div className="d-flex flex-column justify-content-center gradient-custom-2 h-100 mb-4">
-              <div className="text-white px-3 py-4 p-md-5 mx-md-4">
-                <h4 class="mb-4">We are more than just a company</h4>
-                <p class="small mb-0">
-                  Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed
-                  do eiusmod tempor incididunt ut labore et dolore magna aliqua.
-                  Ut enim ad minim veniam, quis nostrud exercitation ullamco
-                  laboris nisi ut aliquip ex ea commodo consequat.
-                </p>
-              </div>
-            </div>
-          </MDBCol>
-          <MDBCol col="6" className="mb-5">
-            <div className="d-flex flex-column ms-5">
-              <MDBValidation>
-                <div className="text-center">
-                  <img
-                    src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-login-form/lotus.webp"
-                    style={{ width: "185px" }}
-                    alt="logo"
-                  />
-                  <h4 className="mt-1 mb-5 pb-1">
-                    <strong>Create an Account</strong>
-                  </h4>
-                </div>
-
+                        <MDBModalFooter>
+                            <button class="success-back-button" onClick={()=>handleBackToLogin()}>
+                                Back to login
+                            </button>
+                        </MDBModalFooter>
+                    </MDBModalContent>
+                </MDBModalDialog>
+            </MDBModal>
+            <MDBContainer className="my-5 gradient-form">
                 <MDBRow>
-                  <MDBCol>
-                    <MDBValidationItem>
-                      <MDBInput
-                        wrapperClass="mb-5"
-                        label="Email address"
-                        id="form1"
-                        type="text"
-                        value={data.email}
-                        name="email"
-                        required
-                        onChange={onChange}
-                      />
-                    </MDBValidationItem>
-                    {emailError ? <div className="email-error">{emailError}</div> : ""}
+                    <MDBCol col="6" className="mb-5">
+                        <div className="d-flex flex-column justify-content-center registration-gradient-custom h-100 mb-4">
+                            <div className="text-grey px-3 py-4 p-md-5 mx-md-4">
+                                <h4 class="mb-1 ml-2 carousel-text">
+                                    <strong>We are more than just a company</strong>
+                                </h4>
+                                <p class="small mb-12 carousel-text">
+                                    We aim to revolutionize inventory management!
+                                </p>
+                            </div>
+                        </div>
+                    </MDBCol>
+                    <MDBCol col="6" className="mb-5">
+                        <div className="d-flex flex-column ms-5">
+                            <MDBValidation>
+                                <div className="text-center">
+                                <img src="logo.png" style={{ width: "350px" }} alt="logo" />
+                                    <h4 className="mt-5 mb-3 pb-1">
+                                        <strong>Create an Account</strong>
+                                    </h4>
+                                </div>
 
-                  </MDBCol>
-                  <MDBCol md="5">
-                    <MDBValidationItem>
-                      <MDBInput
-                        wrapperClass="mb-5"
-                        label="Username"
-                        id="form2"
-                        type="text"
-                        value={data.username}
-                        name="username"
-                        required
-                        onChange={onChange}
-                      />
-                    </MDBValidationItem>
-                    {/* {username ? <div>debounced: {username}</div> : ""} */}
-                    {usernameError ? <div className="username-error">{usernameError}</div> : ""}
-                    {usernamePass ? <div className="username-pass">{usernamePass}</div> : ""}
+                                <MDBRow>
+                                    <MDBCol>
+                                        <MDBValidationItem>
+                                            <MDBInput
+                                                wrapperClass="mb-5"
+                                                label="Email address"
+                                                id="form1"
+                                                type="text"
+                                                value={data.email}
+                                                name="email"
+                                                required
+                                                onChange={onChange}
+                                            />
+                                        </MDBValidationItem>
+                                        {emailError ? (
+                                            <div className="email-error">
+                                                {emailError}
+                                            </div>
+                                        ) : (
+                                            ""
+                                        )}
+                                    </MDBCol>
+                                    <MDBCol md="5">
+                                        <MDBValidationItem>
+                                            <MDBInput
+                                                wrapperClass="mb-5"
+                                                label="Username"
+                                                id="form2"
+                                                type="text"
+                                                value={data.username}
+                                                name="username"
+                                                required
+                                                onChange={onChange}
+                                            />
+                                        </MDBValidationItem>
+                                        {/* {username ? <div>debounced: {username}</div> : ""} */}
+                                        {usernameError ? (
+                                            <div className="username-error">
+                                                {usernameError}
+                                            </div>
+                                        ) : (
+                                            ""
+                                        )}
+                                        {usernamePass ? (
+                                            <div className="username-pass">
+                                                {usernamePass}
+                                            </div>
+                                        ) : (
+                                            ""
+                                        )}
+                                    </MDBCol>
+                                </MDBRow>
+                                <MDBValidationItem>
+                                    <MDBInput
+                                        wrapperClass="mb-5"
+                                        label="Password"
+                                        id="form3"
+                                        type="password"
+                                        value={data.password}
+                                        name="password"
+                                        required
+                                        onChange={onChange}
+                                    />
+                                </MDBValidationItem>
+                                {passwordError ? (
+                                    <div className="password-error">
+                                        {passwordError}
+                                    </div>
+                                ) : (
+                                    ""
+                                )}
 
-                  </MDBCol>
+                                <MDBValidationItem>
+                                    <MDBInput
+                                        wrapperClass="mb-5"
+                                        label="Confirm Password"
+                                        id="form4"
+                                        type="password"
+                                        value={data.confirmpassword}
+                                        name="confirmpassword"
+                                        required
+                                        onChange={onChange}
+                                    />
+                                </MDBValidationItem>
+                                {confirmError ? <div className="confirm-error">{confirmError}</div> : ""}
+
+                                <div className="text-center pt-1 mb-5 pb-1">
+                                    <button
+                                        class="signup-button"
+                                        onClick={handleRegister}
+                                        disabled={disabledButton}
+                                    >
+                                        <div className={"d-flex justify-content-center"}>
+                                            <div className={ loadingButton ? "" : "invisible" }>
+                                                <MDBSpinner
+                                                    size="sm"
+                                                    role="status"
+                                                    tag="span"
+                                                    className={"me-2 ml-2"}
+                                                />
+                                            </div>
+                                            <div class="sign-up-text">Sign Up</div>
+                                        </div>
+                                    </button>
+                                    {regError ? <div className="reg-error">{regError}</div> : ""}
+                                </div>
+                            </MDBValidation>
+                            <MDBBtn
+                                outline
+                                className="text-dark text-muted mt-1"
+                                class="back-to-login-button"
+                                color="light"
+                                onClick={() => handleBackToLogin()}
+                            >
+                               Back to Login
+                            </MDBBtn>
+                        </div>
+                    </MDBCol>
                 </MDBRow>
-                <MDBValidationItem>
-                  <MDBInput
-                    wrapperClass="mb-5"
-                    label="Password"
-                    id="form3"
-                    type="password"
-                    value={data.password}
-                    name="password"
-                    required
-                    onChange={onChange}
-                  />
-                </MDBValidationItem>
-                {passwordError ? <div className="password-error">{passwordError}</div> : ""}
-
-                <MDBValidationItem>
-                  <MDBInput
-                    wrapperClass="mb-5"
-                    label="Confirm Password"
-                    id="form4"
-                    type="password"
-                    value={data.confirmpassword}
-                    name="confirmpassword"
-                    required
-                    onChange={onChange}
-                  />
-                </MDBValidationItem>
-                {confirmError ? <div className="confirm-error">{confirmError}</div> : ""}
-
-                <div className="text-center pt-1 mb-5 pb-1">
-                  <MDBBtn
-                    className="mb-4 w-100 gradient-custom-2"
-                    onClick={handleRegister}
-                  >
-                    Sign Up
-                  </MDBBtn>
-                  {regError ? <div className="reg-error">{regError}</div> : ""}
-                </div>
-              </MDBValidation>
-            </div>
-          </MDBCol>
-        </MDBRow>
-      </MDBContainer>
-    </>
-  );
+            </MDBContainer>
+        </>
+    );
 }
 
 export default RegistrationScreen;
