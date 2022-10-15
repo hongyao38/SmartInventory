@@ -5,6 +5,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
+import com.smartinventory.exceptions.inventory.InvalidConsumptionException;
 import com.smartinventory.inventory.food.Food;
 import com.smartinventory.inventory.food.FoodRepository;
 import com.smartinventory.inventory.food.FoodService;
@@ -49,7 +50,13 @@ public class ConsumptionService {
         if (foodRepo.findById(food.getId()).isEmpty()) {
             return null;
         }
+        
         Double newQuantity = food.getCurrentQuantity() - consumption.getAmountConsumed();
+
+        if (newQuantity < 0) {
+            throw new InvalidConsumptionException("Current Quantity Insufficient");
+        }
+
         foodService.updateCurrentQuantity(food.getId(), newQuantity);
 
         return consumptions.save(consumption);
@@ -57,9 +64,10 @@ public class ConsumptionService {
 
     //edit amount consumed
     public Consumption updateConsumption(Long consumptionId, Consumption newConsumption) {
-        if (consumptions.findById(consumptionId).get().getAmountConsumed() != newConsumption.getAmountConsumed()) {
+        double currentConsumptionAmt = consumptions.findById(consumptionId).get().getAmountConsumed();
+        if (currentConsumptionAmt != newConsumption.getAmountConsumed()) {
             Food food = newConsumption.getFood();
-            Double newQuantity = food.getCurrentQuantity() - newConsumption.getAmountConsumed();
+            Double newQuantity = food.getCurrentQuantity() - (currentConsumptionAmt - newConsumption.getAmountConsumed());
             foodService.updateCurrentQuantity(food.getId(), newQuantity);
         }
         return consumptions.findById(consumptionId).map(consumption -> {newConsumption.getAmountConsumed();
@@ -68,7 +76,7 @@ public class ConsumptionService {
         }).orElse(null);
     }
 
-    public void deleteConsumption(Consumption consumption) {
-        consumptions.deleteById(consumption.getConsumptionId());
+    public void deleteConsumption(Long consumptionId) {
+        consumptions.deleteById(consumptionId);
     }
 }

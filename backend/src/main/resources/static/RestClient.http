@@ -85,7 +85,7 @@ Content-Type: application/json
 
 ### GET FOOD 
 GET http://localhost:8080/api/v1/food/1
-Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ4aWFvZGlkaSIsInJvbGVzIjpbIlJPTEVfQURNSU4iXSwiaXNzIjoibG9jYWxob3N0OjgwODAvYXBpL3YxL2xvZ2luIiwiZXhwIjoxNjY1ODExNTEyfQ.vphoDo1FjNXRADLxsvFDR0Maza048uGSXESpBhO8gxU
+Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ4aWFvZGlkaSIsInJvbGVzIjpbIlJPTEVfQURNSU4iXSwiaXNzIjoibG9jYWxob3N0OjgwODAvYXBpL3YxL2xvZ2luIiwiZXhwIjoxNjY1ODEzMzI1fQ.Ghgr0vS8AV_nUlVD2pDw8DLB6s0Wn356NzGjBBikJM4
 Accept: application/json
 Content-Type: application/json
 
@@ -95,7 +95,7 @@ Content-Type: application/json
 
 ### NEW FOOD
 POST http://localhost:8080/api/v1/food
-Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ4aWFvZGlkaSIsInJvbGVzIjpbIlJPTEVfQURNSU4iXSwiaXNzIjoibG9jYWxob3N0OjgwODAvYXBpL3YxL2xvZ2luIiwiZXhwIjoxNjY1ODExNTEyfQ.vphoDo1FjNXRADLxsvFDR0Maza048uGSXESpBhO8gxU
+Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ4aWFvZGlkaSIsInJvbGVzIjpbIlJPTEVfQURNSU4iXSwiaXNzIjoibG9jYWxob3N0OjgwODAvYXBpL3YxL2xvZ2luIiwiZXhwIjoxNjY1ODEzNzcwfQ.Es2IENjef_vHUaqaGK1jQbVCRSj8cw_fsVjaMjAdpwc
 Content-Type: application/json
 
 {
@@ -106,7 +106,7 @@ Content-Type: application/json
 
 ### UPDATE FOOD
 PUT http://localhost:8080/api/v1/food/1
-Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ4aWFvZGlkaSIsInJvbGVzIjpbIlJPTEVfQURNSU4iXSwiaXNzIjoibG9jYWxob3N0OjgwODAvYXBpL3YxL2xvZ2luIiwiZXhwIjoxNjY1ODA2NDQzfQ.hODUhD-GeGg9cJ-JjWDCG_yWfl4NLRF5oyrUvapYS3k
+Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ4aWFvZGlkaSIsInJvbGVzIjpbIlJPTEVfQURNSU4iXSwiaXNzIjoibG9jYWxob3N0OjgwODAvYXBpL3YxL2xvZ2luIiwiZXhwIjoxNjY1ODEzMzI1fQ.Ghgr0vS8AV_nUlVD2pDw8DLB6s0Wn356NzGjBBikJM4
 Content-Type: application/json
 
 {
@@ -117,7 +117,7 @@ Content-Type: application/json
 
 ### DELETE FOOD
 DELETE http://localhost:8080/api/v1/food/1
-Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ4aWFvZGlkaSIsInJvbGVzIjpbIlJPTEVfQURNSU4iXSwiaXNzIjoibG9jYWxob3N0OjgwODAvYXBpL3YxL2xvZ2luIiwiZXhwIjoxNjY1NzYxMjE4fQ.g28KXStNsAz58QZa6vBiVw3B1cKqOxvwZeLVMQOW7oQ
+Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ4aWFvZGlkaSIsInJvbGVzIjpbIlJPTEVfQURNSU4iXSwiaXNzIjoibG9jYWxob3N0OjgwODAvYXBpL3YxL2xvZ2luIiwiZXhwIjoxNjY1ODExNTEyfQ.vphoDo1FjNXRADLxsvFDR0Maza048uGSXESpBhO8gxU
 
 ### GET FOOD 
 GET http://localhost:8080/api/v1/food
@@ -126,14 +126,20 @@ Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ4aWFvZGlka
 
 ### NEW PURCHASE
 POST http://localhost:8080/api/v1/purchases
-Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ4aWFvZGlkaSIsInJvbGVzIjpbIlJPTEVfQURNSU4iXSwiaXNzIjoibG9jYWxob3N0OjgwODAvYXBpL3YxL2xvZ2luIiwiZXhwIjoxNjY1NzYyNjExfQ.FACApVjX3JwYQ-F1mgq4bNrRW8Eo3IGcmeDmVUHPXQk
+Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ4aWFvZGlkaSIsInJvbGVzIjpbIlJPTEVfQURNSU4iXSwiaXNzIjoibG9jYWxob3N0OjgwODAvYXBpL3YxL2xvZ2luIiwiZXhwIjoxNjY1ODExODk1fQ.T2p3nDMZSMJ6S2mRboJa1PkOvupmx1RHUkeredkhyFw
 Content-Type: application/json
 
 {
     "dateBought": "10/07/2022",
     "amountBought": "3",
     "expiryDate": "11/07/2022",
-    "food": "1"
+    "food": 
+        {
+            "id" : "1",
+            "foodName": "Milk",
+            "category": "dairy",
+            "currentQuantity": "2.5"
+        }
 }
 
 ### UPDATE PURCHASE
@@ -155,36 +161,43 @@ Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ4aWFvZGlka
 
 ### NEW CONSUMPTION
 POST http://localhost:8080/api/v1/consumptions
-Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ4aWFvZGlkaSIsInJvbGVzIjpbIlJPTEVfQURNSU4iXSwiaXNzIjoibG9jYWxob3N0OjgwODAvYXBpL3YxL2xvZ2luIiwiZXhwIjoxNjY1ODExNTEyfQ.vphoDo1FjNXRADLxsvFDR0Maza048uGSXESpBhO8gxU
+Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ4aWFvZGlkaSIsInJvbGVzIjpbIlJPTEVfQURNSU4iXSwiaXNzIjoibG9jYWxob3N0OjgwODAvYXBpL3YxL2xvZ2luIiwiZXhwIjoxNjY1ODEzNzcwfQ.Es2IENjef_vHUaqaGK1jQbVCRSj8cw_fsVjaMjAdpwc
 Content-Type: application/json
 
 {
-    "dateConsumed": "2022-10-14",
+    "dateConsumed": "2022-10-15",
     "amountConsumed": "1",
     "food":
         {
             "id" : "1",
             "foodName": "Milk",
             "category": "dairy",
-            "currentQuantity": "2.5"
+            "currentQuantity": "0.5"
         }
 }
 
 ### UPDATE CONSUMPTION
 PUT http://localhost:8080/api/v1/consumptions/1
-Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ4aWFvZGlkaSIsInJvbGVzIjpbIlJPTEVfQURNSU4iXSwiaXNzIjoibG9jYWxob3N0OjgwODAvYXBpL3YxL2xvZ2luIiwiZXhwIjoxNjY1MTExMzU3fQ.pYszOHmQAFvbkPl_0jPWEIdNEWNe3BpMcxzrbcXJoME
+Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ4aWFvZGlkaSIsInJvbGVzIjpbIlJPTEVfQURNSU4iXSwiaXNzIjoibG9jYWxob3N0OjgwODAvYXBpL3YxL2xvZ2luIiwiZXhwIjoxNjY1ODEzNzcwfQ.Es2IENjef_vHUaqaGK1jQbVCRSj8cw_fsVjaMjAdpwc
 Content-Type: application/json
 
 {
-    "dateConsumed": "10/07/2022",
-    "amountConsumed": "2",
-    "food": "1"
+    "consumptionId" : "1",
+    "dateConsumed": "2022-10-15",
+    "amountConsumed": "1",
+    "food": 
+        {
+            "id" : "1",
+            "foodName": "Milk",
+            "category": "dairy",
+            "currentQuantity": "0.5"
+        }
 }
 
 
 ### DELETE CONSUMPTION
 DELETE http://localhost:8080/api/v1/consumptions/1
-Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ4aWFvZGlkaSIsInJvbGVzIjpbIlJPTEVfQURNSU4iXSwiaXNzIjoibG9jYWxob3N0OjgwODAvYXBpL3YxL2xvZ2luIiwiZXhwIjoxNjY1MTExMzU3fQ.pYszOHmQAFvbkPl_0jPWEIdNEWNe3BpMcxzrbcXJoME
+Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ4aWFvZGlkaSIsInJvbGVzIjpbIlJPTEVfQURNSU4iXSwiaXNzIjoibG9jYWxob3N0OjgwODAvYXBpL3YxL2xvZ2luIiwiZXhwIjoxNjY1ODEzMzI1fQ.Ghgr0vS8AV_nUlVD2pDw8DLB6s0Wn356NzGjBBikJM4
 
 ### CHECK USERNAME EXISTS
 POST http://localhost:8080/api/v1/users/check-username
