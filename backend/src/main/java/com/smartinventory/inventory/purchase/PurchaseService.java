@@ -1,5 +1,6 @@
 package com.smartinventory.inventory.purchase;
 
+import java.time.LocalDate;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
@@ -29,7 +30,7 @@ public class PurchaseService {
         return purchases.findByFood(food);
     }
 
-    public List<Purchase> listPurchaseByDatePurchased(Date datePurchased) {
+    public List<Purchase> listPurchaseByDatePurchased(LocalDate datePurchased) {
         return purchases.findByDateBought(datePurchased);
     }
 
@@ -69,7 +70,7 @@ public class PurchaseService {
         }).orElse(null);
     }
 
-    public void deletePurchase(Purchase purchase) {
-        purchases.deleteById(purchase.getPurchaseId());
+    public void deletePurchase(Long purchaseId) {
+        purchases.deleteById(purchaseId);
     }
 }

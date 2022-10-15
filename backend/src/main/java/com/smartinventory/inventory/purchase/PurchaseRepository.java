@@ -1,5 +1,6 @@
 package com.smartinventory.inventory.purchase;
 
+import java.time.LocalDate;
 import java.util.Date;
 import java.util.List;
 
@@ -11,7 +12,7 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface PurchaseRepository extends JpaRepository<Purchase, Long>{
     //Create, Read, Update, Delete
-    List<Purchase> findByDateBought(Date dateBought);
+    List<Purchase> findByDateBought(LocalDate dateBought);
     List<Purchase> findByFood(Food food);
     List<Purchase> findByExpiryDate(Date expiryDate);
 }
