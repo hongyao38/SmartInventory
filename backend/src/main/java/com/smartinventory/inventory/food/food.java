@@ -14,6 +14,8 @@ import javax.validation.constraints.NotNull;
 import com.smartinventory.inventory.consumption.Consumption;
 import com.smartinventory.inventory.purchase.Purchase;
 
+import org.springframework.boot.jackson.JsonComponent;
+
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -24,6 +26,7 @@ import lombok.Setter;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
+@JsonComponent
 public class Food {
     
     @Id

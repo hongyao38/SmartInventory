@@ -5,6 +5,7 @@ import java.util.List;
 import javax.validation.Valid;
 
 import com.smartinventory.exceptions.inventory.FoodExistsException;
+import com.smartinventory.exceptions.inventory.FoodNotFoundException;
 
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.http.HttpStatus;
@@ -35,7 +36,7 @@ public class ConsumptionController {
     @PostMapping("/consumptions")
     public Consumption addConsumption(@Valid @RequestBody Consumption consumption) {
         if (consumptionService.addConsumption(consumption) == null) {
-            throw new FoodExistsException(consumption.getFood().getFoodName());
+            throw new FoodNotFoundException(consumption.getFood().getFoodName());
         }
         return consumptionService.addConsumption(consumption);
     }

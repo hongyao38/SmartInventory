@@ -1,5 +1,6 @@
 package com.smartinventory.inventory.consumption;
 
+import java.time.LocalDate;
 import java.util.*;
 
 import javax.persistence.Entity;
@@ -10,6 +11,9 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.validation.constraints.NotNull;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.smartinventory.inventory.food.Food;
 
 import lombok.AllArgsConstructor;
@@ -23,17 +27,19 @@ import lombok.Setter;
 @NoArgsConstructor
 @AllArgsConstructor
 public class Consumption {
+
     @Id
     @GeneratedValue (strategy = GenerationType.IDENTITY)
     private Long consumptionId;
 
     @NotNull
-    private Date dateConsumed;
+    private LocalDate dateConsumed;
 
     @NotNull
     private Double amountConsumed;
 
     @ManyToOne
+    @JsonBackReference
     @JoinColumn(name="id")
     private Food food;
 }
