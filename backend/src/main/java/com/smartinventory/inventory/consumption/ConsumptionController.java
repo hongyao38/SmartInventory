@@ -48,10 +48,9 @@ public class ConsumptionController {
     }
 
     @DeleteMapping("/consumptions/{consumptionId}")
-    public void deletePurchase(@PathVariable (value = "consumptionId") Long consumptionId,
-                            @Valid @RequestBody Consumption consumption){
+    public void deletePurchase(@PathVariable (value = "consumptionId") Long consumptionId){
         try{
-            consumptionService.deleteConsumption(consumption);
+            consumptionService.deleteConsumption(consumptionId);
          }catch(EmptyResultDataAccessException e) {
             
          }
