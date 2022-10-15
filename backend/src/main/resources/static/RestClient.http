@@ -133,7 +133,13 @@ Content-Type: application/json
     "dateBought": "10/07/2022",
     "amountBought": "3",
     "expiryDate": "11/07/2022",
-    "food": "1"
+    "food": 
+        {
+            "id" : "1",
+            "foodName": "Milk",
+            "category": "dairy",
+            "currentQuantity": "2.5"
+        }
 }
 
 ### UPDATE PURCHASE
