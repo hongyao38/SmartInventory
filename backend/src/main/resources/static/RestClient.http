@@ -85,7 +85,7 @@ Content-Type: application/json
 
 ### GET FOOD 
 GET http://localhost:8080/api/v1/food/1
-Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ4aWFvZGlkaSIsInJvbGVzIjpbIlJPTEVfQURNSU4iXSwiaXNzIjoibG9jYWxob3N0OjgwODAvYXBpL3YxL2xvZ2luIiwiZXhwIjoxNjY1ODEzMzI1fQ.Ghgr0vS8AV_nUlVD2pDw8DLB6s0Wn356NzGjBBikJM4
+Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ4aWFvZGlkaSIsInJvbGVzIjpbIlJPTEVfQURNSU4iXSwiaXNzIjoibG9jYWxob3N0OjgwODAvYXBpL3YxL2xvZ2luIiwiZXhwIjoxNjY1ODE3OTg3fQ.xS4-3oSVrBRFpAA4h4iOe29DODN101usTY9Oxf4KR44
 Accept: application/json
 Content-Type: application/json
 
@@ -95,7 +95,7 @@ Content-Type: application/json
 
 ### NEW FOOD
 POST http://localhost:8080/api/v1/food
-Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ4aWFvZGlkaSIsInJvbGVzIjpbIlJPTEVfQURNSU4iXSwiaXNzIjoibG9jYWxob3N0OjgwODAvYXBpL3YxL2xvZ2luIiwiZXhwIjoxNjY1ODEzNzcwfQ.Es2IENjef_vHUaqaGK1jQbVCRSj8cw_fsVjaMjAdpwc
+Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ4aWFvZGlkaSIsInJvbGVzIjpbIlJPTEVfQURNSU4iXSwiaXNzIjoibG9jYWxob3N0OjgwODAvYXBpL3YxL2xvZ2luIiwiZXhwIjoxNjY1ODE3OTg3fQ.xS4-3oSVrBRFpAA4h4iOe29DODN101usTY9Oxf4KR44
 Content-Type: application/json
 
 {
@@ -126,13 +126,13 @@ Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ4aWFvZGlka
 
 ### NEW PURCHASE
 POST http://localhost:8080/api/v1/purchases
-Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ4aWFvZGlkaSIsInJvbGVzIjpbIlJPTEVfQURNSU4iXSwiaXNzIjoibG9jYWxob3N0OjgwODAvYXBpL3YxL2xvZ2luIiwiZXhwIjoxNjY1ODExODk1fQ.T2p3nDMZSMJ6S2mRboJa1PkOvupmx1RHUkeredkhyFw
+Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ4aWFvZGlkaSIsInJvbGVzIjpbIlJPTEVfQURNSU4iXSwiaXNzIjoibG9jYWxob3N0OjgwODAvYXBpL3YxL2xvZ2luIiwiZXhwIjoxNjY1ODE3OTg3fQ.xS4-3oSVrBRFpAA4h4iOe29DODN101usTY9Oxf4KR44
 Content-Type: application/json
 
 {
-    "dateBought": "10/07/2022",
+    "dateBought": "2022-10-07",
     "amountBought": "3",
-    "expiryDate": "11/07/2022",
+    "expiryDate": "2022-11-07",
     "food": 
         {
             "id" : "1",
@@ -144,14 +144,21 @@ Content-Type: application/json
 
 ### UPDATE PURCHASE
 PUT http://localhost:8080/api/v1/purchases/1
-Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ4aWFvZGlkaSIsInJvbGVzIjpbIlJPTEVfQURNSU4iXSwiaXNzIjoibG9jYWxob3N0OjgwODAvYXBpL3YxL2xvZ2luIiwiZXhwIjoxNjY1MTExMzU3fQ.pYszOHmQAFvbkPl_0jPWEIdNEWNe3BpMcxzrbcXJoME
+Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ4aWFvZGlkaSIsInJvbGVzIjpbIlJPTEVfQURNSU4iXSwiaXNzIjoibG9jYWxob3N0OjgwODAvYXBpL3YxL2xvZ2luIiwiZXhwIjoxNjY1ODE3OTg3fQ.xS4-3oSVrBRFpAA4h4iOe29DODN101usTY9Oxf4KR44
 Content-Type: application/json
 
 {
-    "dateBought": "10/07/2022",
+    "purchaseId" : "1",
+    "dateBought": "2022-10-07",
     "amountBought": "5",
-    "expiryDate": "11/07/2022",
-    "food": "1"
+    "expiryDate": "2022-11-10",
+    "food": 
+        {
+            "id" : "1",
+            "foodName": "Milk",
+            "category": "dairy",
+            "currentQuantity": "2.5"
+        }
 }
 
 

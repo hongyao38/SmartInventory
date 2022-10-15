@@ -1,5 +1,6 @@
 package com.smartinventory.inventory.purchase;
 
+import java.time.LocalDate;
 import java.util.*;
 
 import javax.persistence.Entity;
@@ -10,6 +11,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.validation.constraints.NotNull;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.smartinventory.inventory.food.Food;
 
 import lombok.AllArgsConstructor;
@@ -28,15 +30,16 @@ public class Purchase {
     private Long purchaseId;
 
     @NotNull
-    private Date dateBought;
+    private LocalDate dateBought;
 
     @NotNull
     private Double amountBought;
 
     @NotNull
-    private Date expiryDate;
+    private LocalDate expiryDate;
 
     @ManyToOne
+    @JsonBackReference
     @JoinColumn(name="foodId")
     private Food food;
 }
