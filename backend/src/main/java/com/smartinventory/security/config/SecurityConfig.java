@@ -64,6 +64,13 @@ public class SecurityConfig {
             .antMatchers(HttpMethod.GET, "/api/v1/food/*").hasRole("ADMIN")
             .antMatchers(HttpMethod.PUT, "/api/v1/food/*").hasRole("ADMIN")
             .antMatchers(HttpMethod.DELETE, "/api/v1/food/*").hasRole("ADMIN")
+
+            //authentication for consumption
+            .antMatchers(HttpMethod.POST, "/api/v1/consumptions").hasRole("ADMIN")
+            .antMatchers(HttpMethod.GET, "/api/v1/consumptions").hasRole("ADMIN")
+            .antMatchers(HttpMethod.GET, "/api/v1/consumptions/*").hasRole("ADMIN")
+            .antMatchers(HttpMethod.PUT, "/api/v1/consumptions/*").hasRole("ADMIN")
+            .antMatchers(HttpMethod.DELETE, "/api/v1/consumptions/*").hasRole("ADMIN")
             
             .and()
         .authenticationProvider(authenticationProvider())

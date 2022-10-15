@@ -1,5 +1,6 @@
 package com.smartinventory.inventory.consumption;
 
+import java.time.LocalDate;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
@@ -28,7 +29,7 @@ public class ConsumptionService {
         return consumptions.findByFood(food);
     }
 
-    public List<Consumption> listConsumptionByDateConsumed(Date dateConsumed) {
+    public List<Consumption> listConsumptionByDateConsumed(LocalDate dateConsumed) {
         return consumptions.findByDateConsumed(dateConsumed);
     }
 
