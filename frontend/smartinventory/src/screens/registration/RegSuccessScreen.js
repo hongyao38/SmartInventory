@@ -27,16 +27,11 @@ function ConfirmRegistration() {
     return (
         <div class="background">
             <div class="email-confirmed-container">
-                <div class="email-confirmed-title">
-                    <h2>
-                        Email has been confirmed
-                    </h2>
-                </div>
+                <h2 class="email-confirmed-title">
+                    Email has been confirmed
+                </h2>
 
                 <button class="confirm-button"
-                    // outline
-                    // className="text-dark text-muted"
-                    // color="light"
                     onClick={() => handleBackToLogin()}
                 >
                     Back To Login
