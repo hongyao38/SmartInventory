@@ -1,4 +1,4 @@
-package com.smartinventory.inventory.food;
+package com.smartinventory.inventory.container;
 
 import java.util.List;
 
@@ -7,14 +7,14 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.SequenceGenerator;
 import javax.validation.constraints.NotNull;
 
 import com.smartinventory.inventory.consumption.Consumption;
-import com.smartinventory.inventory.container.Container;
+import com.smartinventory.inventory.food.Food;
 import com.smartinventory.inventory.purchase.Purchase;
 
 import org.springframework.boot.jackson.JsonComponent;
@@ -30,33 +30,29 @@ import lombok.Setter;
 @AllArgsConstructor
 @NoArgsConstructor
 @JsonComponent
-public class Food {
+public class Container {
     
     @Id
-    @SequenceGenerator(name = "food_sequence", sequenceName = "food_sequence", allocationSize = 1)
-    @GeneratedValue(strategy = GenerationType.IDENTITY, generator = "food_sequence")
-    private Long id;
+    @SequenceGenerator(name = "container_sequence", sequenceName = "container_sequence", allocationSize = 1)
+    @GeneratedValue(strategy = GenerationType.IDENTITY, generator = "container_sequence")
+    private Long containerId;
 
     @NotNull
-    private String foodName;
+    private Double capacity;
 
     @NotNull
-    private String category;
+    private Double threshold;
 
     @NotNull
-    private Double currentQuantity;
+    private Double percentageFilled;
 
-    @OneToMany(mappedBy = "food",
+    @OneToOne(mappedBy = "container",
         orphanRemoval = true,
         cascade = CascadeType.ALL)
-    private List<Purchase> purchases;
+    private Food food;
 
-    @OneToMany(mappedBy = "food",
-        orphanRemoval = true,
-        cascade = CascadeType.ALL)
-    private List<Consumption> consumptions;
-
-    @OneToOne
-    @JoinColumn(name = "containerId")
-    private Container container;
+    // @ManyToOne(mappedBy = "food",
+    //     orphanRemoval = true,
+    //     cascade = CascadeType.ALL)
+    // private List<Consumption> consumptions;
 }
