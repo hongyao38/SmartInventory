@@ -13,5 +13,5 @@ import org.springframework.stereotype.Repository;
 public interface ConsumptionRespository extends JpaRepository<Consumption, Long>{
     //Create, Read, Update, Delete
     List<Consumption> findByDateConsumed(LocalDate dateConsumed);
-    List<Consumption> findByFood(Food food);
+    List<Consumption> findByFoodId(Long foodId);
 }

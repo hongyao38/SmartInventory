@@ -40,6 +40,7 @@ public class Consumption {
 
     @ManyToOne
     @JsonBackReference
-    @JoinColumn(name="id")
+    @JoinColumn(name="foodId",
+                referencedColumnName = "id")
     private Food food;
 }

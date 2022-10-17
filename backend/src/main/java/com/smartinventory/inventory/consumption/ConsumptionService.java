@@ -5,6 +5,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
+import com.smartinventory.exceptions.inventory.FoodNotFoundException;
 import com.smartinventory.exceptions.inventory.InvalidConsumptionException;
 import com.smartinventory.inventory.food.Food;
 import com.smartinventory.inventory.food.FoodRepository;
@@ -19,15 +20,14 @@ import lombok.AllArgsConstructor;
 public class ConsumptionService {
     
     private final ConsumptionRespository consumptions;
-    private final FoodRepository foodRepo;
     private final FoodService foodService;
 
     public List<Consumption> listconsumptions() {
         return consumptions.findAll();
     }
 
-    public List<Consumption> listConsumptionsByFood(Food food) {
-        return consumptions.findByFood(food);
+    public List<Consumption> listConsumptionsByFood(Long foodId) {
+        return consumptions.findByFoodId(foodId);
     }
 
     public List<Consumption> listConsumptionByDateConsumed(LocalDate dateConsumed) {
@@ -46,10 +46,6 @@ public class ConsumptionService {
     public Consumption addConsumption(Consumption consumption) {
         //Finding the food from the purchase
         Food food = consumption.getFood();
-
-        if (foodRepo.findById(food.getId()).isEmpty()) {
-            return null;
-        }
         
         Double newQuantity = food.getCurrentQuantity() - consumption.getAmountConsumed();
 
@@ -64,16 +60,16 @@ public class ConsumptionService {
 
     //edit amount consumed
     public Consumption updateConsumption(Long consumptionId, Consumption newConsumption) {
-        double currentConsumptionAmt = consumptions.findById(consumptionId).get().getAmountConsumed();
-        if (currentConsumptionAmt != newConsumption.getAmountConsumed()) {
-            Food food = newConsumption.getFood();
-            Double newQuantity = food.getCurrentQuantity() - (currentConsumptionAmt - newConsumption.getAmountConsumed());
-            foodService.updateCurrentQuantity(food.getId(), newQuantity);
-        }
-        return consumptions.findById(consumptionId).map(consumption -> {newConsumption.getAmountConsumed();
-            newConsumption.getDateConsumed();
-            return consumptions.save(consumption);
-        }).orElse(null);
+        Consumption currentConsumption = consumptions.findById(consumptionId).get();
+
+        double currentConsumptionAmt = currentConsumption.getAmountConsumed();
+
+        Food food = currentConsumption.getFood();
+        Double newQuantity = food.getCurrentQuantity() - (newConsumption.getAmountConsumed() - currentConsumptionAmt);
+        foodService.updateCurrentQuantity(food.getId(), newQuantity);
+
+        currentConsumption.setAmountConsumed(currentConsumptionAmt);
+        return consumptions.save(currentConsumption);
     }
 
     public void deleteConsumption(Long consumptionId) {

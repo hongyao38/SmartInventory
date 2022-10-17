@@ -6,6 +6,8 @@ import javax.validation.Valid;
 
 import com.smartinventory.exceptions.inventory.FoodExistsException;
 import com.smartinventory.exceptions.inventory.FoodNotFoundException;
+import com.smartinventory.inventory.food.Food;
+import com.smartinventory.inventory.food.FoodService;
 
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.http.HttpStatus;
@@ -26,22 +28,30 @@ import lombok.AllArgsConstructor;
 @RequestMapping("/api/v1")
 public class ConsumptionController {
     private ConsumptionService consumptionService;
+    private FoodService foodService;
 
     @GetMapping("/consumptions")
     public List<Consumption> getAllConsumptions(){
         return consumptionService.listconsumptions();
     }
 
+    @GetMapping("/food/{foodId}/consumptions")
+    public List<Consumption> getConsumptionsByFood(@PathVariable (value = "foodId") Long foodId){
+        return consumptionService.listConsumptionsByFood(foodId);
+    }
+
     @ResponseStatus(HttpStatus.CREATED)
-    @PostMapping("/consumptions")
-    public Consumption addConsumption(@Valid @RequestBody Consumption consumption) {
-        if (consumptionService.addConsumption(consumption) == null) {
-            throw new FoodNotFoundException(consumption.getFood().getFoodName());
-        }
+    @PostMapping("/food/{foodId}/consumptions")
+    public Consumption addConsumption(@PathVariable (value = "foodId") Long foodId,
+                                        @Valid @RequestBody Consumption consumption) {
+        
+        Food food = foodService.getFood(foodId);
+        consumption.setFood(food);
+
         return consumptionService.addConsumption(consumption);
     }
 
-    @PutMapping("/consumptions/{consumptionId}")
+    @PutMapping("/food/{foodId}/consumptions/{consumptionId}")
     public Consumption updatePurchase(@PathVariable (value = "consumptionId") Long consumptionId,
                                 @Valid @RequestBody Consumption newConsumption){
         return consumptionService.updateConsumption(consumptionId, newConsumption);
