@@ -1,14 +1,21 @@
-.gradient-custom-2 {
+.login-error {
+    margin-top: -33px;
+    margin-bottom: 9px;
+    color: #ff6961;
+}
+
+.login-gradient-custom {
     /* fallback for old browsers */
     background: #fccb90;
 
     /* Chrome 10-25, Safari 5.1-6 */
-    background: #205be4;
-}
+    background: #B09782;
+    background-image: url("/public/carousel_login.gif");
+    background-size: cover;
+    background-position-x: -250px;
+    background-position-y: 0px;
 
-.error {
-    margin-top: 100vmin;
-    color: #ff6961;
+    border-radius: 20px;
 }
 
 @media (min-width: 768px) {
@@ -41,3 +48,65 @@
   position:absolute;
   bottom: 100px;
 } */
+
+.carousel-text {
+    font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+    font-size: larger;
+}
+
+.invisible {
+    visibility: hidden !important;
+}
+
+.sign-in-text{
+    margin-left: -34px;
+}
+
+.create-button {
+    margin-left: 10px;
+    padding: 5px;
+    padding-left: 10px;
+    padding-right: 10px;
+    border-style: solid;
+    border-radius: 30px;
+    border-color: #7da455;
+    color:#7da455;
+    box-shadow: none;
+    background-color: white;
+}
+
+.create-button:active {
+    border-style: solid;
+}
+
+.create-button:hover,
+.create-button:focus {
+    -moz-box-shadow: 0px 0px 4px 1px grey;
+    -webkit-box-shadow: 0px 0px 4px 1px grey;
+    box-shadow: 0px 0px 4px 1px  grey;
+}
+
+.sign-in-button {
+    width: 650px;
+    justify-content: center;
+    margin-bottom: 20px;
+    padding: 5px;
+    padding-left: 10px;
+    padding-right: 10px;
+    border-style: solid;
+    border-radius: 30px;
+    border-color: #7da455;
+    color:white;
+    background-color: #7da455;
+}
+
+.sign-in-button:hover,
+.sign-in-button:focus {
+    -moz-box-shadow: 0px 0px 4px 1px grey;
+    -webkit-box-shadow: 0px 0px 4px 1px grey;
+    box-shadow: 0px 0px 4px 1px  grey;
+}
+
+.sign-in-button:active {
+    border-style: solid;
+}

@@ -21,7 +21,7 @@ public class SmartinventoryApplication {
 		String email = "me40@live.com.sg";
 
 		// Register User
-		RegistrationDTO regDTO = new RegistrationDTO(email, "xiaodidi", "12345");
+		RegistrationDTO regDTO = new RegistrationDTO(email, "bobby38", "12345678");
 		String confirmationToken = authService.register(regDTO);
 
 		// Confirm email

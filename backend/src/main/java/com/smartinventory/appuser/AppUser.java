@@ -53,7 +53,7 @@ public class AppUser implements UserDetails {
         this.email = email;
         this.username = username;
         this.password = password;
-        authorities = "ROLE_ADMIN"; // FOR NOW: Default is ADMIN
+        authorities = "ROLE_USER"; // FOR NOW: Default is USER
     }
 
     public AppUser(String email, String username, String password, String authorities) {

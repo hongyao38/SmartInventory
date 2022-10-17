@@ -3,7 +3,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import LoginScreen from "./screens/login/LogInScreen.js";
 import RegistrationScreen from "./screens/registration/RegistrationScreen.js";
 import ResetScreen from "./screens/forgetpassword/ResetScreen.js";
-import RegSuccessScreen from "./screens/login/RegSuccessScreen.js";
+import RegSuccessScreen from "./screens/registration/RegSuccessScreen.js";
 import ForgetPasswordScreen from "./screens/forgetpassword/ForgetPasswordScreen.js";
 import LoginSuccessScreen from "./screens/login/LoginSuccessScreen.js";
 

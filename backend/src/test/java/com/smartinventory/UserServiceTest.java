@@ -1,6 +1,5 @@
 package com.smartinventory;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -15,15 +14,13 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import com.smartinventory.appuser.AppUser;
 import com.smartinventory.appuser.AppUserRepository;
 import com.smartinventory.appuser.AppUserService;
-import com.smartinventory.exceptions.user.UserEmailTakenException;
 import com.smartinventory.exceptions.user.InvalidCredentialsException;
+import com.smartinventory.exceptions.user.UserEmailTakenException;
 import com.smartinventory.exceptions.user.UsernameTakenException;
 import com.smartinventory.security.token.ConfirmationTokenService;
 
@@ -135,7 +132,7 @@ public class UserServiceTest {
             when(users.findByUsername(any(String.class))).thenThrow(new InvalidCredentialsException());
 
             //act
-            assertThrows(InvalidCredentialsException.class, () -> userService.loginUser(wrongUsername));
+            assertThrows(InvalidCredentialsException.class, () -> userService.loginUser(wrongUsername.getUsername(), wrongUsername.getPassword()));
 
             //assert
             verify(users).findByUsername(wrongUsername.getUsername());
@@ -157,7 +154,7 @@ public class UserServiceTest {
             // when(encoder.matches(user.getPassword(), userOptional.get().getPassword())).thenReturn(false);
 
             //act
-            assertThrows(InvalidCredentialsException.class, () -> userService.loginUser(incorrectUser));
+            assertThrows(InvalidCredentialsException.class, () -> userService.loginUser(incorrectUser.getUsername(), incorrectUser.getPassword()));
 
             //assert
             verify(users).findByUsername(incorrectUser.getUsername());

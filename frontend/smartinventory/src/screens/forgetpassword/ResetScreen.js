@@ -7,6 +7,7 @@ import {
     MDBModalContent,
     MDBModalDialog,
     MDBRow,
+    MDBSpinner,
 } from "mdb-react-ui-kit";
 import "mdb-react-ui-kit/dist/css/mdb.min.css";
 import React, { useEffect, useState } from "react";
@@ -24,10 +25,11 @@ function ResetScreen() {
     const [error, setError] = useState("");
     const [field1Error, setField1Error] = useState("");
     const [field2Error, setField2Error] = useState("");
+    const [loadingButton, setLoadingButton] = useState(false);
+    const [disabledButton, setdisabledButton] = useState(false);
 
     // Setting errors for conditional rendering
     useEffect(() => {
-
         // New password field error rendering
         setField1Error("");
         if (data.newPassword && data.newPassword.length < 8)
@@ -37,7 +39,6 @@ function ResetScreen() {
         setField2Error("");
         if (data.confirmPassword && data.confirmPassword !== data.newPassword)
             setField2Error("Passwords need to match");
-            
     }, [data.newPassword, data.confirmPassword]);
 
     const OnChange = (e) => {
@@ -56,13 +57,16 @@ function ResetScreen() {
     const handleReset = async (e) => {
         e.preventDefault();
         console.log(data.newPassword);
-
+        setLoadingButton(true);
+        setdisabledButton(true);
         // Password entered is not of required length
         if (data.newPassword.length < 8) {
             setError("Password must be at least 8 characters long.");
+            setLoadingButton(false);
+            setdisabledButton(false);
             return;
         }
-        
+
         // Get new passwords from input
         const passwords = {
             newPassword: data.newPassword,
@@ -74,23 +78,31 @@ function ResetScreen() {
 
         try {
             const res = await resetPassword(passwords, token);
-            if (res) toggleShow();
-
+            if (res) {
+                toggleShow();
+                setLoadingButton(false);
+                setdisabledButton(false);
+            }
         } catch (err) {
             // Setting error message for conditional rendering
             let errMessage = err.response.data.message;
 
             if (errMessage === "Passwords entered are not matching!") {
-                setError("Passwords entered are not matching! Please try again.");
-            }
-            else if (errMessage === "Token not found, already expired!") {
+                setError(
+                    "Passwords entered are not matching! Please try again."
+                );
+                setLoadingButton(false);
+                setdisabledButton(false);
+            } else if (errMessage === "Token not found, already expired!") {
+                setLoadingButton(false);
+                setdisabledButton(false);
                 setError("Link expired, please request new link.");
-            }
-            else if (errMessage === "Token not found!") {
-                setError("Invalid reset password link")
+            } else if (errMessage === "Token not found!") {
+                setLoadingButton(false);
+                setdisabledButton(false);
+                setError("Invalid reset password link");
             }
         }
-        
     };
 
     return (
@@ -111,7 +123,8 @@ function ResetScreen() {
                                 </h4>
                                 <h6>
                                     {" "}
-                                    New password must be at least 8 characters long.
+                                    New password must be at least 8 characters
+                                    long.
                                 </h6>
                             </div>
                             <br></br>
@@ -127,11 +140,13 @@ function ResetScreen() {
                                         onChange={OnChange}
                                     />
                                 </MDBCol>
-                                { field1Error ? <div
-                                    className="form-text d-grid gap-2 col-4 mx-auto field-error"
-                                >
-                                    {field1Error}
-                                </div>: ""}
+                                {field1Error ? (
+                                    <div className="form-text d-grid gap-2 col-4 mx-auto field-error">
+                                        {field1Error}
+                                    </div>
+                                ) : (
+                                    ""
+                                )}
                                 <br></br>
                                 <MDBCol className="d-grid gap-2 col-4 mx-auto">
                                     <MDBInput
@@ -144,20 +159,44 @@ function ResetScreen() {
                                         onChange={OnChange}
                                     />
                                 </MDBCol>
-                                { field2Error ? <div
-                                    className="form-text d-grid gap-2 col-4 mx-auto field-error"
-                                >
-                                    {field2Error}
-                                </div>: ""}
+                                {field2Error ? (
+                                    <div className="form-text d-grid gap-2 col-4 mx-auto field-error">
+                                        {field2Error}
+                                    </div>
+                                ) : (
+                                    ""
+                                )}
                             </div>
 
                             {/* Display error message */}
-                            {error ? <MDBCol className="d-flex justify-content-center error">{error}</MDBCol> : ""}
+                            {error ? (
+                                <MDBCol className="d-flex justify-content-center error">
+                                    {error}
+                                </MDBCol>
+                            ) : (
+                                ""
+                            )}
 
                             <MDBCol className="d-flex justify-content-center ">
-                                <MDBBtn onClick={(e) => handleReset(e)}>
-                                    Reset Password
-                                </MDBBtn>
+                                <button
+                                    class="reset-pw-button"
+                                    onClick={(e) => handleReset(e)}
+                                    disabled={disabledButton}
+                                >
+                                    <div className={"d-flex justify-content-center"}>
+                                        <div className={loadingButton ? " visible" : " invisible"}>
+                                            <MDBSpinner
+                                                size="sm"
+                                                role="status"
+                                                tag="span"
+                                                className={""}
+                                            />
+                                        </div>
+                                        <div class="send-email-text">
+                                            Reset Password
+                                        </div>
+                                    </div>
+                                </button>
                             </MDBCol>
                         </div>
                     </MDBRow>

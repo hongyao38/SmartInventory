@@ -37,6 +37,7 @@ public class AppUserController {
     @ResponseStatus(HttpStatus.OK)
     @PostMapping("/users/check-username")
     public boolean usernameExists(@RequestBody CredDTO request) {
+        System.out.println("REQUEST TO CHECK RECEIVED: | " + request.getUsername() + " | ");
         return userService.usernameExists(request.getUsername());
     }
 }

@@ -34,8 +34,8 @@ POST http://localhost:8080/api/v1/login
 Content-Type: application/json
 
 {
-    "username": "xiaodidi",
-    "password": "12345"
+    "username": "hongyao38",
+    "password": "12345678"
 }
 
 ### LOGIN (FAIL INVALID USERNAME)

@@ -45,6 +45,10 @@ public class AppUserService implements UserDetailsService {
                 .orElseThrow(() -> new UserEmailNotFoundException(email));
     }
 
+    public void deleteUserByUsername(String username) {
+        userRepository.deleteByUsername(username);
+    }
+
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
@@ -98,24 +102,25 @@ public class AppUserService implements UserDetailsService {
     /*
      * Takes in AppUser object and returns a ResponseEntity with JWT in body
      */
-    public ResponseEntity<JwtDTO> loginUser(AppUser user) {
-
-        String username = user.getUsername();
-        String password = user.getPassword();
+    public ResponseEntity<JwtDTO> loginUser(String usernameOrEmail, String password) {
 
         // If username does not exist
-        Optional<AppUser> userRecord = userRepository.findByUsername(username);
-        if (userRecord.isEmpty()) {
+        Optional<AppUser> userRecord = userRepository.findByUsername(usernameOrEmail);
+        Optional<AppUser> userRecordEmail = userRepository.findByEmailIgnoreCase(usernameOrEmail);
+        if (userRecord.isEmpty() && userRecordEmail.isEmpty()) {
             throw new InvalidCredentialsException();
         }
 
+        // Retrieve user to login
+        AppUser userToLogin = userRecord.isEmpty() ? userRecordEmail.get() : userRecord.get();
+
         // If password is not matching
-        if (!bCryptPasswordEncoder.matches(password, userRecord.get().getPassword())) {
+        if (!bCryptPasswordEncoder.matches(password, userToLogin.getPassword())) {
             throw new InvalidCredentialsException();
         }
 
         // Create JWT token
-        UserDetails userDetails = loadUserByUsername(username);
+        UserDetails userDetails = loadUserByUsername(userToLogin.getUsername());
         String accessToken = JwtUtil.createJWT(userDetails);
 
         return new ResponseEntity<>(new JwtDTO(accessToken), HttpStatus.OK);
