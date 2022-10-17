@@ -38,9 +38,14 @@ public class ContainerService {
         }).orElse(null);
     }
 
+    public Container updateContainer(Container container, Double quantity) {
+        Double newPercentage = quantity / container.getCapacity() * 100;
+
+        container.setPercentageFilled(newPercentage);
+        return containerRepo.save(container);
+    }
+
     public void deleteContainer(Long ContainerId) {
         containerRepo.deleteById(ContainerId);
     }
 }
-
-//update the value of percentagefilled everytime the food is updated

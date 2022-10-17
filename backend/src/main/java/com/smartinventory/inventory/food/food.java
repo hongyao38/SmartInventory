@@ -13,6 +13,7 @@ import javax.persistence.OneToOne;
 import javax.persistence.SequenceGenerator;
 import javax.validation.constraints.NotNull;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.smartinventory.inventory.consumption.Consumption;
 import com.smartinventory.inventory.container.Container;
 import com.smartinventory.inventory.purchase.Purchase;
@@ -58,5 +59,6 @@ public class Food {
 
     @OneToOne
     @JoinColumn(name = "containerId")
+    @JsonBackReference
     private Container container;
 }

@@ -2,6 +2,7 @@ package com.smartinventory.inventory.food;
 
 import java.util.List;
 import com.smartinventory.exceptions.inventory.FoodNotFoundException;
+import com.smartinventory.inventory.container.ContainerService;
 import com.smartinventory.exceptions.inventory.FoodExistsException;
 
 import org.springframework.stereotype.Service;
@@ -12,6 +13,7 @@ import lombok.AllArgsConstructor;
 @AllArgsConstructor
 public class FoodService {
     
+    private final ContainerService containerService;
     private final FoodRepository foodRepo;
 
     public List<Food> listFood() {
@@ -46,6 +48,7 @@ public class FoodService {
     }
 
     public Food updateCurrentQuantity(Long foodId, Double quantity) {
+        containerService.updateContainer(foodRepo.findById(foodId).get().getContainer() ,quantity);
         return foodRepo.findById(foodId).map(food -> {food.setCurrentQuantity(quantity);
             return foodRepo.save(food);
         }).orElse(null);
