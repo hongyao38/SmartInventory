@@ -5,6 +5,8 @@ import java.util.List;
 import javax.validation.Valid;
 
 import com.smartinventory.exceptions.inventory.FoodExistsException;
+import com.smartinventory.inventory.food.Food;
+import com.smartinventory.inventory.food.FoodService;
 
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.http.HttpStatus;
@@ -25,28 +27,40 @@ import lombok.AllArgsConstructor;
 @RequestMapping("/api/v1")
 public class PurchaseController {
     private PurchaseService purchaseService;
+    private FoodService foodService;
 
     @GetMapping("/purchases")
     public List<Purchase> getAllFood(){
         return purchaseService.listPurchases();
     }
 
+    @GetMapping("/food/{foodId}/purchases")
+    public List<Purchase> getPurchasesByFood(@PathVariable (value = "foodId") Long foodId){
+        return purchaseService.listPurchaseByFood(foodId);
+    }
+
+    @GetMapping("/food/{foodId}/purchases/{purchaseId}")
+    public Purchase getPurchase(@PathVariable (value = "purchaseId") Long purchaseId){
+        return purchaseService.getPurchase(purchaseId);
+    }
+
     @ResponseStatus(HttpStatus.CREATED)
-    @PostMapping("/purchases")
-    public Purchase addPurchase(@Valid @RequestBody Purchase purchase) {
-        if (purchaseService.addPurchase(purchase) == null) {
-            throw new FoodExistsException(purchase.getFood().getFoodName());
-        }
+    @PostMapping("/food/{foodId}/purchases")
+    public Purchase addPurchase(@PathVariable (value = "foodId") Long foodId,
+                                @Valid @RequestBody Purchase purchase) {
+        Food food = foodService.getFood(foodId);
+        purchase.setFood(food);
+        
         return purchaseService.addPurchase(purchase);
     }
 
-    @PutMapping("/purchases/{purchaseId}")
+    @PutMapping("/food/{foodId}/purchases/{purchaseId}")
     public Purchase updatePurchase(@PathVariable (value = "purchaseId") Long purchaseId,
                                 @Valid @RequestBody Purchase newPurchase){
         return purchaseService.updatePurchase(purchaseId, newPurchase);
     }
 
-    @DeleteMapping("/purchases/{purchaseId}")
+    @DeleteMapping("/food/{foodId}/purchases/{purchaseId}")
     public void deletePurchase(@PathVariable (value = "purchaseId") Long purchaseId){
         try{
             purchaseService.deletePurchase(purchaseId);

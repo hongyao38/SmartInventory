@@ -34,7 +34,7 @@ public class ContainerController {
         return containerService.listContainer();
     }
 
-    @GetMapping("/containers/{containerId}")
+    @GetMapping("/food/{foodId}/containers/{containerId}")
     public Container getContainer(@PathVariable Long containerId){
         return containerService.getContainer(containerId);
     }
@@ -49,13 +49,13 @@ public class ContainerController {
         return containerService.addContainer(container);
     }
 
-    @PutMapping("/containers/{containerId}")
+    @PutMapping("food/{foodId}/containers/{containerId}")
     public Container updateContainer(@PathVariable Long containerId, @Valid @RequestBody Container newContainer){
         Container Container = containerService.updateContainer(containerId, newContainer);
         return Container;
     }
 
-    @DeleteMapping("/containers/{containerId}")
+    @DeleteMapping("food/{foodId}/containers/{containerId}")
     public void deleteContainer(@PathVariable Long containerId){
         try{
             containerService.deleteContainer(containerId);

@@ -40,6 +40,7 @@ public class Purchase {
 
     @ManyToOne
     @JsonBackReference
-    @JoinColumn(name="foodId")
+    @JoinColumn(name="foodId",
+                referencedColumnName = "id")
     private Food food;
 }

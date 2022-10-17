@@ -34,11 +34,11 @@ public class ConsumptionService {
         return consumptions.findByDateConsumed(dateConsumed);
     }
 
-    public Optional<Consumption> getConsumption(Long consumptionId) {
+    public Consumption getConsumption(Long consumptionId) {
         if (consumptions.findById(consumptionId).isEmpty()) {
             return null;
         }
-        return consumptions.findById(consumptionId);
+        return consumptions.findById(consumptionId).get();
     }
 
     //add new consumption
@@ -68,7 +68,8 @@ public class ConsumptionService {
         Double newQuantity = food.getCurrentQuantity() - (newConsumption.getAmountConsumed() - currentConsumptionAmt);
         foodService.updateCurrentQuantity(food.getId(), newQuantity);
 
-        currentConsumption.setAmountConsumed(currentConsumptionAmt);
+        currentConsumption.setAmountConsumed(newConsumption.getAmountConsumed());
+        currentConsumption.setDateConsumed(newConsumption.getDateConsumed());
         return consumptions.save(currentConsumption);
     }
 

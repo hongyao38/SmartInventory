@@ -40,6 +40,12 @@ public class ConsumptionController {
         return consumptionService.listConsumptionsByFood(foodId);
     }
 
+    @GetMapping("/food/{foodId}/consumptions/{consumptionId}")
+    public List<Consumption> getConsumption(@PathVariable (value = "consumptionId") Long consumptionId){
+        return consumptionService.getConsumption(consumptionId);
+    }
+
+
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping("/food/{foodId}/consumptions")
     public Consumption addConsumption(@PathVariable (value = "foodId") Long foodId,
@@ -57,7 +63,7 @@ public class ConsumptionController {
         return consumptionService.updateConsumption(consumptionId, newConsumption);
     }
 
-    @DeleteMapping("/consumptions/{consumptionId}")
+    @DeleteMapping("/food/{foodId}/consumptions/{consumptionId}")
     public void deletePurchase(@PathVariable (value = "consumptionId") Long consumptionId){
         try{
             consumptionService.deleteConsumption(consumptionId);

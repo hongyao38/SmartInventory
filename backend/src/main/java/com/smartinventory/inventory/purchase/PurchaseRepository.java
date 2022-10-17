@@ -13,6 +13,6 @@ import org.springframework.stereotype.Repository;
 public interface PurchaseRepository extends JpaRepository<Purchase, Long>{
     //Create, Read, Update, Delete
     List<Purchase> findByDateBought(LocalDate dateBought);
-    List<Purchase> findByFood(Food food);
+    List<Purchase> findByFoodId(Long foodId);
     List<Purchase> findByExpiryDate(Date expiryDate);
 }
