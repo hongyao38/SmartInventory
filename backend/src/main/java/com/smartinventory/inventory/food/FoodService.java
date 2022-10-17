@@ -1,6 +1,8 @@
 package com.smartinventory.inventory.food;
 
 import java.util.List;
+import java.util.Optional;
+
 import com.smartinventory.exceptions.inventory.FoodNotFoundException;
 import com.smartinventory.inventory.container.ContainerService;
 import com.smartinventory.exceptions.inventory.FoodExistsException;
@@ -42,16 +44,32 @@ public class FoodService {
     }
 
     public Food updateFood(Long foodId, Food newFood) {
-        return foodRepo.findById(foodId).map(food -> {food.setCurrentQuantity(newFood.getCurrentQuantity());
-            return foodRepo.save(food);
-        }).orElse(null);
+        Optional<Food> food = foodRepo.findById(foodId);
+
+        if (food.isEmpty()) {
+            return null;
+        }
+
+        Food updatedFood = food.get();
+        updatedFood.setCurrentQuantity(newFood.getCurrentQuantity());
+        containerService.updateContainer(updatedFood.getContainer());
+        return foodRepo.save(updatedFood);
     }
 
     public Food updateCurrentQuantity(Long foodId, Double quantity) {
-        containerService.updateContainer(foodRepo.findById(foodId).get().getContainer() ,quantity);
-        return foodRepo.findById(foodId).map(food -> {food.setCurrentQuantity(quantity);
-            return foodRepo.save(food);
-        }).orElse(null);
+        Optional<Food> food = foodRepo.findById(foodId);
+
+        if (food.isEmpty()) {
+            return null;
+        }
+
+        Food updatedFood = food.get();
+        updatedFood.setCurrentQuantity(quantity);
+
+        if (updatedFood.getContainer() != null) {
+            containerService.updateContainer(updatedFood.getContainer());
+        }
+        return foodRepo.save(updatedFood);
     }
 
     public void deleteFood(Long foodId) {

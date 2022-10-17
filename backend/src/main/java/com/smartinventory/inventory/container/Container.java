@@ -49,6 +49,7 @@ public class Container {
     @OneToOne(mappedBy = "container",
         orphanRemoval = true,
         cascade = CascadeType.ALL)
+    @NotNull
     private Food food;
 
     // @ManyToOne(mappedBy = "food",

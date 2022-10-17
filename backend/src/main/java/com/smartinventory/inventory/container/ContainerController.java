@@ -17,8 +17,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.smartinventory.exceptions.inventory.ContainerNotFoundException;
-
 import lombok.AllArgsConstructor;
 
 @RestController
@@ -32,9 +30,9 @@ public class ContainerController {
         return containerService.listContainer();
     }
 
-    @GetMapping("/containers/{ContainerId}")
-    public Container getContainer(@PathVariable Long ContainerId, @Valid @RequestBody ContainerDTO ContainerRequest){
-        return containerService.getContainer(ContainerRequest.getContainerName());
+    @GetMapping("/containers/{containerId}")
+    public Container getContainer(@PathVariable Long containerId){
+        return containerService.getContainer(containerId);
     }
 
     @ResponseStatus(HttpStatus.CREATED)
@@ -43,19 +41,18 @@ public class ContainerController {
         return containerService.addContainer(Container);
     }
 
-    @PutMapping("/containers/{ContainerId}")
-    public Container updateContainer(@PathVariable Long ContainerId, @Valid @RequestBody Container newContainer){
-        Container Container = containerService.updateContainer(ContainerId, newContainer);
-        if(Container == null) throw new ContainerNotFoundException(newContainer.getContainerName());
+    @PutMapping("/containers/{containerId}")
+    public Container updateContainer(@PathVariable Long containerId, @Valid @RequestBody Container newContainer){
+        Container Container = containerService.updateContainer(containerId, newContainer);
         return Container;
     }
 
-    @DeleteMapping("/containers/{ContainerId}")
-    public void deleteContainer(@PathVariable Long ContainerId){
+    @DeleteMapping("/containers/{containerId}")
+    public void deleteContainer(@PathVariable Long containerId){
         try{
-            containerService.deleteContainer(ContainerId);
+            containerService.deleteContainer(containerId);
          }catch(EmptyResultDataAccessException e) {
-            throw new ContainerNotFoundException(containerService.getContainer(ContainerId).getContainerName());
+
          }
     }
 }

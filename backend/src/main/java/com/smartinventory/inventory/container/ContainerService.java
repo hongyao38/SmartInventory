@@ -2,6 +2,8 @@ package com.smartinventory.inventory.container;
 
 import java.util.List;
 
+import com.smartinventory.inventory.food.Food;
+
 import org.springframework.stereotype.Service;
 
 import lombok.AllArgsConstructor;
@@ -42,6 +44,13 @@ public class ContainerService {
         Double newPercentage = quantity / container.getCapacity() * 100;
 
         container.setPercentageFilled(newPercentage);
+        return containerRepo.save(container);
+    }
+
+    public Container updateContainer(Container container) {
+        Double currentQuantity = container.getFood().getCurrentQuantity();
+        Double percentageFilled = currentQuantity / container.getCapacity() * 100;
+        container.setPercentageFilled(percentageFilled);
         return containerRepo.save(container);
     }
 
