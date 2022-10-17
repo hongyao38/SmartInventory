@@ -47,12 +47,17 @@ public class FoodService {
         Optional<Food> food = foodRepo.findById(foodId);
 
         if (food.isEmpty()) {
-            return null;
+            throw new FoodNotFoundException(newFood.getFoodName());
         }
 
         Food updatedFood = food.get();
         updatedFood.setCurrentQuantity(newFood.getCurrentQuantity());
-        containerService.updateContainer(updatedFood.getContainer());
+        
+        if (updatedFood.getContainer() != null) {
+            containerService.updateContainer(updatedFood.getContainer(), updatedFood.getCurrentQuantity());
+        }
+        
+
         return foodRepo.save(updatedFood);
     }
 
@@ -67,7 +72,7 @@ public class FoodService {
         updatedFood.setCurrentQuantity(quantity);
 
         if (updatedFood.getContainer() != null) {
-            containerService.updateContainer(updatedFood.getContainer());
+            containerService.updateContainer(updatedFood.getContainer(), updatedFood.getCurrentQuantity());
         }
         return foodRepo.save(updatedFood);
     }
