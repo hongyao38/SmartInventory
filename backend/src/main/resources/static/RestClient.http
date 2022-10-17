@@ -85,7 +85,7 @@ Content-Type: application/json
 
 ### GET FOOD 
 GET http://localhost:8080/api/v1/food/1
-Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ4aWFvZGlkaSIsInJvbGVzIjpbIlJPTEVfQURNSU4iXSwiaXNzIjoibG9jYWxob3N0OjgwODAvYXBpL3YxL2xvZ2luIiwiZXhwIjoxNjY1ODE3OTg3fQ.xS4-3oSVrBRFpAA4h4iOe29DODN101usTY9Oxf4KR44
+Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ4aWFvZGlkaSIsInJvbGVzIjpbIlJPTEVfQURNSU4iXSwiaXNzIjoibG9jYWxob3N0OjgwODAvYXBpL3YxL2xvZ2luIiwiZXhwIjoxNjY2MDEzNjk0fQ.kKT7iUBb5SU3AoRYySnvtq5gGndwH5I7T88lhTVE8oE
 Accept: application/json
 Content-Type: application/json
 
@@ -95,7 +95,7 @@ Content-Type: application/json
 
 ### NEW FOOD
 POST http://localhost:8080/api/v1/food
-Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ4aWFvZGlkaSIsInJvbGVzIjpbIlJPTEVfQURNSU4iXSwiaXNzIjoibG9jYWxob3N0OjgwODAvYXBpL3YxL2xvZ2luIiwiZXhwIjoxNjY1ODE3OTg3fQ.xS4-3oSVrBRFpAA4h4iOe29DODN101usTY9Oxf4KR44
+Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ4aWFvZGlkaSIsInJvbGVzIjpbIlJPTEVfQURNSU4iXSwiaXNzIjoibG9jYWxob3N0OjgwODAvYXBpL3YxL2xvZ2luIiwiZXhwIjoxNjY2MDE1OTEyfQ.Poic8G1MY5XAziUFAjeMSCOnghY59fk889mjizkKcwo
 Content-Type: application/json
 
 {
@@ -106,7 +106,7 @@ Content-Type: application/json
 
 ### UPDATE FOOD
 PUT http://localhost:8080/api/v1/food/1
-Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ4aWFvZGlkaSIsInJvbGVzIjpbIlJPTEVfQURNSU4iXSwiaXNzIjoibG9jYWxob3N0OjgwODAvYXBpL3YxL2xvZ2luIiwiZXhwIjoxNjY1ODEzMzI1fQ.Ghgr0vS8AV_nUlVD2pDw8DLB6s0Wn356NzGjBBikJM4
+Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ4aWFvZGlkaSIsInJvbGVzIjpbIlJPTEVfQURNSU4iXSwiaXNzIjoibG9jYWxob3N0OjgwODAvYXBpL3YxL2xvZ2luIiwiZXhwIjoxNjY2MDEzMjU0fQ.GDgG4tGlfVJPtqaChakDG5P_t5YdFKM_tOwD6YuUo3w
 Content-Type: application/json
 
 {
@@ -121,7 +121,7 @@ Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ4aWFvZGlka
 
 ### GET FOOD 
 GET http://localhost:8080/api/v1/food
-Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ4aWFvZGlkaSIsInJvbGVzIjpbIlJPTEVfQURNSU4iXSwiaXNzIjoibG9jYWxob3N0OjgwODAvYXBpL3YxL2xvZ2luIiwiZXhwIjoxNjY1NzYxMjE4fQ.g28KXStNsAz58QZa6vBiVw3B1cKqOxvwZeLVMQOW7oQ
+Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ4aWFvZGlkaSIsInJvbGVzIjpbIlJPTEVfQURNSU4iXSwiaXNzIjoibG9jYWxob3N0OjgwODAvYXBpL3YxL2xvZ2luIiwiZXhwIjoxNjY2MDEzNjk0fQ.kKT7iUBb5SU3AoRYySnvtq5gGndwH5I7T88lhTVE8oE
 
 
 ### NEW PURCHASE
@@ -168,7 +168,7 @@ Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ4aWFvZGlka
 
 ### NEW CONSUMPTION
 POST http://localhost:8080/api/v1/consumptions
-Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ4aWFvZGlkaSIsInJvbGVzIjpbIlJPTEVfQURNSU4iXSwiaXNzIjoibG9jYWxob3N0OjgwODAvYXBpL3YxL2xvZ2luIiwiZXhwIjoxNjY1ODEzNzcwfQ.Es2IENjef_vHUaqaGK1jQbVCRSj8cw_fsVjaMjAdpwc
+Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ4aWFvZGlkaSIsInJvbGVzIjpbIlJPTEVfQURNSU4iXSwiaXNzIjoibG9jYWxob3N0OjgwODAvYXBpL3YxL2xvZ2luIiwiZXhwIjoxNjY2MDExNDU0fQ.5VOuc700tuBqEWOXxxbBdA3sKZj_JTamF7mYKMy0nm4
 Content-Type: application/json
 
 {
@@ -179,9 +179,13 @@ Content-Type: application/json
             "id" : "1",
             "foodName": "Milk",
             "category": "dairy",
-            "currentQuantity": "0.5"
+            "currentQuantity": "2.5"
         }
 }
+
+###GET CONTAINER
+GET http://localhost:8080/api/v1/containers/1
+Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ4aWFvZGlkaSIsInJvbGVzIjpbIlJPTEVfQURNSU4iXSwiaXNzIjoibG9jYWxob3N0OjgwODAvYXBpL3YxL2xvZ2luIiwiZXhwIjoxNjY2MDEzNjk0fQ.kKT7iUBb5SU3AoRYySnvtq5gGndwH5I7T88lhTVE8oE
 
 ### UPDATE CONSUMPTION
 PUT http://localhost:8080/api/v1/consumptions/1
@@ -213,4 +217,25 @@ Content-Type: application/json
 {
     "username": "xiaodidi",
     "password": ""
+}
+
+
+### NEW CONTAINER
+POST http://localhost:8080/api/v1/food/1/containers
+Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ4aWFvZGlkaSIsInJvbGVzIjpbIlJPTEVfQURNSU4iXSwiaXNzIjoibG9jYWxob3N0OjgwODAvYXBpL3YxL2xvZ2luIiwiZXhwIjoxNjY2MDE1OTEyfQ.Poic8G1MY5XAziUFAjeMSCOnghY59fk889mjizkKcwo
+Content-Type: application/json
+
+{
+    "capacity": "25",
+    "threshold": "5"
+}
+
+### UPDATE CONTAINER
+PUT http://localhost:8080/api/v1/containers/1
+Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ4aWFvZGlkaSIsInJvbGVzIjpbIlJPTEVfQURNSU4iXSwiaXNzIjoibG9jYWxob3N0OjgwODAvYXBpL3YxL2xvZ2luIiwiZXhwIjoxNjY2MDE1OTEyfQ.Poic8G1MY5XAziUFAjeMSCOnghY59fk889mjizkKcwo
+Content-Type: application/json
+
+{
+    "capacity" : "50",
+    "threshold" : "25"
 }
