@@ -41,7 +41,7 @@ public class ConsumptionService {
         return consumptions.findById(consumptionId);
     }
 
-    //add new purchase
+    //add new consumption
     // will automatically update total quantity in food
     public Consumption addConsumption(Consumption consumption) {
         //Finding the food from the purchase

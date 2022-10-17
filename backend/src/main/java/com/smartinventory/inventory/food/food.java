@@ -14,6 +14,7 @@ import javax.persistence.SequenceGenerator;
 import javax.validation.constraints.NotNull;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.smartinventory.inventory.consumption.Consumption;
 import com.smartinventory.inventory.container.Container;
 import com.smartinventory.inventory.purchase.Purchase;
@@ -57,8 +58,10 @@ public class Food {
         cascade = CascadeType.ALL)
     private List<Consumption> consumptions;
 
-    @OneToOne
-    @JoinColumn(name = "containerId")
-    @JsonBackReference
+
+    @OneToOne(mappedBy = "food",
+                orphanRemoval = true,
+                cascade = CascadeType.ALL)
+    @JsonIgnore
     private Container container;
 }

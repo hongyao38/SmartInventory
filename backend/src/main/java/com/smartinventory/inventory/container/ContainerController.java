@@ -5,6 +5,9 @@ import java.util.Optional;
 
 import javax.validation.Valid;
 
+import com.smartinventory.inventory.food.Food;
+import com.smartinventory.inventory.food.FoodService;
+
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -24,6 +27,7 @@ import lombok.AllArgsConstructor;
 @RequestMapping("/api/v1")
 public class ContainerController {
     private ContainerService containerService;
+    private FoodService foodService;
 
     @GetMapping("/containers")
     public List<Container> getAllContainer(){
@@ -36,9 +40,13 @@ public class ContainerController {
     }
 
     @ResponseStatus(HttpStatus.CREATED)
-    @PostMapping("/containers")
-    public Container addContainer(@Valid @RequestBody Container Container) {
-        return containerService.addContainer(Container);
+    @PostMapping("food/{foodId}/containers")
+    public Container addContainer(@PathVariable (value = "foodId") Long foodId,
+                                    @Valid @RequestBody Container container) {
+        Food food = foodService.getFood(foodId);
+        container.setFood(food);
+
+        return containerService.addContainer(container);
     }
 
     @PutMapping("/containers/{containerId}")

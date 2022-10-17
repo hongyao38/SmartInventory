@@ -30,14 +30,13 @@ public class ContainerService {
     }
 
     //add new Container
-    public Container addContainer(Container Container) {
-        return containerRepo.save(Container);
-    }
+    public Container addContainer(Container container) {
+        Double currentQuantity = container.getFood().getCurrentQuantity();
+        Double capacity = container.getCapacity();
+        Double percentageFilled = currentQuantity / capacity * 100;
 
-    public Container updateContainer(Long ContainerId, Container newContainer) {
-        return containerRepo.findById(ContainerId).map(Container -> {Container.setPercentageFilled(newContainer.getPercentageFilled());
-            return containerRepo.save(Container);
-        }).orElse(null);
+        container.setPercentageFilled(percentageFilled);
+        return containerRepo.save(container);
     }
 
     public Container updateContainer(Container container, Double quantity) {
@@ -47,11 +46,15 @@ public class ContainerService {
         return containerRepo.save(container);
     }
 
-    public Container updateContainer(Container container) {
-        Double currentQuantity = container.getFood().getCurrentQuantity();
-        Double percentageFilled = currentQuantity / container.getCapacity() * 100;
-        container.setPercentageFilled(percentageFilled);
-        return containerRepo.save(container);
+    public Container updateContainer(Long containerId, Container newContainer) {
+        Container currentContainer = containerRepo.findById(containerId).get();
+        Double currentQuantity = currentContainer.getFood().getCurrentQuantity();
+        Double percentageFilled = currentQuantity / newContainer.getCapacity() * 100;
+        currentContainer.setPercentageFilled(percentageFilled);
+
+        currentContainer.setThreshold(newContainer.getThreshold());
+        currentContainer.setCapacity(newContainer.getCapacity());
+        return containerRepo.save(currentContainer);
     }
 
     public void deleteContainer(Long ContainerId) {

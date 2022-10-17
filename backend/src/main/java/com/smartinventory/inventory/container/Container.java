@@ -7,16 +7,18 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
+import javax.persistence.PostLoad;
 import javax.persistence.SequenceGenerator;
+import javax.persistence.Transient;
 import javax.validation.constraints.NotNull;
 
-import com.smartinventory.inventory.consumption.Consumption;
 import com.smartinventory.inventory.food.Food;
-import com.smartinventory.inventory.purchase.Purchase;
 
+import org.hibernate.annotations.Formula;
 import org.springframework.boot.jackson.JsonComponent;
 
 import lombok.AllArgsConstructor;
@@ -43,17 +45,10 @@ public class Container {
     @NotNull
     private Double threshold;
 
-    @NotNull
     private Double percentageFilled;
 
-    @OneToOne(mappedBy = "container",
-        orphanRemoval = true,
-        cascade = CascadeType.ALL)
-    @NotNull
+    @OneToOne
+    @JoinColumn(name = "foodId", 
+                referencedColumnName = "id")
     private Food food;
-
-    // @ManyToOne(mappedBy = "food",
-    //     orphanRemoval = true,
-    //     cascade = CascadeType.ALL)
-    // private List<Consumption> consumptions;
 }
