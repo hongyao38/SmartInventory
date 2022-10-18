@@ -34,7 +34,7 @@ public class PurchaseController {
         return purchaseService.listPurchases();
     }
 
-    @GetMapping("/food/{foodId}/purchases")
+    @GetMapping("/storage/{storageId}/containers/{containerId}/food/{foodId}/purchases")
     public List<Purchase> getPurchasesByFood(@PathVariable (value = "foodId") Long foodId){
         return purchaseService.listPurchaseByFood(foodId);
     }

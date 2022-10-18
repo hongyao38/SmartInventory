@@ -16,7 +16,9 @@ import javax.persistence.SequenceGenerator;
 import javax.persistence.Transient;
 import javax.validation.constraints.NotNull;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.smartinventory.inventory.food.Food;
+import com.smartinventory.inventory.storage.Storage;
 
 import org.hibernate.annotations.Formula;
 import org.springframework.boot.jackson.JsonComponent;
@@ -57,4 +59,10 @@ public class Container {
     @JoinColumn(name = "foodId", 
                 referencedColumnName = "id")
     private Food food;
+
+    @ManyToOne
+    @JsonBackReference
+    @JoinColumn(name = "storageId",
+                referencedColumnName = "storageId")
+    private Storage storage;
 }

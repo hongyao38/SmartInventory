@@ -33,7 +33,7 @@ public class FoodController {
     }
 
     @GetMapping("/food/{foodId}")
-    public Food getFood(@PathVariable Long foodId, @Valid @RequestBody FoodDTO foodRequest){
+    public Food getFood(@PathVariable (value = "foodId") Long foodId, @Valid @RequestBody FoodDTO foodRequest){
         return foodService.getFood(foodRequest.getFoodName());
     }
 
@@ -44,14 +44,14 @@ public class FoodController {
     }
 
     @PutMapping("/food/{foodId}")
-    public Food updateFood(@PathVariable Long foodId, @Valid @RequestBody Food newFood){
+    public Food updateFood(@PathVariable (value = "foodId") Long foodId, @Valid @RequestBody Food newFood){
         Food food = foodService.updateFood(foodId, newFood);
         if(food == null) throw new FoodNotFoundException(newFood.getFoodName());
         return food;
     }
 
     @DeleteMapping("/food/{foodId}")
-    public void deleteFood(@PathVariable Long foodId){
+    public void deleteFood(@PathVariable (value = "foodId") Long foodId){
         try{
             foodService.deleteFood(foodId);
          }catch(EmptyResultDataAccessException e) {

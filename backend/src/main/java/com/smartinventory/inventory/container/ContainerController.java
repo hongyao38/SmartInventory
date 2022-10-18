@@ -7,6 +7,8 @@ import javax.validation.Valid;
 
 import com.smartinventory.inventory.food.Food;
 import com.smartinventory.inventory.food.FoodService;
+import com.smartinventory.inventory.storage.Storage;
+import com.smartinventory.inventory.storage.StorageService;
 
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.http.HttpStatus;
@@ -28,19 +30,20 @@ import lombok.AllArgsConstructor;
 public class ContainerController {
     private ContainerService containerService;
     private FoodService foodService;
+    private StorageService storageService;
 
-    @GetMapping("/containers")
+    @GetMapping("/storage/{storageId}/containers")
     public List<Container> getAllContainer(){
         return containerService.listContainer();
     }
 
-    @GetMapping("/food/{foodId}/containers/{containerId}")
+    @GetMapping("/containers/{containerId}")
     public Container getContainer(@PathVariable Long containerId){
         return containerService.getContainer(containerId);
     }
 
     @ResponseStatus(HttpStatus.CREATED)
-    @PostMapping("food/{foodId}/containers")
+    @PostMapping("/food/{foodId}/containers")
     public Container addContainer(@PathVariable (value = "foodId") Long foodId,
                                     @Valid @RequestBody Container container) {
         Food food = foodService.getFood(foodId);
@@ -49,13 +52,35 @@ public class ContainerController {
         return containerService.addContainer(container);
     }
 
-    @PutMapping("food/{foodId}/containers/{containerId}")
-    public Container updateContainer(@PathVariable Long containerId, @Valid @RequestBody Container newContainer){
-        Container Container = containerService.updateContainer(containerId, newContainer);
-        return Container;
+    @ResponseStatus(HttpStatus.CREATED)
+    @PutMapping("/containers/{containerId}/storage/{storageId}")
+    public Container addContainertoStorage(@PathVariable (value = "containerId") Long containerId,
+                                    @PathVariable (value = "storageId") Long storageId) {
+
+        Storage storage = storageService.getStorage(storageId);
+        Container container = containerService.getContainer(containerId);
+        container.setStorage(storage);
+
+        return containerService.updateContainer(containerId, container);
     }
 
-    @DeleteMapping("food/{foodId}/containers/{containerId}")
+    @PutMapping("/containers/{containerId}/food/{foodId}")
+    public Container updateContainer(@PathVariable (value = "containerId") Long containerId, @Valid @RequestBody Container newContainer){
+        Container container = containerService.updateContainer(containerId, newContainer);
+        return container;
+    }
+
+    // //adding container to storage space
+    // @PutMapping("food/{foodId}/containers/{containerId}/storage/{storageId}")
+    // public Container updateContainer(@PathVariable Long containerId,
+    //                                     @PathVariable Long storageId){
+    //     Storage storage = storageService.getStorage(storageId);
+    //     Container container = containerService.getContainer(containerId);
+    //     container.setStorage(storage);
+    //     return containerService.updateContainer(containerId, container);
+    // }
+
+    @DeleteMapping("/storage/{storageId}/containers/{containerId}")
     public void deleteContainer(@PathVariable Long containerId){
         try{
             containerService.deleteContainer(containerId);
