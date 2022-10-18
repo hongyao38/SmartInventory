@@ -1,7 +1,9 @@
 package com.smartinventory.inventory.container;
 
 import java.util.List;
+import java.util.Optional;
 
+import com.smartinventory.exceptions.inventory.ContainerNotFoundException;
 import com.smartinventory.inventory.food.Food;
 
 import org.springframework.stereotype.Service;
@@ -27,6 +29,17 @@ public class ContainerService {
     //find container by id
     public Container getContainer(Long containerId) {
         return containerRepo.findById(containerId).get();
+    }
+
+    //find container by row and col idx
+    public Container getContainer(int rowIdx, int colIdx) {
+        Optional<Container> container = containerRepo.findByRowIndexAndColIndex(rowIdx, colIdx);
+
+        if (container.isEmpty()) {
+            throw new ContainerNotFoundException();
+        }
+
+        return container.get();
     }
 
     //add new Container

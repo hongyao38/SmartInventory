@@ -43,6 +43,12 @@ public class Container {
     private Double capacity;
 
     @NotNull
+    private int rowIndex;
+
+    @NotNull
+    private int colIndex;
+
+    @NotNull
     private Double threshold;
 
     private Double percentageFilled;

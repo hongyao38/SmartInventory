@@ -98,7 +98,7 @@ Content-Type: application/json
 
 ### NEW FOOD
 POST http://localhost:8080/api/v1/food
-Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ4aWFvZGlkaSIsInJvbGVzIjpbIlJPTEVfVVNFUiJdLCJpc3MiOiJsb2NhbGhvc3Q6ODA4MC9hcGkvdjEvbG9naW4iLCJleHAiOjE2NjYwMjE0Mzd9.C3pQcsCVFpCe0oeTxp3Mylk5foGWpV3KGtHSwXYzWEY
+Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ4aWFvZGlkaSIsInJvbGVzIjpbIlJPTEVfVVNFUiJdLCJpc3MiOiJsb2NhbGhvc3Q6ODA4MC9hcGkvdjEvbG9naW4iLCJleHAiOjE2NjYwNjIyMjl9.oM78ifqhsKoBpcPycoCugoUbVe9P4z54Alca60adfWU
 Content-Type: application/json
 
 {
@@ -206,12 +206,14 @@ Content-Type: application/json
 
 ### NEW CONTAINER
 POST http://localhost:8080/api/v1/food/1/containers
-Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ4aWFvZGlkaSIsInJvbGVzIjpbIlJPTEVfQURNSU4iXSwiaXNzIjoibG9jYWxob3N0OjgwODAvYXBpL3YxL2xvZ2luIiwiZXhwIjoxNjY2MDE1OTEyfQ.Poic8G1MY5XAziUFAjeMSCOnghY59fk889mjizkKcwo
+Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ4aWFvZGlkaSIsInJvbGVzIjpbIlJPTEVfVVNFUiJdLCJpc3MiOiJsb2NhbGhvc3Q6ODA4MC9hcGkvdjEvbG9naW4iLCJleHAiOjE2NjYwNjIyMjl9.oM78ifqhsKoBpcPycoCugoUbVe9P4z54Alca60adfWU
 Content-Type: application/json
 
 {
     "capacity": "25",
-    "threshold": "5"
+    "threshold": "5",
+    "rowIndex": "2",
+    "colIndex" : "3"
 }
 
 ### UPDATE CONTAINER

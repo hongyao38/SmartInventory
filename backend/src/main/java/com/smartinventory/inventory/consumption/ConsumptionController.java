@@ -41,7 +41,7 @@ public class ConsumptionController {
     }
 
     @GetMapping("/food/{foodId}/consumptions/{consumptionId}")
-    public List<Consumption> getConsumption(@PathVariable (value = "consumptionId") Long consumptionId){
+    public Consumption getConsumption(@PathVariable (value = "consumptionId") Long consumptionId){
         return consumptionService.getConsumption(consumptionId);
     }
 
