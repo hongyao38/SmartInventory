@@ -5,7 +5,6 @@ import java.util.Optional;
 
 import com.smartinventory.exceptions.inventory.ContainerNotFoundException;
 import com.smartinventory.inventory.food.Food;
-import com.smartinventory.inventory.storage.Storage;
 
 import org.springframework.stereotype.Service;
 
@@ -50,11 +49,6 @@ public class ContainerService {
         Double percentageFilled = currentQuantity / capacity * 100;
 
         container.setPercentageFilled(percentageFilled);
-
-        Storage storage = container.getStorage();
-        Double storageLeft = storage.getStorageLeft() - 1;
-        storage.setStorageLeft(storageLeft);
-
         return containerRepo.save(container);
     }
 
