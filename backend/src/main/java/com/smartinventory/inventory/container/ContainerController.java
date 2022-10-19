@@ -7,6 +7,8 @@ import javax.validation.Valid;
 
 import com.smartinventory.inventory.food.Food;
 import com.smartinventory.inventory.food.FoodService;
+import com.smartinventory.inventory.storage.Storage;
+import com.smartinventory.inventory.storage.StorageService;
 
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.http.HttpStatus;
@@ -28,6 +30,7 @@ import lombok.AllArgsConstructor;
 public class ContainerController {
     private ContainerService containerService;
     private FoodService foodService;
+    private StorageService storageService;
 
     @GetMapping("/containers")
     public List<Container> getAllContainer(){
@@ -40,11 +43,17 @@ public class ContainerController {
     }
 
     @ResponseStatus(HttpStatus.CREATED)
-    @PostMapping("food/{foodId}/containers")
+    @PostMapping("food/{foodId}/storage/{storageId}/containers")
     public Container addContainer(@PathVariable (value = "foodId") Long foodId,
+                                    @PathVariable (value = "storageId") Long storageId,
                                     @Valid @RequestBody Container container) {
         Food food = foodService.getFood(foodId);
         container.setFood(food);
+
+        Storage storage = storageService.getStorage(storageId);
+
+        container.setStorage(storage);
+        storageService.updateStorageAddContainer(storageId);
 
         return containerService.addContainer(container);
     }

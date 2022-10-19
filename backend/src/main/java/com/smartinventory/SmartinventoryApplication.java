@@ -18,7 +18,7 @@ public class SmartinventoryApplication {
 		AuthService authService = ctx.getBean(AuthService.class);
 
 		// Testing email (CHANGE IF NEEDED)
-		String email = "me40@live.com.sg";
+		String email = "hello@live.com.sg";
 
 		// Register User
 		RegistrationDTO regDTO = new RegistrationDTO(email, "xiaodidi", "12345");
