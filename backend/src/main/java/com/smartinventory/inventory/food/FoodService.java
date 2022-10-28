@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Optional;
 
 import com.smartinventory.exceptions.inventory.FoodNotFoundException;
+import com.smartinventory.inventory.container.ContainerRepository;
 import com.smartinventory.inventory.container.ContainerService;
 import com.smartinventory.exceptions.inventory.FoodExistsException;
 
@@ -17,6 +18,7 @@ public class FoodService {
     
     private final ContainerService containerService;
     private final FoodRepository foodRepo;
+    private final ContainerRepository containerRepo;
 
     public List<Food> listFood() {
         return foodRepo.findAll();
