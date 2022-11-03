@@ -12,7 +12,7 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface BlockRepository extends JpaRepository<Block, Long>{
     //Create, Read, Update, Delete
-    Optional<Block> findByIAndJ(int i, int j);
+    Optional<Block> findByIAndJAndStorage(int i, int j, Storage storage);
 
     List<Block> findByStorage(Storage storage);
 }

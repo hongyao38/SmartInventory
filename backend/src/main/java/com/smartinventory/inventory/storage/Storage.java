@@ -45,7 +45,10 @@ public class Storage {
                 cascade = CascadeType.ALL)
     private List<Container> containers;
 
-    @OneToMany(mappedBy = "storage", orphanRemoval = true, cascade = CascadeType.ALL)
+    @JsonIgnore
+    @OneToMany(mappedBy = "storage", 
+                orphanRemoval = true, 
+                cascade = CascadeType.ALL)
     private List<Block> blocks;
 
     public Storage(String username) {

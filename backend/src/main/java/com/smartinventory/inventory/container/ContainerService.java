@@ -79,7 +79,7 @@ public class ContainerService {
      * @param j
      * @return Container
      */
-    public Container getContainer(String username, int i, int j) {
+    public Container getContainer(String username, Integer i, Integer j) {
         Storage storage = getStorageByUsername(username);
 
         Optional<Container> container = containerRepo.findByIAndJAndStorage(i, j, storage);

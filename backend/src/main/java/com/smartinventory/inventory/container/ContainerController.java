@@ -4,8 +4,6 @@ import java.util.List;
 
 import javax.validation.Valid;
 
-import com.smartinventory.inventory.container.*;
-
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -25,12 +23,12 @@ public class ContainerController {
     private final ContainerService containerService;
 
     // Add new container
-        @ResponseStatus(HttpStatus.CREATED)
-        @PostMapping("/containers/{username}")
-        public Container addContainer(@PathVariable("username") String username,
-                @Valid @RequestBody ContainerDTO containerRequest) {
-            return containerService.addContainer(username, containerRequest);
-        }
+    @ResponseStatus(HttpStatus.CREATED)
+    @PostMapping("/containers/{username}")
+    public Container addContainer(@PathVariable("username") String username,
+            @Valid @RequestBody ContainerDTO containerRequest) {
+        return containerService.addContainer(username, containerRequest);
+    }
 
     // Get a list of all Containeres
     @GetMapping("/containers/{username}")
