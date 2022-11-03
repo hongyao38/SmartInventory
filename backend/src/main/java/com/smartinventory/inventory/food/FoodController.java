@@ -32,30 +32,19 @@ public class FoodController {
         return foodService.listFood();
     }
 
-    @GetMapping("/food/{foodId}")
-    public Food getFood(@PathVariable Long foodId, @Valid @RequestBody FoodDTO foodRequest){
-        return foodService.getFood(foodRequest.getFoodName());
+    @GetMapping("/food/{foodName}")
+    public Food getFood(@PathVariable String foodName){
+        return foodService.getFood(foodName);
     }
 
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping("/food")
-    public Food addFood(@Valid @RequestBody Food food) {
-        return foodService.addFood(food);
+    public Food addFood(@Valid @RequestBody FoodDTO foodRequest) {
+        return foodService.addFood(foodRequest);
     }
 
-    @PutMapping("/food/{foodId}")
-    public Food updateFood(@PathVariable Long foodId, @Valid @RequestBody Food newFood){
-        Food food = foodService.updateFood(foodId, newFood);
-        if(food == null) throw new FoodNotFoundException(newFood.getFoodName());
-        return food;
-    }
-
-    @DeleteMapping("/food/{foodId}")
-    public void deleteFood(@PathVariable Long foodId){
-        try{
-            foodService.deleteFood(foodId);
-         }catch(EmptyResultDataAccessException e) {
-            throw new FoodNotFoundException(foodService.getFood(foodId).getFoodName());
-         }
+    @DeleteMapping("/food/{foodName}")
+    public void deleteFood(@PathVariable String foodName){
+        foodService.deleteFood(foodName);
     }
 }

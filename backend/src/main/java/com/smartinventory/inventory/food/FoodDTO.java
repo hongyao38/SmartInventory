@@ -11,4 +11,7 @@ public class FoodDTO {
     
     @NotNull
     private String foodName;
+
+    @NotNull
+    private String category;
 }

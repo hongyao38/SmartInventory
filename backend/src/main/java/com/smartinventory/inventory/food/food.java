@@ -45,9 +45,6 @@ public class Food {
     @NotNull
     private String category;
 
-    @NotNull
-    private Double currentQuantity;
-
     @OneToMany(mappedBy = "food",
         orphanRemoval = true,
         cascade = CascadeType.ALL)
@@ -64,4 +61,9 @@ public class Food {
                 cascade = CascadeType.ALL)
     @JsonIgnore
     private Container container;
+
+    public Food(String foodName, String category) {
+        this.foodName = foodName;
+        this.category = category;
+    }
 }

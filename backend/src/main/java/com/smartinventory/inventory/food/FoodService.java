@@ -38,52 +38,19 @@ public class FoodService {
     }
 
     //add new food
-    public Food addFood(Food food) throws FoodExistsException {
-        if (foodRepo.findByFoodName(food.getFoodName()).isPresent()) {
-            throw new FoodExistsException(food.getFoodName());
+    public Food addFood(FoodDTO foodRequest) throws FoodExistsException {
+        // If food has already been added, throw exception
+        if (foodRepo.findByFoodName(foodRequest.getFoodName()).isPresent()) {
+            throw new FoodExistsException(foodRequest.getFoodName());
         }
+
+        // Create Food object
+        Food food = new Food(foodRequest.getFoodName(), foodRequest.getCategory());
         return foodRepo.save(food);
     }
 
-    public Food updateFood(Long foodId, Food newFood) {
-        Optional<Food> food = foodRepo.findById(foodId);
-
-        if (food.isEmpty()) {
-            throw new FoodNotFoundException(newFood.getFoodName());
-        }
-
-        Food updatedFood = food.get();
-        updatedFood.setCurrentQuantity(newFood.getCurrentQuantity());
-        
-        if (updatedFood.getContainer() != null) {
-            containerService.updateContainer(updatedFood.getContainer(), updatedFood.getCurrentQuantity());
-        }
-        
-
-        return foodRepo.save(updatedFood);
-    }
-
-    public Food updateCurrentQuantity(Long foodId, Double quantity) {
-        Optional<Food> food = foodRepo.findById(foodId);
-
-        if (food.isEmpty()) {
-            return null;
-        }
-
-        Food updatedFood = food.get();
-        updatedFood.setCurrentQuantity(quantity);
-
-        if (updatedFood.getContainer() != null) {
-            containerService.updateContainer(updatedFood.getContainer(), updatedFood.getCurrentQuantity());
-        }
-        return foodRepo.save(updatedFood);
-    }
-
-    public void deleteFood(Long foodId) {
-        foodRepo.deleteById(foodId);
-    }
 
     public void deleteFood(String foodName) {
-        foodRepo.deleteByfoodName(foodName);;
+        foodRepo.deleteByfoodName(foodName);
     }
 }
