@@ -1,15 +1,12 @@
 package com.smartinventory.inventory.storage;
 
-import java.util.List;
 import java.util.Optional;
-
-import com.smartinventory.appuser.AppUser;
-import com.smartinventory.appuser.AppUserRepository;
-import com.smartinventory.exceptions.inventory.ContainerNotFoundException;
-import com.smartinventory.exceptions.user.UserIdNotFoundException;
 
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
+
+import com.smartinventory.appuser.AppUser;
+import com.smartinventory.appuser.AppUserRepository;
 
 import lombok.AllArgsConstructor;
 

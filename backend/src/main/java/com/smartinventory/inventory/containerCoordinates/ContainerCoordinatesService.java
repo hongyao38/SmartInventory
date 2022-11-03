@@ -10,5 +10,4 @@ public class ContainerCoordinatesService {
     
     private final ContainerCoordinatesRepository containerServiceRepo;
 
-    
 }

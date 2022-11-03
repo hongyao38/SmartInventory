@@ -31,7 +31,6 @@ public class JwtRequestFilter extends OncePerRequestFilter {
         }
         
         String authorizationHeader = request.getHeader("Authorization");
-        System.out.println("Auth Header: " + authorizationHeader);
 
         // If authorization header does not start with "Bearer ", just continue
         if (authorizationHeader == null || !authorizationHeader.startsWith("Bearer ")) {
@@ -41,25 +40,18 @@ public class JwtRequestFilter extends OncePerRequestFilter {
 
         // Break down JWT
         try {
-            System.out.println("Entered JWT try block"); // DEBUG
 
             String token = authorizationHeader.substring("Bearer ".length()); // Remove "Bearer "
             String username = JwtUtil.getUsername(token);
             Collection<SimpleGrantedAuthority> authorities = JwtUtil.getAuthorities(token);
-
-            System.out.println("Broken down JWT into username and authority"); // DEBUG
 
             // Tell spring boot how to make use of above to authorize
             UsernamePasswordAuthenticationToken authenticationToken = 
                 new UsernamePasswordAuthenticationToken(username, null, authorities);
             SecurityContextHolder.getContext().setAuthentication(authenticationToken);
 
-            System.out.println("Passed authority list to Spring"); // DEBUG
-
             // Continue with filter chain
             filterChain.doFilter(request, response);
-
-            System.out.println("Continue with filter chain"); // DEBUG
 
         } catch (Exception e) {
             response.setHeader("Error: ", e.getMessage());
