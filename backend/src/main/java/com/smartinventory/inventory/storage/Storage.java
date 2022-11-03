@@ -13,7 +13,6 @@ import javax.validation.constraints.NotNull;
 
 import com.smartinventory.appuser.AppUser;
 import com.smartinventory.inventory.block.Block;
-import com.smartinventory.inventory.container.Container;
 
 import org.springframework.boot.jackson.JsonComponent;
 
@@ -36,15 +35,19 @@ public class Storage {
     private Long storageId;
 
     @NotNull
-    private AppUser user;
+    private String username;
 
-    @OneToMany(mappedBy = "storage",
-                orphanRemoval = true,
-                cascade = CascadeType.ALL)
-    private List<Container> containers;
+    // @OneToMany(mappedBy = "storage",
+    //             orphanRemoval = true,
+    //             cascade = CascadeType.ALL)
+    // private List<Container> containers;
 
     @OneToMany(mappedBy = "storage",
                 orphanRemoval = true,
                 cascade = CascadeType.ALL)
     private List<Block> blocks;
+
+    public Storage(String username) {
+        this.username = username;
+    }
 }

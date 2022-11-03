@@ -58,33 +58,35 @@ public class SecurityConfig {
             // Authentication NEEDED
             .antMatchers(HttpMethod.GET, "/api/v1/users").hasRole("ADMIN")
 
-            //authentication for food
-            .antMatchers(HttpMethod.POST, "/api/v1/food").hasRole("USER")
-            .antMatchers(HttpMethod.GET, "/api/v1/food").hasRole("USER")
-            .antMatchers(HttpMethod.GET, "/api/v1/food/**").hasRole("USER")
-            .antMatchers(HttpMethod.DELETE, "/api/v1/food/**").hasRole("USER")
+            //authentication for storage
+            .antMatchers(HttpMethod.POST, "/api/v1/**").hasRole("USER")
+            .antMatchers(HttpMethod.GET, "/api/v1/**").hasRole("USER")
 
-            //authentication for consumption
-            .antMatchers(HttpMethod.POST, "/api/v1/food/*/consumptions").hasRole("USER")
-            .antMatchers(HttpMethod.GET, "/api/v1/consumptions").hasRole("USER")
-            .antMatchers(HttpMethod.GET, "/api/v1/food/*/consumptions/*").hasRole("USER")
-            .antMatchers(HttpMethod.GET, "/api/v1/food/*/consumptions/*").hasRole("USER")
-            .antMatchers(HttpMethod.PUT, "/api/v1/food/*/consumptions/*").hasRole("USER")
-            .antMatchers(HttpMethod.DELETE, "/api/v1/food/*/consumptions/*").hasRole("USER")
+            // //authentication for food
+            // .antMatchers(HttpMethod.POST, "/api/v1/food").hasRole("USER")
+            // .antMatchers(HttpMethod.GET, "/api/v1/food").hasRole("USER")
+            // .antMatchers(HttpMethod.GET, "/api/v1/food/**").hasRole("USER")
+            // .antMatchers(HttpMethod.DELETE, "/api/v1/food/**").hasRole("USER")
 
-            //authentication for purchase
-            .antMatchers(HttpMethod.POST, "/api/v1/food/*/purchases").hasRole("USER")
-            .antMatchers(HttpMethod.GET, "/api/v1/purchases").hasRole("USER")
-            .antMatchers(HttpMethod.GET, "/api/v1/food/*/purchases").hasRole("USER")
-            .antMatchers(HttpMethod.GET, "/api/v1/food/*/purchases/*").hasRole("USER")
-            .antMatchers(HttpMethod.PUT, "/api/v1/food/*/purchases/*").hasRole("USER")
-            .antMatchers(HttpMethod.DELETE, "/api/v1/food/*/purchases/*").hasRole("USER")
+            // //authentication for consumption
+            // .antMatchers(HttpMethod.POST, "/api/v1/food/*/consumptions").hasRole("USER")
+            // .antMatchers(HttpMethod.GET, "/api/v1/consumptions").hasRole("USER")
+            // .antMatchers(HttpMethod.GET, "/api/v1/food/*/consumptions/*").hasRole("USER")
+            // .antMatchers(HttpMethod.GET, "/api/v1/food/*/consumptions/*").hasRole("USER")
+            // .antMatchers(HttpMethod.PUT, "/api/v1/food/*/consumptions/*").hasRole("USER")
+            // .antMatchers(HttpMethod.DELETE, "/api/v1/food/*/consumptions/*").hasRole("USER")
+
+            // //authentication for purchase
+            // .antMatchers(HttpMethod.POST, "/api/v1/food/*/purchases").hasRole("USER")
+            // .antMatchers(HttpMethod.GET, "/api/v1/purchases").hasRole("USER")
+            // .antMatchers(HttpMethod.GET, "/api/v1/food/*/purchases").hasRole("USER")
+            // .antMatchers(HttpMethod.GET, "/api/v1/food/*/purchases/*").hasRole("USER")
+            // .antMatchers(HttpMethod.PUT, "/api/v1/food/*/purchases/*").hasRole("USER")
+            // .antMatchers(HttpMethod.DELETE, "/api/v1/food/*/purchases/*").hasRole("USER")
 
             //authentication for container
-            .antMatchers(HttpMethod.POST, "/api/v1/food/{foodId}containers").hasRole("USER")
-            .antMatchers(HttpMethod.GET, "/api/v1/containers").hasRole("USER")
-            .antMatchers(HttpMethod.GET, "/api/v1/food/{foodId}containers/*").hasRole("USER")
-            .antMatchers(HttpMethod.PUT, "/api/v1/food/{foodId}containers/*").hasRole("USER")
+            .antMatchers(HttpMethod.POST, "/api/v1/containers").hasRole("USER")
+            .antMatchers(HttpMethod.GET, "/api/v1/containers/**").hasRole("USER")
             .antMatchers(HttpMethod.DELETE, "/api/v1/food/{foodId}containers/*").hasRole("USER")
             
             .and()

@@ -3,9 +3,12 @@ package com.smartinventory.inventory.storage;
 import java.util.List;
 import java.util.Optional;
 
+import com.smartinventory.appuser.AppUser;
+import com.smartinventory.appuser.AppUserRepository;
 import com.smartinventory.exceptions.inventory.ContainerNotFoundException;
-import com.smartinventory.inventory.food.Food;
+import com.smartinventory.exceptions.user.UserIdNotFoundException;
 
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import lombok.AllArgsConstructor;
@@ -15,11 +18,7 @@ import lombok.AllArgsConstructor;
 public class StorageService {
     
     private final StorageRepository storageRepo;
-
-    //list all containers
-    public List<Storage> listStorage() {
-        return storageRepo.findAll();
-    }
+    private final AppUserRepository userRepo;
 
     //find container by capacity
     // public List<Storage> listStorageBySize(int size) {
@@ -27,11 +26,17 @@ public class StorageService {
     // }
 
     //find container by id
-    public Storage getStorage(Long storageId) {
-        return storageRepo.findById(storageId).get();
+    public Storage getStorage(String username) {
+        Optional<AppUser> user = userRepo.findByUsername(username);
+        if (user.isEmpty()) {
+            throw new UsernameNotFoundException(username);
+        }
+        return storageRepo.findByUsername(username).get();
     }
 
-    public void deleteStorage(Long storageId) {
-        storageRepo.deleteById(storageId);
+    public Storage addStorage(AppUser user) {
+        Storage storage = new Storage(user.getUsername());
+
+        return storageRepo.save(storage);
     }
 }

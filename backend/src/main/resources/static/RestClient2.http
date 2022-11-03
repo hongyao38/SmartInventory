@@ -12,3 +12,30 @@ Content-Type: application/json
 GET http://localhost:8080/api/v1/food/Milk
 Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ4aWFvZGlkaSIsInJvbGVzIjpbIlJPTEVfVVNFUiJdLCJpc3MiOiJsb2NhbGhvc3Q6ODA4MC9hcGkvdjEvbG9naW4iLCJleHAiOjE2Njc0ODA4MzR9.D7skhKD5vzLFToUWN-wbGBjhn-BEmZtDa1oL_2pRpbM
 Accept: application/json
+
+### GET STORAGE
+POST http://localhost:8080/api/v1/xiaodidi
+Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ4aWFvZGlkaSIsInJvbGVzIjpbIlJPTEVfVVNFUiJdLCJpc3MiOiJsb2NhbGhvc3Q6ODA4MC9hcGkvdjEvbG9naW4iLCJleHAiOjE2Njc0ODYxMDd9.QwnF8l4yL2T7SAtd3Ash8tBwjxeQOcRIJhQm4EFpTIs
+
+
+### GET FOOD
+GET http://localhost:8080/api/v1/food/Milk
+Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ4aWFvZGlkaSIsInJvbGVzIjpbIlJPTEVfVVNFUiJdLCJpc3MiOiJsb2NhbGhvc3Q6ODA4MC9hcGkvdjEvbG9naW4iLCJleHAiOjE2Njc0ODA4MzR9.D7skhKD5vzLFToUWN-wbGBjhn-BEmZtDa1oL_2pRpbM
+Accept: application/json
+
+
+### NEW CONTAINER
+POST http://localhost:8080/api/v1/containers
+Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ4aWFvZGlkaSIsInJvbGVzIjpbIlJPTEVfVVNFUiJdLCJpc3MiOiJsb2NhbGhvc3Q6ODA4MC9hcGkvdjEvbG9naW4iLCJleHAiOjE2Njc0ODc0MDJ9.GE1yrTrWesbqsN9QeSmj_SZutdxhXuec34EEWBgnPtM
+Content-Type: application/json
+
+{
+    "capacity": "6.0",
+    "i": "2",
+    "j": "1"
+}
+
+### GET CONTAINER
+GET http://localhost:8080/api/v1/containers/2_1
+Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ4aWFvZGlkaSIsInJvbGVzIjpbIlJPTEVfVVNFUiJdLCJpc3MiOiJsb2NhbGhvc3Q6ODA4MC9hcGkvdjEvbG9naW4iLCJleHAiOjE2Njc0ODg0MDl9.-GxIF0CiBeswF62kafLwZyazwI7cW0W17Yer-qj91es
+Accept: application/json
