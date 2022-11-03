@@ -11,6 +11,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
 import javax.validation.constraints.NotNull;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.smartinventory.inventory.container.Container;
 
 import org.springframework.boot.jackson.JsonComponent;
@@ -35,8 +36,21 @@ public class Food {
     @NotNull
     private String name;
 
+    @JsonIgnore
     @OneToMany(mappedBy = "food",
                 orphanRemoval = true,
                 cascade = CascadeType.ALL)
     private List<Container> containers;
+
+    // @JsonIgnore
+    // @OneToMany(mappedBy = "food",
+    //             orphanRemoval = true,
+    //             cascade = CascadeType.ALL)
+    // private List<Consumption> consumptions;
+
+    // @JsonIgnore
+    // @OneToMany(mappedBy = "food",
+    //             orphanRemoval = true,
+    //             cascade = CascadeType.ALL)
+    // private List<Purchase> purchases;
 }
