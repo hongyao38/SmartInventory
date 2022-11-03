@@ -4,8 +4,6 @@ import java.util.List;
 
 import org.springframework.stereotype.Service;
 
-import com.smartinventory.inventory.containerCoordinates.ContainerCoordinates;
-import com.smartinventory.inventory.containerCoordinates.ContainerCoordinatesRepository;
 import com.smartinventory.inventory.storage.Storage;
 import com.smartinventory.inventory.storage.StorageRepository;
 
@@ -17,7 +15,6 @@ public class ContainerService {
 
     private final StorageRepository storageRepo;
     private final ContainerRepository containerRepo;
-    private final ContainerCoordinatesRepository coordsRepo;
 
 
     /**
@@ -30,13 +27,11 @@ public class ContainerService {
         // TODO: Might need to check optional isEmpty()
         Storage storage = storageRepo.findByUsername(username).get();
 
+        // Creating new container
         Container newContainer = new Container(containerRequest.getCapacity(),
-                containerRequest.getI(),
-                containerRequest.getJ(),
-                storage);
-
-        ContainerCoordinates coords = new ContainerCoordinates(newContainer, storage);
-        coordsRepo.save(coords);
+                                                containerRequest.getI(),
+                                                containerRequest.getJ(),
+                                                storage);
 
         return containerRepo.save(newContainer);
     }
@@ -48,15 +43,15 @@ public class ContainerService {
      * @param username
      * @return List<ContainerCoordinates> containerCoords
      */
-    public List<ContainerCoordinates> getAllContainersFromUser(String username) {
+    public List<Container> getAllContainersFromUser(String username) {
 
         // Find storage to get container coordinates
         // TODO: Might need to check optional isEmpty()
         Storage storage = storageRepo.findByUsername(username).get();
 
         // Get a list of all container coordinates belonging to user
-        List<ContainerCoordinates> containerCoords = coordsRepo.findByStorage(storage).get();
-        System.out.println(containerCoords);
-        return containerCoords;
+        List<Container> containers = containerRepo.findByStorage(storage).get();
+        System.out.println(containers);
+        return containers;
     }
 }

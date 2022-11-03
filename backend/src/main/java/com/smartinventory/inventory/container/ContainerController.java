@@ -13,8 +13,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.smartinventory.inventory.containerCoordinates.ContainerCoordinates;
-
 import lombok.AllArgsConstructor;
 
 @RestController
@@ -24,8 +22,9 @@ public class ContainerController {
 
     private final ContainerService containerService;
 
+    // 
     @GetMapping("/containers/{username}")
-    public List<ContainerCoordinates> getAllContainersFromUser(@PathVariable("username") String username) {
+    public List<Container> getAllContainersFromUser(@PathVariable("username") String username) {
         return containerService.getAllContainersFromUser(username);
     }
 
