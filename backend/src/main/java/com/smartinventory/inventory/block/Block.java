@@ -10,6 +10,7 @@ import javax.persistence.SequenceGenerator;
 import javax.validation.constraints.NotNull;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.smartinventory.inventory.storage.Storage;
 
 import lombok.AllArgsConstructor;
@@ -30,14 +31,21 @@ public class Block {
     private Long id;
     
     @NotNull
-    private Integer row;
+    private Integer i;
 
     @NotNull
-    private Integer col;
+    private Integer j;
 
+    @JsonIgnore
     @ManyToOne
     @JsonBackReference
     @JoinColumn(name="storage_id",
                 referencedColumnName = "id")
     private Storage storage;
+
+    public Block(Integer i, Integer j, Storage storage) {
+        this.i = i;
+        this.j = j;
+        this.storage = storage;
+    }
 }

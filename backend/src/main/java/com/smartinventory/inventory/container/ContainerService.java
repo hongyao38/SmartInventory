@@ -4,8 +4,6 @@ import java.util.List;
 
 import org.springframework.stereotype.Service;
 
-import com.smartinventory.inventory.blockCoordinates.ContainerCoordinatesRepository;
-import com.smartinventory.inventory.containerCoordinates.ContainerCoordinates;
 import com.smartinventory.inventory.storage.Storage;
 import com.smartinventory.inventory.storage.StorageRepository;
 

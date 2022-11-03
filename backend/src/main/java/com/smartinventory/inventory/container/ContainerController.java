@@ -4,6 +4,8 @@ import java.util.List;
 
 import javax.validation.Valid;
 
+import com.smartinventory.inventory.container.*;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
