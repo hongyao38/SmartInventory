@@ -8,8 +8,8 @@ import lombok.AllArgsConstructor;
 
 @Service
 @AllArgsConstructor
-public class ContainerCoordinatesService {
+public class BlockCoordinatesService {
     
-    private final ContainerCoordinatesRepository containerServiceRepo;
+    private final BlockCoordinatesRepository BlockServiceRepo;
 
 }

@@ -10,6 +10,7 @@ import com.smartinventory.inventory.storage.Storage;
 import com.smartinventory.inventory.storage.StorageRepository;
 import com.smartinventory.inventory.storage.StorageService;
 
+import org.aspectj.lang.annotation.Before;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -28,7 +29,7 @@ public class StorageServiceTest {
     void addStorage_returnStorage() {
         AppUser user = new AppUser();
         user.setUsername("user");
-        Storage storage = new Storage("user");
+        Storage storage = new Storage(user.getUsername());
         System.out.println("created storage = " + storage);
 
         //mock save method
@@ -38,7 +39,7 @@ public class StorageServiceTest {
         System.out.println("added storage =  " + addedStorage);
         assertEquals(storage, addedStorage);
 
-        // System.out.println(storage);
+        System.out.println(storage);
         // System.out.println(storageRepo.save(storage));
         verify(storageRepo).save(storage);
     }
