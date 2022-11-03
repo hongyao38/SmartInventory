@@ -33,7 +33,7 @@ import lombok.Setter;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-@JsonComponent
+// @JsonComponent
 public class Container {
     
     @Id
@@ -45,19 +45,20 @@ public class Container {
     private Double capacity;
 
     @NotNull
-    private int rowIndex;
+    private Integer row;
 
     @NotNull
-    private int colIndex;
+    private Integer col;
 
     @NotNull
-    private Double threshold;
+    private Double currentQuantity;
 
+    @NotNull
     private Double percentageFilled;
 
-    @OneToOne
-    @JoinColumn(name = "foodId", 
-                referencedColumnName = "id")
+    // @OneToOne
+    // @JoinColumn(name = "foodId", 
+    //             referencedColumnName = "id")    
     private Food food;
 
     @ManyToOne
@@ -65,4 +66,11 @@ public class Container {
     @JoinColumn(name="storageId",
                 referencedColumnName = "storageId")
     private Storage storage;
+
+    public Container(Double capacity, Integer row, Integer col, Storage storage) {
+        this.capacity = capacity;
+        this.row = row;
+        this.col = col;
+        this.storage = storage;
+    }
 }

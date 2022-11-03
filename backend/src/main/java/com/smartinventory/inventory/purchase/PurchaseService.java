@@ -41,36 +41,36 @@ public class PurchaseService {
         return purchases.findById(id).get();
     }
 
-    //add new purchase
-    // will automatically update total quantity in food
-    public Purchase addPurchase(Purchase purchase) {
-        //Finding the food from the purchase
-        Food food = purchase.getFood();
+    // //add new purchase
+    // // will automatically update total quantity in food
+    // public Purchase addPurchase(Purchase purchase) {
+    //     //Finding the food from the purchase
+    //     Food food = purchase.getFood();
 
-        Double newQuantity = food.getCurrentQuantity() + purchase.getAmountBought();
+    //     Double newQuantity = food.getCurrentQuantity() + purchase.getAmountBought();
 
-        foodService.updateCurrentQuantity(food.getId(), newQuantity);
+    //     foodService.updateCurrentQuantity(food.getId(), newQuantity);
 
-        return purchases.save(purchase);
-    }
+    //     return purchases.save(purchase);
+    // }
 
-    //edit amount bought
-    public Purchase updatePurchase(Long purchaseId, Purchase newPurchase) {
+    // //edit amount bought
+    // public Purchase updatePurchase(Long purchaseId, Purchase newPurchase) {
 
-        Purchase currentPurchase = purchases.findById(purchaseId).get();
+    //     Purchase currentPurchase = purchases.findById(purchaseId).get();
 
-        double currentPurchaseAmt = currentPurchase.getAmountBought();
+    //     double currentPurchaseAmt = currentPurchase.getAmountBought();
 
-        Food food = currentPurchase.getFood();
+    //     Food food = currentPurchase.getFood();
 
-        Double newQuantity = food.getCurrentQuantity() + (newPurchase.getAmountBought() - currentPurchaseAmt);
-        foodService.updateCurrentQuantity(food.getId(), newQuantity);
+    //     Double newQuantity = food.getCurrentQuantity() + (newPurchase.getAmountBought() - currentPurchaseAmt);
+    //     foodService.updateCurrentQuantity(food.getId(), newQuantity);
 
-        currentPurchase.setAmountBought(newPurchase.getAmountBought());
-        currentPurchase.setExpiryDate(newPurchase.getExpiryDate());
-        currentPurchase.setDateBought(newPurchase.getDateBought());
-        return purchases.save(currentPurchase);
-    }
+    //     currentPurchase.setAmountBought(newPurchase.getAmountBought());
+    //     currentPurchase.setExpiryDate(newPurchase.getExpiryDate());
+    //     currentPurchase.setDateBought(newPurchase.getDateBought());
+    //     return purchases.save(currentPurchase);
+    // }
 
     public void deletePurchase(Long purchaseId) {
         purchases.deleteById(purchaseId);

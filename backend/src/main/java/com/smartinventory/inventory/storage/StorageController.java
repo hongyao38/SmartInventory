@@ -38,17 +38,11 @@ public class StorageController {
         return storageService.getStorage(storageId);
     }
 
-    @ResponseStatus(HttpStatus.CREATED)
-    @PostMapping("/storage")
-    public Storage addStorage(@Valid @RequestBody Storage storage) {
-        return storageService.addStorage(storage);
-    }
-
-    @PutMapping("/storage/{storageId}")
-    public Storage updateStorage(@PathVariable (value = "storageId") Long storageId,
-                                    @Valid @RequestBody Storage newStorage){
-        return storageService.updateStorage(storageId, newStorage);
-    }
+    // @ResponseStatus(HttpStatus.CREATED)
+    // @PostMapping("/storage")
+    // public Storage addStorage(@Valid @RequestBody Storage storage) {
+    //     return storageService.addStorage(storage);
+    // }
 
     @DeleteMapping("/storage/{storageId}")
     public void deleteStorage(@PathVariable (value = "storageId") Long storageId){

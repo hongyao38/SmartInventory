@@ -46,22 +46,22 @@ public class ConsumptionController {
     }
 
 
-    @ResponseStatus(HttpStatus.CREATED)
-    @PostMapping("/food/{foodId}/consumptions")
-    public Consumption addConsumption(@PathVariable (value = "foodId") Long foodId,
-                                        @Valid @RequestBody Consumption consumption) {
+    // @ResponseStatus(HttpStatus.CREATED)
+    // @PostMapping("/food/{foodId}/consumptions")
+    // public Consumption addConsumption(@PathVariable (value = "foodId") Long foodId,
+    //                                     @Valid @RequestBody Consumption consumption) {
         
-        Food food = foodService.getFood(foodId);
-        consumption.setFood(food);
+    //     Food food = foodService.getFood(foodId);
+    //     consumption.setFood(food);
 
-        return consumptionService.addConsumption(consumption);
-    }
+    //     return consumptionService.addConsumption(consumption);
+    // }
 
-    @PutMapping("/food/{foodId}/consumptions/{consumptionId}")
-    public Consumption updatePurchase(@PathVariable (value = "consumptionId") Long consumptionId,
-                                @Valid @RequestBody Consumption newConsumption){
-        return consumptionService.updateConsumption(consumptionId, newConsumption);
-    }
+    // @PutMapping("/food/{foodId}/consumptions/{consumptionId}")
+    // public Consumption updatePurchase(@PathVariable (value = "consumptionId") Long consumptionId,
+    //                             @Valid @RequestBody Consumption newConsumption){
+    //     return consumptionService.updateConsumption(consumptionId, newConsumption);
+    // }
 
     @DeleteMapping("/food/{foodId}/consumptions/{consumptionId}")
     public void deletePurchase(@PathVariable (value = "consumptionId") Long consumptionId){

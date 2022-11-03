@@ -44,21 +44,21 @@ public class PurchaseController {
         return purchaseService.getPurchase(purchaseId);
     }
 
-    @ResponseStatus(HttpStatus.CREATED)
-    @PostMapping("/food/{foodId}/purchases")
-    public Purchase addPurchase(@PathVariable (value = "foodId") Long foodId,
-                                @Valid @RequestBody Purchase purchase) {
-        Food food = foodService.getFood(foodId);
-        purchase.setFood(food);
+    // @ResponseStatus(HttpStatus.CREATED)
+    // @PostMapping("/food/{foodId}/purchases")
+    // public Purchase addPurchase(@PathVariable (value = "foodId") Long foodId,
+    //                             @Valid @RequestBody Purchase purchase) {
+    //     Food food = foodService.getFood(foodId);
+    //     purchase.setFood(food);
         
-        return purchaseService.addPurchase(purchase);
-    }
+    //     return purchaseService.addPurchase(purchase);
+    // }
 
-    @PutMapping("/food/{foodId}/purchases/{purchaseId}")
-    public Purchase updatePurchase(@PathVariable (value = "purchaseId") Long purchaseId,
-                                @Valid @RequestBody Purchase newPurchase){
-        return purchaseService.updatePurchase(purchaseId, newPurchase);
-    }
+    // @PutMapping("/food/{foodId}/purchases/{purchaseId}")
+    // public Purchase updatePurchase(@PathVariable (value = "purchaseId") Long purchaseId,
+    //                             @Valid @RequestBody Purchase newPurchase){
+    //     return purchaseService.updatePurchase(purchaseId, newPurchase);
+    // }
 
     @DeleteMapping("/food/{foodId}/purchases/{purchaseId}")
     public void deletePurchase(@PathVariable (value = "purchaseId") Long purchaseId){

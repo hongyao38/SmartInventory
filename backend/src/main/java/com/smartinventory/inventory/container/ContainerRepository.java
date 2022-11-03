@@ -10,5 +10,5 @@ import org.springframework.stereotype.Repository;
 public interface ContainerRepository extends JpaRepository<Container, Long>{
     //Create, Read, Update, Delete
     List<Container> findByCapacity(Double capacity);
-    Optional<Container> findByRowIndexAndColIndex(int rowIdx, int colIdx);
+    Optional<Container> findByRowAndCol(int rowIdx, int colIdx);
 }

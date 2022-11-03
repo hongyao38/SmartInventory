@@ -1,14 +1,8 @@
 package com.smartinventory.inventory.container;
 
 import java.util.List;
-import java.util.Optional;
 
 import javax.validation.Valid;
-
-import com.smartinventory.inventory.food.Food;
-import com.smartinventory.inventory.food.FoodService;
-import com.smartinventory.inventory.storage.Storage;
-import com.smartinventory.inventory.storage.StorageService;
 
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.http.HttpStatus;
@@ -29,8 +23,6 @@ import lombok.AllArgsConstructor;
 @RequestMapping("/api/v1")
 public class ContainerController {
     private ContainerService containerService;
-    private FoodService foodService;
-    private StorageService storageService;
 
     @GetMapping("/containers")
     public List<Container> getAllContainer(){
@@ -45,20 +37,16 @@ public class ContainerController {
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping("storage/{storageId}/containers")
     public Container addContainer(@PathVariable (value = "storageId") Long storageId,
-                                    @Valid @RequestBody Container container) {
-        // Storage storage = storageService.getStorage(storageId);
+                                    @Valid @RequestBody ContainerDTO containerRequest) {
 
-        // container.setStorage(storage);
-        // storageService.updateStorageAddContainer(storageId);
-
-        return containerService.addContainer(container);
+        return containerService.addContainer(storageId, containerRequest);
     }
 
-    @PutMapping("food/{foodId}/containers/{containerId}")
-    public Container updateContainer(@PathVariable Long containerId, @Valid @RequestBody Container newContainer){
-        Container Container = containerService.updateContainer(containerId, newContainer);
-        return Container;
-    }
+    // @PutMapping("food/{foodId}/containers/{containerId}")
+    // public Container updateContainer(@PathVariable Long containerId, @Valid @RequestBody Container newContainer){
+    //     Container Container = containerService.updateContainer(containerId, newContainer);
+    //     return Container;
+    // }
 
     @DeleteMapping("food/{foodId}/containers/{containerId}")
     public void deleteContainer(@PathVariable Long containerId){

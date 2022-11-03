@@ -56,10 +56,10 @@ public class Food {
     private List<Consumption> consumptions;
 
 
-    @OneToOne(mappedBy = "food",
-                orphanRemoval = true,
-                cascade = CascadeType.ALL)
-    @JsonIgnore
+    // @OneToOne(mappedBy = "food",
+    //             orphanRemoval = true,
+    //             cascade = CascadeType.ALL)
+    // @JsonIgnore
     private Container container;
 
     public Food(String foodName, String category) {

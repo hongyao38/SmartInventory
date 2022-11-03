@@ -41,22 +41,29 @@ public class JwtRequestFilter extends OncePerRequestFilter {
 
         // Break down JWT
         try {
+            System.out.println("Entered JWT try block"); // DEBUG
 
             String token = authorizationHeader.substring("Bearer ".length()); // Remove "Bearer "
             String username = JwtUtil.getUsername(token);
             Collection<SimpleGrantedAuthority> authorities = JwtUtil.getAuthorities(token);
+
+            System.out.println("Broken down JWT into username and authority"); // DEBUG
 
             // Tell spring boot how to make use of above to authorize
             UsernamePasswordAuthenticationToken authenticationToken = 
                 new UsernamePasswordAuthenticationToken(username, null, authorities);
             SecurityContextHolder.getContext().setAuthentication(authenticationToken);
 
+            System.out.println("Passed authority list to Spring"); // DEBUG
+
             // Continue with filter chain
             filterChain.doFilter(request, response);
 
+            System.out.println("Continue with filter chain"); // DEBUG
+
         } catch (Exception e) {
             response.setHeader("Error: ", e.getMessage());
-            response.sendError(403, "Invalid token"); // FORBIDDEN
+            response.sendError(403, "Invalid jwt token"); // FORBIDDEN
         }
     }
 }

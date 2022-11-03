@@ -61,9 +61,8 @@ public class SecurityConfig {
             //authentication for food
             .antMatchers(HttpMethod.POST, "/api/v1/food").hasRole("USER")
             .antMatchers(HttpMethod.GET, "/api/v1/food").hasRole("USER")
-            .antMatchers(HttpMethod.GET, "/api/v1/food/*").hasRole("USER")
-            .antMatchers(HttpMethod.PUT, "/api/v1/food/*").hasRole("USER")
-            .antMatchers(HttpMethod.DELETE, "/api/v1/food/*").hasRole("USER")
+            .antMatchers(HttpMethod.GET, "/api/v1/food/**").hasRole("USER")
+            .antMatchers(HttpMethod.DELETE, "/api/v1/food/**").hasRole("USER")
 
             //authentication for consumption
             .antMatchers(HttpMethod.POST, "/api/v1/food/*/consumptions").hasRole("USER")

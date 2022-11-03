@@ -3,10 +3,10 @@ package com.smartinventory.inventory.container;
 import java.util.List;
 import java.util.Optional;
 
-import com.smartinventory.exceptions.inventory.ContainerExistsException;
 import com.smartinventory.exceptions.inventory.ContainerNotFoundException;
-import com.smartinventory.inventory.food.Food;
+import com.smartinventory.exceptions.inventory.StorageNotFoundException;
 import com.smartinventory.inventory.storage.Storage;
+import com.smartinventory.inventory.storage.StorageRepository;
 
 import org.springframework.stereotype.Service;
 
@@ -17,6 +17,7 @@ import lombok.AllArgsConstructor;
 public class ContainerService {
     
     private final ContainerRepository containerRepo;
+    private final StorageRepository storageRepo;
 
     //list all containers
     public List<Container> listContainer() {
@@ -35,7 +36,7 @@ public class ContainerService {
 
     //find container by row and col idx
     public Container getContainer(int rowIdx, int colIdx) {
-        Optional<Container> container = containerRepo.findByRowIndexAndColIndex(rowIdx, colIdx);
+        Optional<Container> container = containerRepo.findByRowAndCol(rowIdx, colIdx);
 
         if (container.isEmpty()) {
             throw new ContainerNotFoundException();
@@ -45,14 +46,19 @@ public class ContainerService {
     }
 
     //add new Container
-    public Container addContainer(Container newContainer) {
-        Optional<Container> returnedContainer = containerRepo.findByRowIndexAndColIndex(newContainer.getRowIndex(), newContainer.getColIndex());
+    public Container addContainer(Long storageId, ContainerDTO containerRequest) {
+        Optional<Storage> storage = storageRepo.findById(storageId);
 
-        if (returnedContainer.isPresent()) {
-            throw new ContainerExistsException();
+        if (storage.isEmpty()) {
+            throw new StorageNotFoundException(storageId);
         }
 
-        return containerRepo.save(newContainer);
+        Container container = new Container(containerRequest.getCapacity(), 
+                                            containerRequest.getRow(), 
+                                            containerRequest.getCol(),
+                                            storage.get());
+
+        return containerRepo.save(container);
     }
 
     // public Container addFoodToContainer(Food food) {
@@ -62,23 +68,23 @@ public class ContainerService {
     //             newContainer.setPercentageFilled(percentageFilled);
     // }
 
-    public Container updateContainer(Container container, Double quantity) {
-        Double newPercentage = quantity / container.getCapacity() * 100;
+    // public Container updateContainer(Container container, Double quantity) {
+    //     Double newPercentage = quantity / container.getCapacity() * 100;
 
-        container.setPercentageFilled(newPercentage);
-        return containerRepo.save(container);
-    }
+    //     container.setPercentageFilled(newPercentage);
+    //     return containerRepo.save(container);
+    // }
 
-    public Container updateContainer(Long containerId, Container newContainer) {
-        Container currentContainer = containerRepo.findById(containerId).get();
-        Double currentQuantity = currentContainer.getFood().getCurrentQuantity();
-        Double percentageFilled = currentQuantity / newContainer.getCapacity() * 100;
-        currentContainer.setPercentageFilled(percentageFilled);
+    // public Container updateContainer(Long containerId, Container newContainer) {
+    //     Container currentContainer = containerRepo.findById(containerId).get();
+    //     Double currentQuantity = currentContainer.getFood().getCurrentQuantity();
+    //     Double percentageFilled = currentQuantity / newContainer.getCapacity() * 100;
+    //     currentContainer.setPercentageFilled(percentageFilled);
 
-        currentContainer.setThreshold(newContainer.getThreshold());
-        currentContainer.setCapacity(newContainer.getCapacity());
-        return containerRepo.save(currentContainer);
-    }
+    //     currentContainer.setThreshold(newContainer.getThreshold());
+    //     currentContainer.setCapacity(newContainer.getCapacity());
+    //     return containerRepo.save(currentContainer);
+    // }
 
     public void deleteContainer(Long ContainerId) {
         containerRepo.deleteById(ContainerId);

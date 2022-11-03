@@ -41,37 +41,37 @@ public class ConsumptionService {
         return consumptions.findById(consumptionId).get();
     }
 
-    //add new consumption
-    // will automatically update total quantity in food
-    public Consumption addConsumption(Consumption consumption) {
-        //Finding the food from the purchase
-        Food food = consumption.getFood();
+    // //add new consumption
+    // // will automatically update total quantity in food
+    // public Consumption addConsumption(Consumption consumption) {
+    //     //Finding the food from the purchase
+    //     Food food = consumption.getFood();
         
-        Double newQuantity = food.getCurrentQuantity() - consumption.getAmountConsumed();
+    //     Double newQuantity = food.getCurrentQuantity() - consumption.getAmountConsumed();
 
-        if (newQuantity < 0) {
-            throw new InvalidConsumptionException("Current Quantity Insufficient");
-        }
+    //     if (newQuantity < 0) {
+    //         throw new InvalidConsumptionException("Current Quantity Insufficient");
+    //     }
 
-        foodService.updateCurrentQuantity(food.getId(), newQuantity);
+    //     foodService.updateCurrentQuantity(food.getId(), newQuantity);
 
-        return consumptions.save(consumption);
-    }
+    //     return consumptions.save(consumption);
+    // }
 
-    //edit amount consumed
-    public Consumption updateConsumption(Long consumptionId, Consumption newConsumption) {
-        Consumption currentConsumption = consumptions.findById(consumptionId).get();
+    // //edit amount consumed
+    // public Consumption updateConsumption(Long consumptionId, Consumption newConsumption) {
+    //     Consumption currentConsumption = consumptions.findById(consumptionId).get();
 
-        double currentConsumptionAmt = currentConsumption.getAmountConsumed();
+    //     double currentConsumptionAmt = currentConsumption.getAmountConsumed();
 
-        Food food = currentConsumption.getFood();
-        Double newQuantity = food.getCurrentQuantity() - (newConsumption.getAmountConsumed() - currentConsumptionAmt);
-        foodService.updateCurrentQuantity(food.getId(), newQuantity);
+    //     Food food = currentConsumption.getFood();
+    //     Double newQuantity = food.getCurrentQuantity() - (newConsumption.getAmountConsumed() - currentConsumptionAmt);
+    //     foodService.updateCurrentQuantity(food.getId(), newQuantity);
 
-        currentConsumption.setAmountConsumed(newConsumption.getAmountConsumed());
-        currentConsumption.setDateConsumed(newConsumption.getDateConsumed());
-        return consumptions.save(currentConsumption);
-    }
+    //     currentConsumption.setAmountConsumed(newConsumption.getAmountConsumed());
+    //     currentConsumption.setDateConsumed(newConsumption.getDateConsumed());
+    //     return consumptions.save(currentConsumption);
+    // }
 
     public void deleteConsumption(Long consumptionId) {
         consumptions.deleteById(consumptionId);
