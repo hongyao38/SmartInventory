@@ -26,18 +26,18 @@ Accept: application/json
 
 ### NEW CONTAINER
 POST http://localhost:8080/api/v1/containers/xiaodidi
-Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ4aWFvZGlkaSIsInJvbGVzIjpbIlJPTEVfVVNFUiJdLCJpc3MiOiJsb2NhbGhvc3Q6ODA4MC9hcGkvdjEvbG9naW4iLCJleHAiOjE2Njc0OTUxMjZ9.UuoZYjyxa8TVsjnTslmaJvOgXXBHoE_weY2R_X-jxjI
+Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ4aWFvZGlkaSIsInJvbGVzIjpbIlJPTEVfVVNFUiJdLCJpc3MiOiJsb2NhbGhvc3Q6ODA4MC9hcGkvdjEvbG9naW4iLCJleHAiOjE2Njc0OTcxMDl9.wHIB349XB1Ax9kqHhsOKHxulxhJ-vIE0-0lmLGXBcw4
 Content-Type: application/json
 
 {
     "capacity": "6.0",
-    "i": "3",
+    "i": "2",
     "j": "1"
 }
 
 ### GET ALL CONTAINERS (FOR RENDERING UPON LOGIN)
 GET http://localhost:8080/api/v1/containers/xiaodidi
-Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ4aWFvZGlkaSIsInJvbGVzIjpbIlJPTEVfVVNFUiJdLCJpc3MiOiJsb2NhbGhvc3Q6ODA4MC9hcGkvdjEvbG9naW4iLCJleHAiOjE2Njc0OTUxMjZ9.UuoZYjyxa8TVsjnTslmaJvOgXXBHoE_weY2R_X-jxjI
+Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ4aWFvZGlkaSIsInJvbGVzIjpbIlJPTEVfVVNFUiJdLCJpc3MiOiJsb2NhbGhvc3Q6ODA4MC9hcGkvdjEvbG9naW4iLCJleHAiOjE2Njc0OTcxMDl9.wHIB349XB1Ax9kqHhsOKHxulxhJ-vIE0-0lmLGXBcw4
 Accept: application/json
 
 
