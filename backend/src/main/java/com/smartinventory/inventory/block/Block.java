@@ -37,7 +37,7 @@ public class Block {
 
     @ManyToOne
     @JsonBackReference
-    @JoinColumn(name="storageId",
-                referencedColumnName = "storageId")
+    @JoinColumn(name="storage_id",
+                referencedColumnName = "id")
     private Storage storage;
 }

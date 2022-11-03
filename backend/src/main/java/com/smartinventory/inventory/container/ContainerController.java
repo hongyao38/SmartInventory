@@ -1,5 +1,7 @@
 package com.smartinventory.inventory.container;
 
+import java.util.List;
+
 import javax.validation.Valid;
 
 import org.springframework.http.HttpStatus;
@@ -11,6 +13,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.smartinventory.inventory.containerCoordinates.ContainerCoordinates;
+
 import lombok.AllArgsConstructor;
 
 @RestController
@@ -20,17 +24,16 @@ public class ContainerController {
 
     private final ContainerService containerService;
 
-    @GetMapping("/containers/{i}_{j}")
-    public Container getContainer(@PathVariable("i") Integer i, @PathVariable("j") Integer j){
-        return containerService.getContainer(i, j);
+    @GetMapping("/containers/{username}")
+    public List<ContainerCoordinates> getAllContainersFromUser(@PathVariable("username") String username) {
+        return containerService.getAllContainersFromUser(username);
     }
 
     @ResponseStatus(HttpStatus.CREATED)
-    @PostMapping("/containers")
-    public Container addContainer(@Valid @RequestBody ContainerDTO containerRequest) {
-
-        return containerService.addContainer(containerRequest);
+    @PostMapping("/containers/{username}")
+    public Container addContainer(@PathVariable("username") String username,
+            @Valid @RequestBody ContainerDTO containerRequest) {
+        return containerService.addContainer(username, containerRequest);
     }
 
-    
 }
