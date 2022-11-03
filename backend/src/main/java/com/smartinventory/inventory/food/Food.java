@@ -35,8 +35,8 @@ public class Food {
     @NotNull
     private String name;
 
-    @OneToMany(mappedBy = "food",
-                orphanRemoval = true,
-                cascade = CascadeType.ALL)
-    private List<Container> containers;
+    // @OneToMany(mappedBy = "food",
+    //             orphanRemoval = true,
+    //             cascade = CascadeType.ALL)
+    // private List<Container> containers;
 }

@@ -3,12 +3,13 @@ package com.smartinventory.inventory.block;
 import java.util.List;
 import java.util.Optional;
 
+import org.springframework.stereotype.Service;
+
 import com.smartinventory.exceptions.inventory.BlockExistsException;
 import com.smartinventory.exceptions.inventory.BlockNotFoundException;
+import com.smartinventory.exceptions.inventory.StorageNotFoundException;
 import com.smartinventory.inventory.storage.Storage;
 import com.smartinventory.inventory.storage.StorageRepository;
-
-import org.springframework.stereotype.Service;
 
 import lombok.AllArgsConstructor;
 
@@ -19,29 +20,34 @@ public class BlockService {
     private final BlockRepository blockRepo;
     private final StorageRepository storageRepo;
 
+
+    private Storage getStorageByUsername(String username) {
+        Optional<Storage> storage = storageRepo.findByUsername(username);
+        if (storage.isEmpty()) {
+            throw new StorageNotFoundException(username);
+        }
+        return storage.get();
+    }
+
     /**
      * Add new block in storage
      * @param i
      * @param j
      * @return Block
      */
-    public Block addBlock(String username, Integer i, Integer j) {
-        Optional<Storage> storage = storageRepo.findByUsername(username);
+    public Block addBlock(String username, BlockDTO blockRequest) {
+        
+        Storage storage = getStorageByUsername(username);
 
-        // if (storage.isEmpty()) {
-        //     throw new StorageNotFoundException();
-        // }
-
-        Optional<Block> block = blockRepo.findByIAndJ(i, j);
-
+        int i = blockRequest.getI();
+        int j = blockRequest.getJ();
+        Optional<Block> block = blockRepo.findByIAndJAndStorage(i, j, storage);
         //check if block is already present
         if (block.isPresent()) {
             throw new BlockExistsException();
         }
-
         // Creating new block
-        Block newBlock = new Block(i, j, storage.get());
-
+        Block newBlock = new Block(i, j, storage);
         return blockRepo.save(newBlock);
     }
 
@@ -53,32 +59,29 @@ public class BlockService {
      * @return List<Block> blocks
      */
     public List<Block> getAllBlocksFromUser(String username) {
-        Optional<Storage> storage = storageRepo.findByUsername(username);
-
-        // if (storage.isEmpty()) {
-        //     throw new StorageNotFoundException();
-        // }
+        Storage storage = getStorageByUsername(username);
 
         // Get a list of all blocks belonging to user
-        List<Block> blocks = blockRepo.findByStorage(storage.get());
+        List<Block> blocks = blockRepo.findByStorage(storage);
         // System.out.println(blocks);
         return blocks;
     }
 
+    /**
+     * Retrieve an individual block belonging to username
+     * @param username
+     * @param i
+     * @param j
+     * @return Block
+     */
     public Block getBlock(String username, Integer i, Integer j) {
-        Optional<Storage> storage = storageRepo.findByUsername(username);
-
-        // if (storage.isEmpty()) {
-        //     throw new StorageNotFoundException();
-        // }
+        Storage storage = getStorageByUsername(username);
 
         // Get block
-        Optional<Block> block = blockRepo.findByIAndJ(i, j);
-
+        Optional<Block> block = blockRepo.findByIAndJAndStorage(i, j, storage);
         if (block.isEmpty()) {
             throw new BlockNotFoundException();
         }
-
         // System.out.println(blocks);
         return block.get();
     }

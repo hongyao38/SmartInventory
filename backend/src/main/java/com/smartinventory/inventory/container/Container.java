@@ -52,12 +52,6 @@ public class Container {
                 referencedColumnName = "id")
     private Storage storage;
 
-    // @NotNull
-    // @OneToOne(cascade = CascadeType.ALL)
-    // @JoinColumn(name = "container_coord",
-    //             referencedColumnName = "id")
-    // private ContainerCoordinates containerCoord;
-
     public Container(Double capacity, Integer i, Integer j, Storage storage) {
         this.capacity = capacity;
         this.i = i;
