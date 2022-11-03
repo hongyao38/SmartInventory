@@ -15,6 +15,9 @@ import com.smartinventory.inventory.block.Block;
 
 import org.springframework.boot.jackson.JsonComponent;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.smartinventory.inventory.container.Container;
+
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -36,10 +39,11 @@ public class Storage {
     @NotNull
     private String username;
 
-    // @OneToMany(mappedBy = "storage",
-    // orphanRemoval = true,
-    // cascade = CascadeType.ALL)
-    // private List<Container> containers;
+    @JsonIgnore
+    @OneToMany(mappedBy = "storage",
+                orphanRemoval = true,
+                cascade = CascadeType.ALL)
+    private List<Container> containers;
 
     @OneToMany(mappedBy = "storage", orphanRemoval = true, cascade = CascadeType.ALL)
     private List<Block> blocks;

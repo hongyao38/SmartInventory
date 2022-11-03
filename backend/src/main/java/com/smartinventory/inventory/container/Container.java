@@ -12,6 +12,7 @@ import javax.validation.constraints.NotNull;
 
 import org.springframework.boot.jackson.JsonComponent;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.smartinventory.inventory.storage.Storage;
 
 import lombok.AllArgsConstructor;
@@ -45,6 +46,7 @@ public class Container {
     private Double quantity;
 
     @NotNull
+    @JsonIgnore
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "storage",
                 referencedColumnName = "id")
