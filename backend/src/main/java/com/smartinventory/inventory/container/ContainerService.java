@@ -1,9 +1,12 @@
 package com.smartinventory.inventory.container;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.stereotype.Service;
 
+import com.smartinventory.exceptions.inventory.ContainerNotFoundException;
+import com.smartinventory.exceptions.inventory.StorageNotFoundException;
 import com.smartinventory.inventory.storage.Storage;
 import com.smartinventory.inventory.storage.StorageRepository;
 
@@ -18,6 +21,20 @@ public class ContainerService {
 
 
     /**
+     * Find storage belonging to username
+     * @param username
+     * @return storage
+     */
+    private Storage getStorageByUsername(String username) {
+        Optional<Storage> storage = storageRepo.findByUsername(username);
+        if (storage.isEmpty()) {
+            throw new StorageNotFoundException(username);
+        }
+        return storage.get();
+    }
+
+
+    /**
      * Add new container for user
      * @param username
      * @param containerRequest
@@ -25,7 +42,7 @@ public class ContainerService {
      */
     public Container addContainer(String username, ContainerDTO containerRequest) {
         // TODO: Might need to check optional isEmpty()
-        Storage storage = storageRepo.findByUsername(username).get();
+        Storage storage = getStorageByUsername(username);
 
         // Creating new container
         Container newContainer = new Container(containerRequest.getCapacity(),
@@ -47,11 +64,28 @@ public class ContainerService {
 
         // Find storage to get container coordinates
         // TODO: Might need to check optional isEmpty()
-        Storage storage = storageRepo.findByUsername(username).get();
+        Storage storage = getStorageByUsername(username);
 
         // Get a list of all container coordinates belonging to user
         List<Container> containers = containerRepo.findByStorage(storage).get();
         System.out.println(containers);
         return containers;
+    }
+
+    /**
+     * Retrieve a specific container belonging to username
+     * @param username
+     * @param i
+     * @param j
+     * @return Container
+     */
+    public Container getContainer(String username, int i, int j) {
+        Storage storage = getStorageByUsername(username);
+
+        Optional<Container> container = containerRepo.findByIAndJAndStorage(i, j, storage);
+        if (container.isEmpty()) {
+            throw new ContainerNotFoundException();
+        }
+        return container.get();
     }
 }

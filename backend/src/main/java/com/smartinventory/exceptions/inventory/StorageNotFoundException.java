@@ -10,4 +10,7 @@ public class StorageNotFoundException extends RuntimeException {
         super(String.format("Storage %ld is not found!", id));
     }
 
+    public StorageNotFoundException(String username) {
+        super(String.format("%s's storage not found!", username));
+    }
 }

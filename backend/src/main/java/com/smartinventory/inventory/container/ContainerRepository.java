@@ -12,6 +12,6 @@ import com.smartinventory.inventory.storage.Storage;
 public interface ContainerRepository extends JpaRepository<Container, Long>{
     //Create, Read, Update, Delete
     List<Container> findByCapacity(Double capacity);
-    Optional<Container> findByIAndJ(int i, int j);
+    Optional<Container> findByIAndJAndStorage(int i, int j, Storage storage);
     Optional<List<Container>> findByStorage(Storage storage);
 }

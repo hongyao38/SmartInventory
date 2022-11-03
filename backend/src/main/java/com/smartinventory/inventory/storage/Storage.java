@@ -1,13 +1,20 @@
 package com.smartinventory.inventory.storage;
 
+import java.util.List;
+
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
 import javax.validation.constraints.NotNull;
 
 import org.springframework.boot.jackson.JsonComponent;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.smartinventory.inventory.container.Container;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -30,10 +37,11 @@ public class Storage {
     @NotNull
     private String username;
 
-    // @OneToMany(mappedBy = "storage",
-    // orphanRemoval = true,
-    // cascade = CascadeType.ALL)
-    // private List<Container> containers;
+    @JsonIgnore
+    @OneToMany(mappedBy = "storage",
+                orphanRemoval = true,
+                cascade = CascadeType.ALL)
+    private List<Container> containers;
 
     // @OneToMany(mappedBy = "storage", orphanRemoval = true, cascade = CascadeType.ALL)
     // private List<Block> blocks;
