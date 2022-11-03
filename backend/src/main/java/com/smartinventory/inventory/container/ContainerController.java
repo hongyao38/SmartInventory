@@ -43,17 +43,13 @@ public class ContainerController {
     }
 
     @ResponseStatus(HttpStatus.CREATED)
-    @PostMapping("food/{foodId}/storage/{storageId}/containers")
-    public Container addContainer(@PathVariable (value = "foodId") Long foodId,
-                                    @PathVariable (value = "storageId") Long storageId,
+    @PostMapping("storage/{storageId}/containers")
+    public Container addContainer(@PathVariable (value = "storageId") Long storageId,
                                     @Valid @RequestBody Container container) {
-        Food food = foodService.getFood(foodId);
-        container.setFood(food);
+        // Storage storage = storageService.getStorage(storageId);
 
-        Storage storage = storageService.getStorage(storageId);
-
-        container.setStorage(storage);
-        storageService.updateStorageAddContainer(storageId);
+        // container.setStorage(storage);
+        // storageService.updateStorageAddContainer(storageId);
 
         return containerService.addContainer(container);
     }

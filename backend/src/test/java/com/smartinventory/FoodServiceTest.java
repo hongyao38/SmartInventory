@@ -81,19 +81,11 @@ public class FoodServiceTest {
         // verify
         verify(foodRepo).findByFoodName(food.getFoodName());
     }
-    /*
+    
     @Test
     void updateFood_foodExists_SavedFood() {
-        ContainerService containers = new ContainerService(containerRepo);
-        this.containerService = containers;
-
-        Container container = new Container((long)1, 2.0, 0, 0, 5.0, 0.0, null, null);
-        Food food = new Food((long) 1, "Butter", "Dairy", 2.0, null, null, container);
-        Food updatedFood = new Food((long) 1, "Butter", "Dairy", 3.0, null, null, container);
-        container.setFood(food);
-        food.setContainer(container);
-        containers.addContainer(container);
-
+        Food food = new Food((long) 1, "Butter", "Dairy", 2.0, null, null, null);
+        Food updatedFood = new Food((long) 1, "Butter", "Dairy", 3.0, null, null, null);
 
         //mock optional food
         Optional<Food>  foodOptional = Optional.of(food);
@@ -101,8 +93,7 @@ public class FoodServiceTest {
         //mock findById operation
         when(foodRepo.findById(any(Long.class))).thenReturn(foodOptional);
         when(foodRepo.save(any(Food.class))).thenReturn(updatedFood);
-        when(containerRepo.save(any(Container.class))).thenReturn(container);
-        // when(containerService.updateContainer(any(Container.class), any(Double.class))).thenReturn(container);
+
 
         //assert
         Food toAssert = foodService.updateFood((long)1, updatedFood);
@@ -110,12 +101,12 @@ public class FoodServiceTest {
 
         //verify
         verify(foodRepo).findById(food.getId());
-        verify(foodRepo).save(updatedFood);
+        verify(foodRepo).save(food);
     }
-    */
+    
     
     @Test
-    void addFood_FoodNotFound_ThrowException() {
+    void updateFood_FoodNotFound_ThrowException() {
         Food food = new Food((long) 1, "Butter", "Dairy", 2.0, null, null, null);
         Food updatedFood = new Food((long) 1, "Butter", "Dairy", 3.0, null, null, null);
 

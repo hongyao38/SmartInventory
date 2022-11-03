@@ -3,6 +3,7 @@ package com.smartinventory.inventory.container;
 import java.util.List;
 import java.util.Optional;
 
+import com.smartinventory.exceptions.inventory.ContainerExistsException;
 import com.smartinventory.exceptions.inventory.ContainerNotFoundException;
 import com.smartinventory.inventory.food.Food;
 import com.smartinventory.inventory.storage.Storage;
@@ -44,15 +45,22 @@ public class ContainerService {
     }
 
     //add new Container
-    public Container addContainer(Container container) {
-        Double currentQuantity = container.getFood().getCurrentQuantity();
-        Double capacity = container.getCapacity();
-        Double percentageFilled = currentQuantity / capacity * 100;
+    public Container addContainer(Container newContainer) {
+        Optional<Container> returnedContainer = containerRepo.findByRowIndexAndColIndex(newContainer.getRowIndex(), newContainer.getColIndex());
 
-        container.setPercentageFilled(percentageFilled);
+        if (returnedContainer.isPresent()) {
+            throw new ContainerExistsException();
+        }
 
-        return containerRepo.save(container);
+        return containerRepo.save(newContainer);
     }
+
+    // public Container addFoodToContainer(Food food) {
+    //             Double capacity = newContainer.getCapacity();
+    //             Double percentageFilled = currentQuantity / capacity * 100;
+        
+    //             newContainer.setPercentageFilled(percentageFilled);
+    // }
 
     public Container updateContainer(Container container, Double quantity) {
         Double newPercentage = quantity / container.getCapacity() * 100;
