@@ -22,6 +22,11 @@ public class StorageService {
     //     return storageRepo.findBySize(size);
     // }
 
+    // //create new storage
+    // public Storage createStorage(String username) {
+    //     return new Storage(username);
+    // }
+
     //find container by id
     public Storage getStorage(String username) {
         Optional<AppUser> user = userRepo.findByUsername(username);
@@ -32,6 +37,7 @@ public class StorageService {
     }
 
     public Storage addStorage(AppUser user) {
+        // Storage storage = createStorage(user.getUsername());
         Storage storage = new Storage(user.getUsername());
 
         return storageRepo.save(storage);
