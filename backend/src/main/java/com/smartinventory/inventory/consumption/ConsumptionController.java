@@ -54,7 +54,7 @@ public class ConsumptionController {
                                         @PathVariable("foodName") String foodName,
                                         @PathVariable("dateTime") String dateTime,
                                         @Valid @RequestBody ConsumptionDTO consumptionRequest) {
-        return consumptionService.updateConsumption(username, foodName, consumptionRequest);
+        return consumptionService.updateConsumption(username, foodName, dateTime, consumptionRequest);
     }
 
 
