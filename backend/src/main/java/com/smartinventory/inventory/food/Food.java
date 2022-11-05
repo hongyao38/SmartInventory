@@ -1,5 +1,6 @@
 package com.smartinventory.inventory.food;
 
+import java.io.Serializable;
 import java.util.List;
 
 import javax.persistence.CascadeType;
@@ -27,7 +28,7 @@ import lombok.Setter;
 @AllArgsConstructor
 @NoArgsConstructor
 @JsonComponent
-public class Food {
+public class Food implements Serializable {
     @Id
     @SequenceGenerator(name = "food_sequence", sequenceName = "food_sequence", allocationSize = 1)
     @GeneratedValue(strategy = GenerationType.IDENTITY, generator = "food_sequence")

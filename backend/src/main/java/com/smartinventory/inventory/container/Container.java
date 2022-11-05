@@ -7,8 +7,6 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
 import javax.persistence.SequenceGenerator;
 import javax.validation.constraints.NotNull;
 
@@ -55,6 +53,7 @@ public class Container {
                 referencedColumnName = "id")
     private Storage storage;
 
+    @NotNull
     @JsonIgnore
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "food",
@@ -66,5 +65,6 @@ public class Container {
         this.i = i;
         this.j = j;
         this.storage = storage;
+        this.quantity = 0.0;
     }
 }

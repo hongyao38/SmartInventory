@@ -26,25 +26,35 @@ Accept: application/json
 
 ### NEW CONTAINER
 POST http://localhost:8080/api/v1/containers/xiaodidi
-Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ4aWFvZGlkaSIsInJvbGVzIjpbIlJPTEVfVVNFUiJdLCJpc3MiOiJsb2NhbGhvc3Q6ODA4MC9hcGkvdjEvbG9naW4iLCJleHAiOjE2Njc0OTg3NDd9._77tU8xYnJAoDr7UngWuzjRG098aL61k2c6IiAnlbcE
+Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ4aWFvZGlkaSIsInJvbGVzIjpbIlJPTEVfVVNFUiJdLCJpc3MiOiJsb2NhbGhvc3Q6ODA4MC9hcGkvdjEvbG9naW4iLCJleHAiOjE2Njc2NjY2MDV9.BEHaU50ixLaOUwjsFpgLp7qPAEkugPVC6eGlX9YgaRc
 Content-Type: application/json
 
 {
-    "capacity": "6.0",
+    "capacity": "6",
     "i": "3",
     "j": "1"
 }
 
 ### GET ALL CONTAINERS (FOR RENDERING UPON LOGIN)
 GET http://localhost:8080/api/v1/containers/xiaodidi
-Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ4aWFvZGlkaSIsInJvbGVzIjpbIlJPTEVfVVNFUiJdLCJpc3MiOiJsb2NhbGhvc3Q6ODA4MC9hcGkvdjEvbG9naW4iLCJleHAiOjE2Njc0OTg3NDd9._77tU8xYnJAoDr7UngWuzjRG098aL61k2c6IiAnlbcE
+Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ4aWFvZGlkaSIsInJvbGVzIjpbIlJPTEVfVVNFUiJdLCJpc3MiOiJsb2NhbGhvc3Q6ODA4MC9hcGkvdjEvbG9naW4iLCJleHAiOjE2Njc2NjU5NTh9.sOmCwItU3zbdQzTamzVp0SX5fWwCT3Z_3ihiSiD7W10
 Accept: application/json
 
 
 ### GET SPECIFIC CONTAINER (IF WE WANNA EDIT STH)
 GET http://localhost:8080/api/v1/containers/xiaodidi/3_1
-Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ4aWFvZGlkaSIsInJvbGVzIjpbIlJPTEVfVVNFUiJdLCJpc3MiOiJsb2NhbGhvc3Q6ODA4MC9hcGkvdjEvbG9naW4iLCJleHAiOjE2Njc0OTg3NDd9._77tU8xYnJAoDr7UngWuzjRG098aL61k2c6IiAnlbcE
+Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ4aWFvZGlkaSIsInJvbGVzIjpbIlJPTEVfVVNFUiJdLCJpc3MiOiJsb2NhbGhvc3Q6ODA4MC9hcGkvdjEvbG9naW4iLCJleHAiOjE2Njc2NjU5NTh9.sOmCwItU3zbdQzTamzVp0SX5fWwCT3Z_3ihiSiD7W10
 Accept: application/json
+
+### ADD FOOD TO CONTAINER
+PUT http://localhost:8080/api/v1/containers/xiaodidi/3_1
+Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ4aWFvZGlkaSIsInJvbGVzIjpbIlJPTEVfVVNFUiJdLCJpc3MiOiJsb2NhbGhvc3Q6ODA4MC9hcGkvdjEvbG9naW4iLCJleHAiOjE2Njc2NjY2MDV9.BEHaU50ixLaOUwjsFpgLp7qPAEkugPVC6eGlX9YgaRc
+Content-Type: application/json
+
+{
+    "name": "Kinder Bueno",
+    "quantity": 3
+}
 
 ### NEW BLOCK
 POST http://localhost:8080/api/v1/blocks/xiaodidi
