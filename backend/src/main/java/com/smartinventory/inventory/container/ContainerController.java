@@ -13,6 +13,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.smartinventory.inventory.food.FoodDTO;
+
 import lombok.AllArgsConstructor;
 
 @RestController
@@ -44,4 +46,8 @@ public class ContainerController {
         return containerService.getContainer(username, i, j);
     }
 
+    // Add Food to Container
+    public Container addFoodToContainer(@RequestBody FoodDTO foodRequest) {
+        return containerService.addFoodToContainer(foodRequest);
+    }
 }

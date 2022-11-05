@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import com.smartinventory.exceptions.inventory.ContainerNotFoundException;
 import com.smartinventory.exceptions.inventory.StorageNotFoundException;
+import com.smartinventory.inventory.food.FoodDTO;
 import com.smartinventory.inventory.storage.Storage;
 import com.smartinventory.inventory.storage.StorageRepository;
 
@@ -87,5 +88,15 @@ public class ContainerService {
             throw new ContainerNotFoundException();
         }
         return container.get();
+    }
+
+
+    /**
+     * TODO: Implement adding of Food to Container
+     * @param foodRequest
+     * @return
+     */
+    public Container addFoodToContainer(FoodDTO foodRequest) {
+        return null;
     }
 }

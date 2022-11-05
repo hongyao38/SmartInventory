@@ -53,4 +53,8 @@ public class Food {
     //             orphanRemoval = true,
     //             cascade = CascadeType.ALL)
     // private List<Purchase> purchases;
+
+    public Food (String name) {
+        this.name = name;
+    }
 }
