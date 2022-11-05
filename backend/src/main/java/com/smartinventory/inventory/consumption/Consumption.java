@@ -48,4 +48,11 @@ public class Consumption {
     @JoinColumn(name="food_Id",
                 referencedColumnName = "id")
     private Food food;
+
+    @JsonIgnore
+    @ManyToOne
+    @JsonBackReference
+    @JoinColumn(name="user_id",
+                referencedColumnName = "id")
+    private AppUser user;
 }
