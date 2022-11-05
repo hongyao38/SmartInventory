@@ -1,11 +1,13 @@
 package com.smartinventory;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.doAnswer;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
@@ -30,6 +32,7 @@ import com.smartinventory.exceptions.user.UserEmailNotFoundException;
 import com.smartinventory.exceptions.user.UserEmailTakenException;
 import com.smartinventory.exceptions.user.UsernameTakenException;
 import com.smartinventory.exceptions.user.UserIdNotFoundException;
+import com.smartinventory.security.token.ConfirmationToken;
 import com.smartinventory.security.token.ConfirmationTokenService;
 
 @ExtendWith(MockitoExtension.class)
@@ -46,8 +49,11 @@ public class UserServiceTest {
     @InjectMocks
     private AppUserService userService;
 
+    @Mock
+    private ConfirmationToken token;
+
     @Test
-    void addUser_NewUsername_SavedUser() {
+    void registerUser_NewUsername_SavedUser() {
 
         AppUser user = new AppUser("a@gmail.com", "user", "password");
 
@@ -62,35 +68,9 @@ public class UserServiceTest {
         verify(users).findByEmailIgnoreCase(user.getEmail());
     }
 
-    @Test
-    void addUser_SameUsername_ReturnException() {
-
-        // arrange
-        AppUser user = new AppUser("a@gmail.com", "user", "password");
-        users.save(new AppUser("a@gmail.com", "user", "password"));
-
-        // mock
-        Optional<AppUser> userOptional = Optional.empty();
-        when(users.findByUsername(any(String.class))).thenThrow(new UsernameTakenException());
-        when(users.findByEmailIgnoreCase(any(String.class))).thenReturn(userOptional);
-
-        try {
-            userService.registerUser(user);
-        } catch (Exception e) {
-            assertTrue(e instanceof UsernameTakenException);
-        }
-
-        try {
-            verify(users).findByUsername(user.getUsername());
-            verify(users).findByEmailIgnoreCase(user.getEmail());
-        } catch (Exception e) {
-
-        }
-
-    }
 
     @Test
-    void addUser_SameEmail_ReturnException() {
+    void registerUser_SameEmail_ReturnException() {
 
         // arrange
         AppUser user = new AppUser("a@gmail.com", "user", "password");
@@ -102,6 +82,46 @@ public class UserServiceTest {
         assertThrows(UserEmailTakenException.class, () -> userService.registerUser(user));
 
         verify(users).findByEmailIgnoreCase(user.getEmail());
+    }
+
+    @Test
+    void registerUser_EmailTaken_ReturnUserEmailTakenException() {
+        AppUser user = new AppUser("a@gmail.com", "user", "password");
+        Optional<AppUser> optionalUser = Optional.of(user);
+
+        when(users.findByEmailIgnoreCase("a@gmail.com")).thenReturn(optionalUser);
+
+        Exception exception = assertThrows(UserEmailTakenException.class,
+                () -> userService.registerUser(user));
+
+        String expectedMessage = "Email already taken";
+        String actualMessage = exception.getMessage();
+        System.out.println(actualMessage);
+
+        // assert
+        assertTrue(actualMessage.contains(expectedMessage));
+        verify(users).findByEmailIgnoreCase("a@gmail.com");
+    }
+
+    @Test
+    void registerUser_UsernameTaken_ReturnUsernameTakenException() {
+        AppUser user = new AppUser("a@gmail.com", "user", "password");
+        Optional<AppUser> optionalUser = Optional.of(user);
+
+        when(users.findByUsername("user")).thenReturn(optionalUser);
+
+        AppUser newUser = new AppUser("ab@gmail.com", "user", "password");
+
+        Exception exception = assertThrows(UsernameTakenException.class,
+                () -> userService.registerUser(newUser));
+
+        String expectedMessage = "Username already taken";
+        String actualMessage = exception.getMessage();
+        System.out.println(actualMessage);
+
+        // assert
+        assertTrue(actualMessage.contains(expectedMessage));
+        verify(users).findByUsername("user");
     }
 
     // @Test
@@ -191,20 +211,17 @@ public class UserServiceTest {
         verify(users).findById((long) 1);
     }
 
-    // not completed, dk how to mock auto generated id
     @Test
     void getUserById_UserFound_ReturnUser() {
-        List<AppUser> ls = new ArrayList<>();
-
         AppUser user = new AppUser("a@gmail.com", "user", "password");
+        Optional<AppUser> userOptional = Optional.of(user);
 
-        ls.add(user);
+        when(users.findById((long) 1)).thenReturn(userOptional);
 
-        when(users.findAll()).thenReturn(ls);
-
-        AppUser returnedUser = userService.getUserById(ls.get(0).getId());
+        AppUser returnedUser = userService.getUserById((long) 1);
 
         assertEquals(returnedUser, user);
+        verify(users).findById((long) 1);
     }
 
     @Test
@@ -244,49 +261,58 @@ public class UserServiceTest {
     }
 
     @Test
-    void registerUser_EmailTaken_ReturnUserEmailTakenException(){
-        AppUser user = new AppUser("a@gmail.com", "user", "password");
-        Optional<AppUser> optionalUser = Optional.of(user);
-
-        when(users.findByEmailIgnoreCase("a@gmail.com")).thenReturn(optionalUser);
-
-
-        Exception exception = assertThrows(UserEmailTakenException.class,
-                () -> userService.registerUser(user));
-
-        String expectedMessage = "Email already taken";
-        String actualMessage = exception.getMessage();
-        System.out.println(actualMessage);
-
-        // assert
-        assertTrue(actualMessage.contains(expectedMessage));
-        verify(users).findByEmailIgnoreCase("a@gmail.com");
-    }
-
-    @Test
-    void registerUser_UsernameTaken_ReturnUsernameTakenException(){
+    void usernameExists_Exists_ReturnTrue() {
         AppUser user = new AppUser("a@gmail.com", "user", "password");
         Optional<AppUser> optionalUser = Optional.of(user);
 
         when(users.findByUsername("user")).thenReturn(optionalUser);
 
-        AppUser newUser = new AppUser("ab@gmail.com", "user", "password");
+        boolean returnBoolean = userService.usernameExists("user");
 
-        Exception exception = assertThrows(UsernameTakenException.class,
-                () -> userService.registerUser(newUser));
-
-        String expectedMessage = "Username already taken";
-        String actualMessage = exception.getMessage();
-        System.out.println(actualMessage);
-
-        // assert
-        assertTrue(actualMessage.contains(expectedMessage));
+        assertTrue(returnBoolean);
         verify(users).findByUsername("user");
     }
 
-    //how to assert a randomly generated token?
     @Test
-    void registerUser_RegisterSuccess_ReturnConfirmationToken(){
+    void usernameExists_DoesNotExists_ReturnFalse() {
+        Optional<AppUser> emptyOptional = Optional.empty();
+
+        when(users.findByUsername("user")).thenReturn(emptyOptional);
+
+        boolean returnBoolean = userService.usernameExists("user");
+
+        assertFalse(returnBoolean);
+        verify(users).findByUsername("user");
+    }
+
+    @Test
+    void listAppUsers_ListEmpty_ReturnEmptyList() {
+        List<AppUser> emptyList = new ArrayList<>();
+
+        when(users.findAll()).thenReturn(emptyList);
+
+        List<AppUser> returnedList = userService.listAppUsers();
+
+        assertTrue(returnedList.isEmpty());
+        verify(users).findAll();
+
+    }
+
+    @Test
+    void listAppUsers_UsersPresent_ReturnUserList() {
+        List<AppUser> list = new ArrayList<>();
+        AppUser user1 = new AppUser("a@gmail.com", "user1", "password1");
+        AppUser user2 = new AppUser("ab@gmail.com", "user2", "password2");
+
+        list.add(user1);
+        list.add(user2);
+
+        when(users.findAll()).thenReturn(list);
+
+        List<AppUser> returnedList = userService.listAppUsers();
+
+        assertTrue(returnedList.contains(user1) && returnedList.contains(user2));
+        verify(users).findAll();
 
     }
 
