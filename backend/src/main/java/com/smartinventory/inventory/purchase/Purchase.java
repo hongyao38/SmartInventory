@@ -1,6 +1,7 @@
 package com.smartinventory.inventory.purchase;
 
 import java.time.LocalDate;
+import java.time.ZonedDateTime;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -40,7 +41,7 @@ public class Purchase {
     private Double quantityBought;
 
     @NotNull
-    private LocalDate expiryDate;
+    private ZonedDateTime expiryDate;
 
     @JsonIgnore
     @ManyToOne

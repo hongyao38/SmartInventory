@@ -2,15 +2,21 @@ package com.smartinventory.appuser;
 
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.smartinventory.inventory.consumption.Consumption;
 
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -48,6 +54,12 @@ public class AppUser implements UserDetails {
     private String authorities;
 
     private Boolean isEnabled = false; // Whether the user is verified
+
+    @JsonIgnore
+    @OneToMany(mappedBy = "consumption", 
+                orphanRemoval = true, 
+                cascade = CascadeType.ALL)
+    private List<Consumption> consumptions;
 
     public AppUser(String email, String username, String password) {
         this.email = email;
