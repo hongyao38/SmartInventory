@@ -15,4 +15,11 @@ public class FoodDTO {
     
     @NotNull
     private String name;
+
+    @NotNull
+    private Double quantity;
+
+    public FoodDTO(String name) {
+        this.name = name;
+    }
 }

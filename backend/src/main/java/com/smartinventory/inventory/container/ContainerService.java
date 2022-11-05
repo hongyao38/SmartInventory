@@ -6,8 +6,11 @@ import java.util.Optional;
 import org.springframework.stereotype.Service;
 
 import com.smartinventory.exceptions.inventory.ContainerNotFoundException;
+import com.smartinventory.exceptions.inventory.ContainerTooSmallException;
 import com.smartinventory.exceptions.inventory.StorageNotFoundException;
+import com.smartinventory.inventory.food.Food;
 import com.smartinventory.inventory.food.FoodDTO;
+import com.smartinventory.inventory.food.FoodService;
 import com.smartinventory.inventory.storage.Storage;
 import com.smartinventory.inventory.storage.StorageRepository;
 
@@ -19,6 +22,7 @@ public class ContainerService {
 
     private final StorageRepository storageRepo;
     private final ContainerRepository containerRepo;
+    private final FoodService foodService;
 
 
     /**
@@ -92,11 +96,28 @@ public class ContainerService {
 
 
     /**
-     * TODO: Implement adding of Food to Container
+     * Creates a new listing of food if it has yet to exist and adds it to a user's container
+     * @param username
+     * @param i
+     * @param j
      * @param foodRequest
-     * @return
+     * @return int
      */
-    public Container addFoodToContainer(FoodDTO foodRequest) {
-        return null;
+    public int addFoodToContainer(String username, Integer i, Integer j, FoodDTO foodRequest) {
+
+        // Get Container
+        Container container = getContainer(username, i, j);
+
+        // If quantity is larger than container capacity
+        Double newQuantity = foodRequest.getQuantity() + container.getQuantity();
+        if (newQuantity > container.getCapacity()) {
+            throw new ContainerTooSmallException();
+        }
+
+        // Get/Add food to list of foods
+        Food food = foodService.addNewFood(foodRequest);
+
+        // Update food to container
+        return containerRepo.updateContainerWithFood(food, newQuantity, container.getId());
     }
 }
