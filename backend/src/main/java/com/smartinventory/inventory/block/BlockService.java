@@ -5,9 +5,9 @@ import java.util.Optional;
 
 import org.springframework.stereotype.Service;
 
-import com.smartinventory.exceptions.inventory.BlockExistsException;
-import com.smartinventory.exceptions.inventory.BlockNotFoundException;
-import com.smartinventory.exceptions.inventory.StorageNotFoundException;
+import com.smartinventory.exceptions.inventory.block.BlockExistsException;
+import com.smartinventory.exceptions.inventory.block.BlockNotFoundException;
+import com.smartinventory.exceptions.inventory.storage.StorageNotFoundException;
 import com.smartinventory.inventory.storage.Storage;
 import com.smartinventory.inventory.storage.StorageRepository;
 
