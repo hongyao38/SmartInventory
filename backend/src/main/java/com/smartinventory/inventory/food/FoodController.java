@@ -10,6 +10,13 @@ import lombok.AllArgsConstructor;
 @RequestMapping("/api/v1")
 public class FoodController {
 
+    private final FoodService foodService;
+
+    // Add new Food
+    public Food addNewFood(FoodDTO foodRequest) {
+        return foodService.addNewFood(foodRequest);
+    }
+
         // // Add new container
         // @ResponseStatus(HttpStatus.CREATED)
         // @PostMapping("/containers/{username}")
