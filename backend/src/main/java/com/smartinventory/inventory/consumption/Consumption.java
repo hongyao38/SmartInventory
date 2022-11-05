@@ -1,6 +1,7 @@
 package com.smartinventory.inventory.consumption;
 
 import java.time.LocalDate;
+import java.time.ZonedDateTime;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -40,7 +41,7 @@ public class Consumption {
     private Double quantity;
 
     @NotNull
-    private LocalDate date;
+    private ZonedDateTime dateTime;
 
     @JsonIgnore
     @ManyToOne
@@ -55,4 +56,11 @@ public class Consumption {
     @JoinColumn(name="user_id",
                 referencedColumnName = "id")
     private AppUser user;
+
+    public Consumption(Double quantity, ZonedDateTime dateTime, Food food, AppUser user) {
+        this.quantity = quantity;
+        this.dateTime = dateTime;
+        this.food = food;
+        this.user = user;
+    }
 }
