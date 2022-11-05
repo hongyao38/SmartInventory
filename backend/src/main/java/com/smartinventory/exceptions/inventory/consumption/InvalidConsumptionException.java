@@ -1,4 +1,4 @@
-package com.smartinventory.exceptions.inventory;
+package com.smartinventory.exceptions.inventory.consumption;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ResponseStatus;

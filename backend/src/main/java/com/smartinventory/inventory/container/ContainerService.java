@@ -5,9 +5,9 @@ import java.util.Optional;
 
 import org.springframework.stereotype.Service;
 
-import com.smartinventory.exceptions.inventory.ContainerNotFoundException;
-import com.smartinventory.exceptions.inventory.ContainerTooSmallException;
-import com.smartinventory.exceptions.inventory.StorageNotFoundException;
+import com.smartinventory.exceptions.inventory.container.ContainerNotFoundException;
+import com.smartinventory.exceptions.inventory.container.ContainerTooSmallException;
+import com.smartinventory.exceptions.inventory.storage.StorageNotFoundException;
 import com.smartinventory.inventory.food.Food;
 import com.smartinventory.inventory.food.FoodDTO;
 import com.smartinventory.inventory.food.FoodService;
