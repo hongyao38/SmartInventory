@@ -56,7 +56,7 @@ public class AppUser implements UserDetails {
     private Boolean isEnabled = false; // Whether the user is verified
 
     @JsonIgnore
-    @OneToMany(mappedBy = "consumption", 
+    @OneToMany(mappedBy = "user", 
                 orphanRemoval = true, 
                 cascade = CascadeType.ALL)
     private List<Consumption> consumptions;

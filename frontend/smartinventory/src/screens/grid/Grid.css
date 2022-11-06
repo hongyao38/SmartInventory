@@ -1,0 +1,43 @@
+body {
+    padding: 0;
+    margin: 0;
+}
+
+/* .window.scrollTo {
+    top: 500;
+    left: 500
+} */
+
+::-webkit-scrollbar {
+    width: 0.8em;
+}
+
+::-webkit-scrollbar-track {
+    background: rgb(145, 96, 96);
+    border-radius: 100vw;
+    margin-block: .5em;
+}
+
+::-webkit-scrollbar-thumb {
+    background: rgb(137, 137, 137);
+    border-radius: 100vw;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: rgb(230, 230, 230);
+}
+
+.map {
+    display: grid;
+    justify-content: center;
+}
+
+.toolbar {
+    position: fixed;
+    left: 50%;
+    right: 50%;
+    width: fit-content;
+    bottom: 50px;
+    background-color: white;
+    padding: 24px;
+}

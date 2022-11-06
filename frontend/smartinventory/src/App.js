@@ -6,6 +6,7 @@ import ResetScreen from "./screens/forgetpassword/ResetScreen.js";
 import RegSuccessScreen from "./screens/registration/RegSuccessScreen.js";
 import ForgetPasswordScreen from "./screens/forgetpassword/ForgetPasswordScreen.js";
 import LoginSuccessScreen from "./screens/login/LoginSuccessScreen.js";
+import Grid from "./screens/grid/Grid.jsx";
 
 function App() {
   return (
@@ -18,6 +19,8 @@ function App() {
         <Route path="/forget-password/reset" element={<ResetScreen />} />
         <Route path="/forget-password" element={<ForgetPasswordScreen />} />
         <Route path="/dashboard" element={<LoginSuccessScreen />} />
+
+        <Route path="/grid" element={<Grid/>} />
       </Routes>
     </BrowserRouter>
   );

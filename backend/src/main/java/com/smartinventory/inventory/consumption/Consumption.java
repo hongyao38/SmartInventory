@@ -46,15 +46,15 @@ public class Consumption {
     @JsonIgnore
     @ManyToOne
     @JsonBackReference
-    @JoinColumn(name="food_Id",
-                referencedColumnName = "id")
+    @JoinColumn(name="food",
+                referencedColumnName = "name")
     private Food food;
 
     @JsonIgnore
     @ManyToOne
     @JsonBackReference
-    @JoinColumn(name="user_id",
-                referencedColumnName = "id")
+    @JoinColumn(name="user",
+                referencedColumnName = "username")
     private AppUser user;
 
     public Consumption(Double quantity, ZonedDateTime dateTime, Food food, AppUser user) {
