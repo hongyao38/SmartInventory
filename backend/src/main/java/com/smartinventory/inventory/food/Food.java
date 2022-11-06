@@ -13,7 +13,9 @@ import javax.persistence.SequenceGenerator;
 import javax.validation.constraints.NotNull;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.smartinventory.inventory.consumption.Consumption;
 import com.smartinventory.inventory.container.Container;
+import com.smartinventory.inventory.purchase.Purchase;
 
 import org.springframework.boot.jackson.JsonComponent;
 
@@ -43,17 +45,17 @@ public class Food implements Serializable {
                 cascade = CascadeType.ALL)
     private List<Container> containers;
 
-    // @JsonIgnore
-    // @OneToMany(mappedBy = "food",
-    //             orphanRemoval = true,
-    //             cascade = CascadeType.ALL)
-    // private List<Consumption> consumptions;
+    @JsonIgnore
+    @OneToMany(mappedBy = "food",
+                orphanRemoval = true,
+                cascade = CascadeType.ALL)
+    private List<Consumption> consumptions;
 
-    // @JsonIgnore
-    // @OneToMany(mappedBy = "food",
-    //             orphanRemoval = true,
-    //             cascade = CascadeType.ALL)
-    // private List<Purchase> purchases;
+    @JsonIgnore
+    @OneToMany(mappedBy = "food",
+                orphanRemoval = true,
+                cascade = CascadeType.ALL)
+    private List<Purchase> purchases;
 
     public Food (String name) {
         this.name = name;
