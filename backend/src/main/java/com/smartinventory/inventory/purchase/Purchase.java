@@ -40,6 +40,10 @@ public class Purchase {
     @NotNull
     private Double quantityBought;
 
+    // purchased dateTime
+    @NotNull
+    private ZonedDateTime dateTime;
+
     @NotNull
     private ZonedDateTime expiryDate;
 
@@ -55,4 +59,12 @@ public class Purchase {
     @JoinColumn(name = "username",
                 referencedColumnName = "id")
     private AppUser user;
+
+    public Purchase(Double quantityBought, ZonedDateTime dateTime, ZonedDateTime expiryDate, Food food, AppUser user) {
+        this.quantityBought = quantityBought;
+        this.dateTime = dateTime;
+        this.expiryDate = expiryDate;
+        this.food = food;
+        this.user = user;
+    }
 }

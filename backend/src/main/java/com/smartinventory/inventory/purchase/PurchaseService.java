@@ -1,4 +1,4 @@
-package com.smartinventory.inventory.consumption;
+package com.smartinventory.inventory.purchase;
 
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
@@ -20,22 +20,22 @@ import lombok.AllArgsConstructor;
 
 @Service
 @AllArgsConstructor
-public class ConsumptionService {
+public class PurchaseService {
     
-    private final ConsumptionRepository consumptionRepo;
+    private final PurchaseRepository purchaseRepo;
     private final FoodRepository foodRepo;
     private final AppUserRepository userRepo;
     private final ContainerRepository containerRepo;
     private final StorageRepository storageRepo;
 
-    public List<Consumption> getAllUserConsumptionsFromFood(String username, String foodName) {
+    public List<Purchase> getAllUserPurchasesFromFood(String username, String foodName) {
         Optional<Food> food = foodRepo.findByName(foodName);
         Optional<AppUser> user = userRepo.findByUsername(username);
 
-        return consumptionRepo.findByFoodAndUser(food.get(), user.get());
+        return purchaseRepo.findByFoodAndUser(food.get(), user.get());
     }
 
-    public Consumption getConsumption(String username, String foodName, String dateTime) {
+    public Purchase getPurchase(String username, String foodName, String dateTime) {
         Optional<Food> food = foodRepo.findByName(foodName);
         Optional<AppUser> user = userRepo.findByUsername(username);
 
@@ -43,49 +43,45 @@ public class ConsumptionService {
         DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm:ss VV");
         ZonedDateTime zonedDateTime = ZonedDateTime.parse(dateTime, dateTimeFormatter);
 
-        Optional<Consumption> consumption = consumptionRepo.findByFoodAndUserAndDateTime(food.get(), user.get(), zonedDateTime);
+        Optional<Purchase> purchase = purchaseRepo.findByFoodAndUserAndDateTime(food.get(), user.get(), zonedDateTime);
 
-        return consumption.get();
+        return purchase.get();
     }
 
-    public Consumption addConsumption(String username, String foodName, ConsumptionDTO consumptionRequest) {
+    public Purchase addPurchase(String username, String foodName, PurchaseDTO purchaseRequest) {
         Optional<Food> food = foodRepo.findByName(foodName);
         Optional<AppUser> user = userRepo.findByUsername(username);
 
-        Consumption newConsumption = new Consumption(consumptionRequest.getQuantity(), consumptionRequest.getDate(), food.get(), user.get());
+        Purchase newPurchase = new Purchase(purchaseRequest.getQuantityBought(), purchaseRequest.getDateTime(), purchaseRequest.getExpiryDate(), food.get(), user.get());
 
         // Update quantity in container
         Storage storage = storageRepo.findByUsername(username).get();
         Container container = containerRepo.findByStorageAndFood(storage, food.get()).get();
-        container.setQuantity(container.getQuantity() - newConsumption.getQuantity());
+        container.setQuantity(container.getQuantity() + newPurchase.getQuantityBought());
         containerRepo.save(container);
 
-        // Save new consumption
-        return consumptionRepo.save(newConsumption);
+        //Save new purchase
+        return purchaseRepo.save(newPurchase);
     }
 
-    public Consumption updateConsumption(String username, String foodName, String dateTime, ConsumptionDTO consumptionRequest) {
-        Consumption consumption = getConsumption(username, foodName, dateTime);
+    public Purchase updatePurchase(String username, String foodName, String dateTime, PurchaseDTO purchaseRequest) {
+        Purchase purchase = getPurchase(username, foodName, dateTime);
 
         // Get change in quantity
-        Double quantityDifference = consumptionRequest.getQuantity() - consumption.getQuantity();
+        Double quantityDifference = purchaseRequest.getQuantityBought() - purchase.getQuantityBought();
 
         // Update consumption values
-        consumption.setDateTime(consumptionRequest.getDate());
-        consumption.setQuantity(consumptionRequest.getQuantity());
+        purchase.setExpiryDate(purchaseRequest.getExpiryDate());
+        purchase.setQuantityBought(purchaseRequest.getQuantityBought());
 
         //Update quantity in container
         Food food = foodRepo.findByName(foodName).get();
         Storage storage = storageRepo.findByUsername(username).get();
         Container container = containerRepo.findByStorageAndFood(storage, food).get();
-        container.setQuantity(container.getQuantity() - quantityDifference);
+        container.setQuantity(container.getQuantity() + quantityDifference);
         containerRepo.save(container);
 
-        // Save updated consumption
-        return consumptionRepo.save(consumption);
+        // Save updated purchase
+        return purchaseRepo.save(purchase);
     }
-
-    
-
-
 }

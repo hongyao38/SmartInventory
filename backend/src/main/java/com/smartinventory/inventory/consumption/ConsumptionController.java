@@ -23,7 +23,7 @@ public class ConsumptionController {
 
     private final ConsumptionService consumptionService;
 
-    //Get a list of all consumptions according to food
+    //Get a list of all consumptions according to food and user
     @GetMapping("/{username}/{foodName}")
     public List<Consumption> getAllUserConsumptionsFromFood(@PathVariable("username") String username, 
                                                             @PathVariable("foodName") String foodName) {
