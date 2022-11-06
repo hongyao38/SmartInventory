@@ -7,6 +7,7 @@ import RegSuccessScreen from "./screens/registration/RegSuccessScreen.js";
 import ForgetPasswordScreen from "./screens/forgetpassword/ForgetPasswordScreen.js";
 import LoginSuccessScreen from "./screens/login/LoginSuccessScreen.js";
 import Grid from "./screens/grid/Grid.jsx";
+import DashboardScreen from "./screens/dashboard/DashboardScreen.js"
 
 function App() {
   return (
@@ -21,6 +22,7 @@ function App() {
         <Route path="/dashboard" element={<LoginSuccessScreen />} />
 
         <Route path="/grid" element={<Grid/>} />
+        <Route path="/additem" element={<DashboardScreen />}  />
       </Routes>
     </BrowserRouter>
   );
