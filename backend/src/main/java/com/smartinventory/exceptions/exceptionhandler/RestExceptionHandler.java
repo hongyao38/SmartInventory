@@ -1,23 +1,16 @@
 package com.smartinventory.exceptions.exceptionhandler;
 
-import java.time.ZoneId;
 import java.time.ZonedDateTime;
-
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
-import com.smartinventory.exceptions.inventory.FoodNotFoundException;
-import com.smartinventory.exceptions.inventory.ContainerNotFoundException;
-import com.smartinventory.exceptions.inventory.FoodExistsException;
-import com.smartinventory.exceptions.inventory.InvalidConsumptionException;
-
+import com.smartinventory.exceptions.inventory.consumption.InvalidConsumptionException;
+import com.smartinventory.exceptions.inventory.container.ContainerNotFoundException;
 import com.smartinventory.exceptions.token.EmailAlreadyVerifiedException;
 import com.smartinventory.exceptions.token.InvalidTokenException;
-
-import com.smartinventory.exceptions.user.InvalidCredentialsException;
 import com.smartinventory.exceptions.user.PasswordNotMatchingException;
 import com.smartinventory.exceptions.user.UserEmailNotFoundException;
 import com.smartinventory.exceptions.user.UserEmailTakenException;
@@ -28,7 +21,7 @@ import com.smartinventory.exceptions.user.UsernameTakenException;
 public class RestExceptionHandler {
 
         // handles HTTPStatus 404: Not found
-        @ExceptionHandler({ FoodNotFoundException.class, ContainerNotFoundException.class,
+        @ExceptionHandler({ ContainerNotFoundException.class,
                         UserEmailNotFoundException.class, UserIdNotFoundException.class, InvalidTokenException.class,
                         InvalidTokenException.class })
         public ResponseEntity<Object> handle404Exception(RuntimeException e) {
@@ -40,7 +33,7 @@ public class RestExceptionHandler {
         }
 
         // handles HTTPStatus 400: Bad Request
-        @ExceptionHandler({ FoodExistsException.class, InvalidConsumptionException.class,
+        @ExceptionHandler({ InvalidConsumptionException.class,
                         EmailAlreadyVerifiedException.class, PasswordNotMatchingException.class,
                         UserEmailTakenException.class,
                         UsernameTakenException.class })
