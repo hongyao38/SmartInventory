@@ -2,11 +2,13 @@ package com.smartinventory.inventory.purchase;
 
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
 import com.smartinventory.appuser.AppUser;
 import com.smartinventory.appuser.AppUserRepository;
+import com.smartinventory.inventory.consumption.Consumption;
 import com.smartinventory.inventory.container.Container;
 import com.smartinventory.inventory.container.ContainerRepository;
 import com.smartinventory.inventory.food.Food;
@@ -32,7 +34,13 @@ public class PurchaseService {
         Optional<Food> food = foodRepo.findByName(foodName);
         Optional<AppUser> user = userRepo.findByUsername(username);
 
-        return purchaseRepo.findByFoodAndUser(food.get(), user.get());
+        List<Purchase> purchases = purchaseRepo.findByFoodAndUser(food.get(), user.get());
+
+        if (purchases == null) {
+            purchases = new ArrayList<Purchase>();
+        }
+
+        return purchases;
     }
 
     public Purchase getPurchase(String username, String foodName, String dateTime) {
@@ -40,7 +48,7 @@ public class PurchaseService {
         Optional<AppUser> user = userRepo.findByUsername(username);
 
         // parse string to ZonedDateTime
-        DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm:ss VV");
+        DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm:ss:nn VV");
         ZonedDateTime zonedDateTime = ZonedDateTime.parse(dateTime, dateTimeFormatter);
 
         Optional<Purchase> purchase = purchaseRepo.findByFoodAndUserAndDateTime(food.get(), user.get(), zonedDateTime);
@@ -75,7 +83,7 @@ public class PurchaseService {
         purchase.setQuantityBought(purchaseRequest.getQuantityBought());
 
         //Update quantity in container
-        Food food = foodRepo.findByName(foodName).get();
+        Food food = purchase.getFood();
         Storage storage = storageRepo.findByUsername(username).get();
         Container container = containerRepo.findByStorageAndFood(storage, food).get();
         container.setQuantity(container.getQuantity() + quantityDifference);

@@ -2,6 +2,7 @@ package com.smartinventory.inventory.consumption;
 
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -32,7 +33,13 @@ public class ConsumptionService {
         Optional<Food> food = foodRepo.findByName(foodName);
         Optional<AppUser> user = userRepo.findByUsername(username);
 
-        return consumptionRepo.findByFoodAndUser(food.get(), user.get());
+        List<Consumption> consumptions = consumptionRepo.findByFoodAndUser(food.get(), user.get());
+
+        if (consumptions == null) {
+            consumptions = new ArrayList<Consumption>();
+        }
+
+        return consumptions;
     }
 
     public Consumption getConsumption(String username, String foodName, String dateTime) {
@@ -40,7 +47,7 @@ public class ConsumptionService {
         Optional<AppUser> user = userRepo.findByUsername(username);
 
         // parse string to ZonedDateTime
-        DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm:ss VV");
+        DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm:ss:nn VV");
         ZonedDateTime zonedDateTime = ZonedDateTime.parse(dateTime, dateTimeFormatter);
 
         Optional<Consumption> consumption = consumptionRepo.findByFoodAndUserAndDateTime(food.get(), user.get(), zonedDateTime);
@@ -75,7 +82,7 @@ public class ConsumptionService {
         consumption.setQuantity(consumptionRequest.getQuantity());
 
         //Update quantity in container
-        Food food = foodRepo.findByName(foodName).get();
+        Food food = consumption.getFood();
         Storage storage = storageRepo.findByUsername(username).get();
         Container container = containerRepo.findByStorageAndFood(storage, food).get();
         container.setQuantity(container.getQuantity() - quantityDifference);

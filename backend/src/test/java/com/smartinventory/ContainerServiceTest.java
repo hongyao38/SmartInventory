@@ -1,70 +1,210 @@
-// package com.smartinventory;
+package com.smartinventory;
 
-// import static org.junit.jupiter.api.Assertions.assertEquals;
-// import static org.junit.jupiter.api.Assertions.assertThrows;
-// import static org.mockito.ArgumentMatchers.any;
-// import static org.mockito.Mockito.verify;
-// import static org.mockito.Mockito.when;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyLong;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
-// import java.util.Optional;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
 
-// import com.smartinventory.exceptions.inventory.FoodExistsException;
-// import com.smartinventory.inventory.container.Container;
-// import com.smartinventory.inventory.container.ContainerRepository;
-// import com.smartinventory.inventory.container.ContainerService;
-// import com.smartinventory.inventory.food.Food;
-// import com.smartinventory.inventory.food.FoodRepository;
-// import com.smartinventory.inventory.food.FoodService;
+import com.smartinventory.exceptions.inventory.storage.StorageNotFoundException;
+import com.smartinventory.inventory.container.Container;
+import com.smartinventory.inventory.container.ContainerDTO;
+import com.smartinventory.inventory.container.ContainerRepository;
+import com.smartinventory.inventory.container.ContainerService;
+import com.smartinventory.inventory.food.Food;
+import com.smartinventory.inventory.food.FoodDTO;
+import com.smartinventory.inventory.food.FoodService;
+import com.smartinventory.inventory.storage.Storage;
+import com.smartinventory.inventory.storage.StorageRepository;
 
-// import org.junit.jupiter.api.Test;
-// import org.junit.jupiter.api.extension.ExtendWith;
-// import org.mockito.InjectMocks;
-// import org.mockito.Mock;
-// import org.mockito.junit.jupiter.MockitoExtension;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.junit.jupiter.MockitoExtension;
 
+@ExtendWith(MockitoExtension.class)
+public class ContainerServiceTest {
+    
+    @Mock
+    private StorageRepository storageRepo;
 
+    @Mock
+    private ContainerRepository containerRepo;
 
-// @ExtendWith(MockitoExtension.class)
-// public class ContainerServiceTest {
-//     @Mock
-//     private ContainerRepository containerRepo;
+    @Mock
+    private FoodService foodService;
 
-//     @InjectMocks
-//     private ContainerService containerService;
+    @InjectMocks
+    private ContainerService containerService;
 
-//     @Test
-//     void getContainer_containerFound_returnContainer() {
-//         Container container = new Container((long)1, 7.0, 1, 2, 5.0, 50.0, null, null);
+    @Test
+    void addContainer_storagePresent_returnContainer() {
+        //Create objects
+        Container container = new Container();
+        Storage storage = new Storage();
+        storage.setUsername("TestUser");
+        Optional<Storage> optionalStorage = Optional.of(storage);
+        ContainerDTO containerRequest = new ContainerDTO(5.0, 1, 1);
+        
+        // Mock methods
+        when(storageRepo.findByUsername("TestUser")).thenReturn(optionalStorage);
+        when(containerRepo.save(any(Container.class))).thenReturn(container);
 
-//         //mock optional container
-//         Optional<Container> containerOptional = Optional.of(container);
+        //Assert
+        Container addedContainer = containerService.addContainer("TestUser", containerRequest);
+        assertEquals(container, addedContainer);
 
-//         //mock findByRowIndexAndColIndex
-//         when(containerRepo.findByRowIndexAndColIndex(any(Integer.class), any(Integer.class))).thenReturn(containerOptional);
+        //verify
+        verify(storageRepo).findByUsername("TestUser");
+        verify(containerRepo).save(any(Container.class));
 
-//         Container getContainer = containerService.getContainer(1,2);
-//         assertEquals(container, getContainer);
+    }
 
-//         //verify
-//         verify(containerRepo).findByRowIndexAndColIndex(container.getRowIndex(), container.getColIndex());
-//     }
+    @Test
+    void addContainer_storageNotFound_throwException() {
+        //Create objects
+        Optional<Storage> optionalStorage = Optional.empty();
+        ContainerDTO containerRequest = new ContainerDTO(5.0, 1, 1);
+        
+        // Mock methods
+        when(storageRepo.findByUsername("TestUser")).thenReturn(optionalStorage);
 
-//     @Test
-//     void addContainer_newContainer_SavedContainer() {
-//         Container container = new Container((long)1, 7.0, 1, 2, 5.0, 50.0, null, null);
-//         Food food = new Food((long) 1, "milk", "dairy", 2.5, null, null, null);
-//         container.setFood(food);
+        //Assert
+        assertThrows(StorageNotFoundException.class, () -> containerService.addContainer("TestUser", containerRequest));
 
-//         // when(container.getFood()).thenReturn(food);
-//         when(containerRepo.findByRowIndexAndColIndex(container.getRowIndex(), container.getColIndex()));
-//         when(containerRepo.save(any(Container.class))).thenReturn(container);
+        //verify
+        verify(storageRepo).findByUsername("TestUser");
+    }
 
-//         Container newContainer = containerService.addContainer(container);
+    @Test
+    void getAllContainersFromUser_storagePresent_returnList() {
+        //Create objects
+        List<Container> containers = new ArrayList<>();
+        Optional<List<Container>> optionalContainer = Optional.of(containers);
 
-//         assertEquals(container, newContainer);
+        Storage storage = new Storage();
+        storage.setUsername("TestUser");
+        Optional<Storage> optionalStorage = Optional.of(storage);
 
-//         verify(containerRepo).save(container);
-//     }
+        // Mock methods
+        when(storageRepo.findByUsername("TestUser")).thenReturn(optionalStorage);
+        when(containerRepo.findByStorage(any(Storage.class))).thenReturn(optionalContainer);
 
+        //Assert
+        List<Container> containerList = containerService.getAllContainersFromUser("TestUser");
+        assertEquals(containers, containerList);
 
-// }
+        //verify
+        verify(storageRepo).findByUsername("TestUser");
+    }
+
+    @Test
+    void getAllContainersFromUser_storageNotFound_throwException() {
+        //Create objects
+        Optional<Storage> optionalStorage = Optional.empty();
+        
+        // Mock methods
+        when(storageRepo.findByUsername("TestUser")).thenReturn(optionalStorage);
+
+        //Assert
+        assertThrows(StorageNotFoundException.class, () -> containerService.getAllContainersFromUser("TestUser"));
+
+        //verify
+        verify(storageRepo).findByUsername("TestUser");
+    }
+
+    @Test
+    void getContainer_StorageFound_ReturnContainer() {
+        //Create objects
+        Container container = new Container();
+        container.setI(1);
+        container.setJ(1);
+        Optional<Container> optionalContainer = Optional.of(container);
+
+        Storage storage = new Storage();
+        storage.setUsername("TestUser");
+        Optional<Storage> optionalStorage = Optional.of(storage);
+
+        // Mock methods
+        when(storageRepo.findByUsername("TestUser")).thenReturn(optionalStorage);
+        when(containerRepo.findByIAndJAndStorage(any(Integer.class), any(Integer.class), any(Storage.class))).thenReturn(optionalContainer);
+
+        //Assert
+        Container containerFound = containerService.getContainer("TestUser", container.getI(), container.getJ());
+        assertEquals(container, containerFound);
+
+        //verify
+        verify(storageRepo).findByUsername("TestUser");
+    }
+
+    @Test
+    void getContainer_storageNotFound_throwException() {
+        //Create objects
+        Optional<Storage> optionalStorage = Optional.empty();
+        
+        // Mock methods
+        when(storageRepo.findByUsername("TestUser")).thenReturn(optionalStorage);
+
+        //Assert
+        assertThrows(StorageNotFoundException.class, () -> containerService.getContainer("TestUser", 1, 1));
+
+        //verify
+        verify(storageRepo).findByUsername("TestUser");
+    }
+
+    @Test
+    void addFoodToContainer_StorageFound_ReturnContainer() {
+        //Create objects
+        Storage storage = new Storage();
+        storage.setUsername("TestUser");
+        Optional<Storage> optionalStorage = Optional.of(storage);
+
+        FoodDTO foodRequest = new FoodDTO("Milk", 2.0);
+        Food food = new Food("Milk");
+
+        Container container = new Container();
+        container.setId((long) 1);
+        container.setI(1);
+        container.setJ(1);
+        container.setQuantity(0.0);
+        container.setCapacity(10.0);
+        // container.setFood(food);
+        Optional<Container> optionalContainer = Optional.of(container);
+
+        // Mock methods
+        when(storageRepo.findByUsername("TestUser")).thenReturn(optionalStorage);
+        when(containerRepo.findByIAndJAndStorage(any(Integer.class), any(Integer.class), any(Storage.class))).thenReturn(optionalContainer);
+        when(containerRepo.updateContainerWithFood(any(Food.class), any(Double.class), anyLong())).thenReturn(1);
+
+        //Assert
+        int returnQuantity = containerService.addFoodToContainer("TestUser", container.getI(), container.getJ(), foodRequest);
+        assertEquals(1, returnQuantity);
+
+        //verify
+        verify(storageRepo).findByUsername("TestUser");
+        verify(containerRepo).findByIAndJAndStorage(container.getI(), container.getJ(), storage);
+        verify(containerRepo).updateContainerWithFood(food, 2.0, container.getId());
+    }
+
+    @Test
+    void addFoodToContainer_storageNotFound_throwException() {
+        //Create objects
+        Optional<Storage> optionalStorage = Optional.empty();
+        FoodDTO foodRequest = new FoodDTO();
+        
+        // Mock methods
+        when(storageRepo.findByUsername("TestUser")).thenReturn(optionalStorage);
+
+        //Assert
+        assertThrows(StorageNotFoundException.class, () -> containerService.addFoodToContainer("TestUser", 1, 1, foodRequest));
+
+        //verify
+        verify(storageRepo).findByUsername("TestUser");
+    }
+}

@@ -5,6 +5,7 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
+import java.time.DateTimeException;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import java.util.ArrayList;
@@ -13,14 +14,14 @@ import java.util.Optional;
 
 import com.smartinventory.appuser.AppUser;
 import com.smartinventory.appuser.AppUserRepository;
+import com.smartinventory.inventory.consumption.Consumption;
+import com.smartinventory.inventory.consumption.ConsumptionDTO;
+import com.smartinventory.inventory.consumption.ConsumptionRepository;
+import com.smartinventory.inventory.consumption.ConsumptionService;
 import com.smartinventory.inventory.container.Container;
 import com.smartinventory.inventory.container.ContainerRepository;
 import com.smartinventory.inventory.food.Food;
 import com.smartinventory.inventory.food.FoodRepository;
-import com.smartinventory.inventory.purchase.Purchase;
-import com.smartinventory.inventory.purchase.PurchaseDTO;
-import com.smartinventory.inventory.purchase.PurchaseRepository;
-import com.smartinventory.inventory.purchase.PurchaseService;
 import com.smartinventory.inventory.storage.Storage;
 import com.smartinventory.inventory.storage.StorageRepository;
 
@@ -31,10 +32,10 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 @ExtendWith(MockitoExtension.class)
-public class PurchaseServiceTest {
+public class ConsumptionServiceTest {
 
     @Mock
-    private PurchaseRepository purchaseRepo;
+    private ConsumptionRepository consumptionRepo;
 
     @Mock
     private FoodRepository foodRepo;
@@ -49,12 +50,12 @@ public class PurchaseServiceTest {
     private StorageRepository storageRepo;
 
     @InjectMocks
-    private PurchaseService PurchaseService;
+    private ConsumptionService consumptionService;
 
     @Test
-    void getAllUserPurchasesFromFood_PurchasesExists_returnPurchases() {
-        //Creating Purchase list
-        List<Purchase> Purchases = new ArrayList<>();
+    void getAllUserConsumptionsFromFood_ConsumptionsExists_returnConsumptions() {
+        //Creating consumption list
+        List<Consumption> consumptions = new ArrayList<>();
 
         //Create optional food
         Food food = new Food("Milk");
@@ -68,21 +69,21 @@ public class PurchaseServiceTest {
         // mock methods
         when(foodRepo.findByName("Milk")).thenReturn(optionalFood);
         when(userRepo.findByUsername("TestUser")).thenReturn(optionalUser);
-        when(purchaseRepo.findByFoodAndUser(any(Food.class), any(AppUser.class))).thenReturn(Purchases);
+        when(consumptionRepo.findByFoodAndUser(any(Food.class), any(AppUser.class))).thenReturn(consumptions);
 
-        List<Purchase> returnedList = PurchaseService.getAllUserPurchasesFromFood("TestUser", "Milk");
-        assertEquals(Purchases, returnedList);
+        List<Consumption> returnedList = consumptionService.getAllUserConsumptionsFromFood("TestUser", "Milk");
+        assertEquals(consumptions, returnedList);
 
         verify(foodRepo).findByName("Milk");
         verify(userRepo).findByUsername("TestUser");
-        verify(purchaseRepo).findByFoodAndUser(food, user);
+        verify(consumptionRepo).findByFoodAndUser(food, user);
 
     }
 
     @Test
-    void getAllUserPurchasesFromFood_NoPurchases_returnEmptyList() {
-        //Creating Purchase list
-        List<Purchase> Purchases = new ArrayList<>();
+    void getAllUserConsumptionsFromFood_NoConsumptions_returnEmptyList() {
+        //Creating consumption list
+        List<Consumption> consumptions = new ArrayList<>();
 
         //Create optional food
         Food food = new Food("Milk");
@@ -96,19 +97,19 @@ public class PurchaseServiceTest {
         // mock methods
         when(foodRepo.findByName("Milk")).thenReturn(optionalFood);
         when(userRepo.findByUsername("TestUser")).thenReturn(optionalUser);
-        when(purchaseRepo.findByFoodAndUser(any(Food.class), any(AppUser.class))).thenReturn(null);
+        when(consumptionRepo.findByFoodAndUser(any(Food.class), any(AppUser.class))).thenReturn(null);
 
-        List<Purchase> returnedList = PurchaseService.getAllUserPurchasesFromFood("TestUser", "Milk");
-        assertEquals(Purchases, returnedList);
+        List<Consumption> returnedList = consumptionService.getAllUserConsumptionsFromFood("TestUser", "Milk");
+        assertEquals(consumptions, returnedList);
 
         verify(foodRepo).findByName("Milk");
         verify(userRepo).findByUsername("TestUser");
-        verify(purchaseRepo).findByFoodAndUser(food, user);
+        verify(consumptionRepo).findByFoodAndUser(food, user);
 
     }
 
     @Test
-    void getPurchase_PurchaseFound_ReturnPurchase() {
+    void getConsumption_ConsumptionFound_ReturnConsumption() {
         // Create a zoned date time
         ZonedDateTime dateTime = ZonedDateTime.of(2022, 10, 10, 10, 10, 10, 10, ZoneId.of("Asia/Dubai"));
 
@@ -122,29 +123,29 @@ public class PurchaseServiceTest {
         user.setAuthorities("ROLE_USER");
         Optional<AppUser> optionalUser = Optional.of(user);
 
-        //Creating Purchase
-        Purchase Purchase = new Purchase();
-        Optional<Purchase> optionalPurchase = Optional.of(Purchase);
-        // Purchase.setDateTime(dateTime);
-        // Purchase.setUser(user);
+        //Creating consumption
+        Consumption consumption = new Consumption();
+        Optional<Consumption> optionalConsumption = Optional.of(consumption);
+        // consumption.setDateTime(dateTime);
+        // consumption.setUser(user);
 
         // mock methods
         when(foodRepo.findByName("Milk")).thenReturn(optionalFood);
         when(userRepo.findByUsername("TestUser")).thenReturn(optionalUser);
-        when(purchaseRepo.findByFoodAndUserAndDateTime(any(Food.class), any(AppUser.class), any(ZonedDateTime.class))).thenReturn(optionalPurchase);
+        when(consumptionRepo.findByFoodAndUserAndDateTime(any(Food.class), any(AppUser.class), any(ZonedDateTime.class))).thenReturn(optionalConsumption);
 
-        Purchase returnedPurchase = PurchaseService.getPurchase("TestUser", "Milk", "10.10.2022 10:10:10:10 Asia/Dubai");
-        assertEquals(Purchase, returnedPurchase);
+        Consumption returnedConsumption = consumptionService.getConsumption("TestUser", "Milk", "10.10.2022 10:10:10:10 Asia/Dubai");
+        assertEquals(consumption, returnedConsumption);
 
         verify(foodRepo).findByName("Milk");
         verify(userRepo).findByUsername("TestUser");
-        verify(purchaseRepo).findByFoodAndUserAndDateTime(food, user, dateTime);
+        verify(consumptionRepo).findByFoodAndUserAndDateTime(food, user, dateTime);
     }
 
     @Test
-    void addPurchase_NewPurchase_ReturnPurchase() {
-        // Creating Purchase
-        Purchase Purchase = new Purchase();
+    void addConsumption_NewConsumption_ReturnConsumption() {
+        // Creating consumption
+        Consumption consumption = new Consumption();
 
         //Create optional food
         Food food = new Food("Milk");
@@ -173,35 +174,34 @@ public class PurchaseServiceTest {
         when(storageRepo.findByUsername("TestUser")).thenReturn(optionalStorage);
         when(containerRepo.findByStorageAndFood(any(Storage.class), any(Food.class))).thenReturn(optionalContainer);
         when(containerRepo.save(any(Container.class))).thenReturn(container);
-        when(purchaseRepo.save(any(Purchase.class))).thenReturn(Purchase);
+        when(consumptionRepo.save(any(Consumption.class))).thenReturn(consumption);
 
-        PurchaseDTO PurchaseRequest = new PurchaseDTO(2.0, ZonedDateTime.of(2022, 11, 2, 10, 10, 10, 10, ZoneId.of("Asia/Dubai")),
-                                                                ZonedDateTime.of(2022, 11, 2, 10, 10, 10, 10, ZoneId.of("Asia/Dubai")));
-        Purchase testPurchase = PurchaseService.addPurchase("TestUser", "Milk", PurchaseRequest);
-        assertEquals(Purchase, testPurchase);
+        ConsumptionDTO consumptionRequest = new ConsumptionDTO(2.0, ZonedDateTime.of(2022, 11, 2, 10, 10, 10, 10, ZoneId.of("Asia/Dubai")));
+        Consumption testConsumption = consumptionService.addConsumption("TestUser", "Milk", consumptionRequest);
+        assertEquals(consumption, testConsumption);
 
         verify(foodRepo).findByName("Milk");
         verify(userRepo).findByUsername("TestUser");
         verify(storageRepo).findByUsername("TestUser");
         verify(containerRepo).findByStorageAndFood(storage, food);
         verify(containerRepo).save(container);
-        verify(purchaseRepo).save(any(Purchase.class));
+        verify(consumptionRepo).save(any(Consumption.class));
 
     }
 
     @Test
-    void updatePurchase_PurchaseFound_ReturnUpdatedPurchase() {
+    void updateConsumption_ConsumptionFound_ReturnUpdatedConsumption() {
 
 
         //Create optional food
         Food food = new Food("Milk");
         Optional<Food> optionalFood = Optional.of(food);
 
-        // Creating Purchase
-        Purchase Purchase = new Purchase();
-        Purchase.setQuantityBought(5.0);
-        Purchase.setFood(food);
-        Optional<Purchase> optionalPurchase = Optional.of(Purchase);
+        // Creating consumption
+        Consumption consumption = new Consumption();
+        consumption.setQuantity(5.0);
+        consumption.setFood(food);
+        Optional<Consumption> optionalConsumption = Optional.of(consumption);
 
         // Creating optional user
         AppUser user = new AppUser();
@@ -226,21 +226,21 @@ public class PurchaseServiceTest {
         when(storageRepo.findByUsername("TestUser")).thenReturn(optionalStorage);
         when(containerRepo.findByStorageAndFood(any(Storage.class), any(Food.class))).thenReturn(optionalContainer);
         when(containerRepo.save(any(Container.class))).thenReturn(container);
-        when(purchaseRepo.findByFoodAndUserAndDateTime(any(Food.class), any(AppUser.class), any(ZonedDateTime.class))).thenReturn(optionalPurchase);
-        when(purchaseRepo.save(any(Purchase.class))).thenReturn(Purchase);
+        when(consumptionRepo.findByFoodAndUserAndDateTime(any(Food.class), any(AppUser.class), any(ZonedDateTime.class))).thenReturn(optionalConsumption);
+        when(consumptionRepo.save(any(Consumption.class))).thenReturn(consumption);
 
         ZonedDateTime dateTime = ZonedDateTime.of(2022, 10, 10, 10, 10, 10, 10, ZoneId.of("Asia/Dubai"));
-        PurchaseDTO PurchaseRequest = new PurchaseDTO(2.0, dateTime, dateTime);
-        Purchase testPurchase = PurchaseService.updatePurchase("TestUser", "Milk", "10.10.2022 10:10:10:10 Asia/Dubai",PurchaseRequest);
-        assertEquals(Purchase, testPurchase);
+        ConsumptionDTO consumptionRequest = new ConsumptionDTO(2.0, dateTime);
+        Consumption testConsumption = consumptionService.updateConsumption("TestUser", "Milk", "10.10.2022 10:10:10:10 Asia/Dubai",consumptionRequest);
+        assertEquals(consumption, testConsumption);
 
         verify(foodRepo).findByName("Milk");
         verify(userRepo).findByUsername("TestUser");
         verify(storageRepo).findByUsername("TestUser");
         verify(containerRepo).findByStorageAndFood(storage, food);
         verify(containerRepo).save(container);
-        verify(purchaseRepo).findByFoodAndUserAndDateTime(food, user, dateTime);
-        verify(purchaseRepo).save(any(Purchase.class));
+        verify(consumptionRepo).findByFoodAndUserAndDateTime(food, user, dateTime);
+        verify(consumptionRepo).save(any(Consumption.class));
 
     }
 }
