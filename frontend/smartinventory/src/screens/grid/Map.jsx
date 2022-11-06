@@ -1,9 +1,7 @@
-import { useState } from "react";
 import Cell from "./Cell.jsx";
 import "./Map.css";
 
-function Map({ rows = 100, cols = 100 }) {
-  const [activeCell, setActiveCell] = useState(null);
+function Map({ activeCell, setActiveCell, rows = 100, cols = 100 }) {
 
   const handleCellClick = (row, col) => {
     console.log({ row, col });

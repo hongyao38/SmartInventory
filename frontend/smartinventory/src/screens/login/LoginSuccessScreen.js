@@ -1,7 +1,7 @@
 import React from "react";
 
 import { MDBBtn } from "mdb-react-ui-kit";
-import { getUsers } from "../../services/authService";
+import { getUsers } from "../../services/AuthService";
 
 import "mdb-react-ui-kit/dist/css/mdb.min.css";
 import "react-responsive-carousel/lib/styles/carousel.min.css"; // requires a loader

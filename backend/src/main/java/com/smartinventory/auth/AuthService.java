@@ -54,7 +54,7 @@ public class AuthService {
         emailBody = emailBody.replace("INSERT CONFIRMATION LINK", confirmationLink);
 
         // Send email
-        emailSender.send(reqEmail, emailBody, "SmartInventory: Confirm Your Email");
+        // emailSender.send(reqEmail, emailBody, "SmartInventory: Confirm Your Email");
         return token;
     }
 
