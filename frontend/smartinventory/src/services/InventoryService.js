@@ -5,12 +5,20 @@ const newBlock = async (block) => {
     const res = await axiosInstance({
         method: "post",
         url: "blocks/" + sessionStorage.getItem("name"),
-        data: block,
+        data: block
     });
-    console.log(res.status)
     return res.status === 201;
+}
+
+const getAllBlocks = async () => {
+    const res = await axiosInstance({
+        method: "get",
+        url: "blocks/" + sessionStorage.getItem("name")
+    })
+    return res.data;
 }
 
 export {
     newBlock,
+    getAllBlocks,
 };

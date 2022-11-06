@@ -1,4 +1,4 @@
-import "./Cell.css";
+import "./styles/Cell.css";
 
 const BOX_LEVEL_CLASSES = {
   EMPTY: "box-empty",
@@ -7,14 +7,11 @@ const BOX_LEVEL_CLASSES = {
   HIGH: "box-high",
 };
 
-function Cell({ row, col, isActive, handleCellClick }) {
-
-  // bool isContainer = false;
-  // HashMap<String, Integer> items
+function Cell({ row, col, isBlock, isActive, handleCellClick }) {
 
   return (
     <div
-      className={`cell ${isActive ? "active" : ""}`}
+      className={`cell ${isActive ? "active" : ""} ${isBlock ? "block" : ""}`}
       onClick={() => handleCellClick(row, col)}
     ></div>
   );

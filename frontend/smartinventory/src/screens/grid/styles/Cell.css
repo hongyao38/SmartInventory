@@ -7,31 +7,36 @@
     transition: all .15s ease-in-out;
 }
 
+.block {
+    background-color: rgb(225, 225, 225);
+    transition: all .15s ease-in-out;
+}
+
 .cell:hover {
     border: rgb(67, 75, 120) solid 3px;
     opacity: 75%;
 }
 
 .active {
-    background-color: rgb(112, 112, 169);
+    background-color: rgba(108, 219, 127, 0.4);
 }
 
 .box-empty {
-    background-image: url("./assets/BoxHigh.png");
+    background-image: url("../assets/BoxHigh.png");
     background-size: contain;
 }
 
 .box-low {
-    background-image: url("./assets/BoxLow.png");
+    background-image: url("../assets/BoxLow.png");
     background-size: contain;
 }
 
 .box-medium {
-    background-image: url("./assets/BoxMed.png");
+    background-image: url("../assets/BoxMed.png");
     background-size: contain;
 }
 
 .box-high {
-    background-image: url("./assets/BoxHigh.png");
+    background-image: url("../assets/BoxHigh.png");
     background-size: contain;
 }
