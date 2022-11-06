@@ -16,9 +16,9 @@ import {
 } from "mdb-react-ui-kit";
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import "./NavBar.css";
+import "../style/DashboardScreen.css";
 
-function NavBar() {
+function DashboardScreen() {
 
     const [name, setName] = useState({ name: "" });
     const [expiryDate, setExpiryDate] = useState({ expiryDate: "" });
@@ -87,4 +87,4 @@ function NavBar() {
 
 }
 
-export default NavBar;
+export default DashboardScreen;

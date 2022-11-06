@@ -6,8 +6,7 @@ import ResetScreen from "./screens/forgetpassword/ResetScreen.js";
 import RegSuccessScreen from "./screens/registration/RegSuccessScreen.js";
 import ForgetPasswordScreen from "./screens/forgetpassword/ForgetPasswordScreen.js";
 import LoginSuccessScreen from "./screens/login/LoginSuccessScreen.js";
-import InputForm from "./screens/InputForm.js";
-import NavBar from "./screens/NavBar.js"
+import DashboardScreen from "./screens/dashboard/DashboardScreen.js"
 
 function App() {
   return (
@@ -20,8 +19,7 @@ function App() {
         <Route path="/forget-password/reset" element={<ResetScreen />} />
         <Route path="/forget-password" element={<ForgetPasswordScreen />} />
         <Route path="/dashboard" element={<LoginSuccessScreen />} />
-        <Route path="/InputForm" element={<InputForm />}  />
-        <Route path="/NavBar" element={<NavBar />}  />
+        <Route path="/additem" element={<DashboardScreen />}  />
       </Routes>
     </BrowserRouter>
   );
