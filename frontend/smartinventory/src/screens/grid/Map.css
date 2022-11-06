@@ -1,5 +1,26 @@
 .map {
+    position: absolute;
+    top: 50px;
     display: grid;
     grid-template-columns: repeat(100, 115px);
     grid-template-rows: repeat(100, 115px);
+}
+
+::-webkit-scrollbar {
+    background-color: rgb(0,0,0);
+    width: 0.8em;
+    height: 0.8em;
+}
+
+::-webkit-scrollbar-track {
+    margin-block: .5em;
+}
+
+::-webkit-scrollbar-thumb {
+    background: rgb(137, 137, 137);
+    border-radius: 100vw;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: rgb(230, 230, 230);
 }
