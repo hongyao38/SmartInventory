@@ -7,8 +7,12 @@ import java.util.Optional;
 
 import com.smartinventory.appuser.AppUser;
 import com.smartinventory.appuser.AppUserRepository;
+import com.smartinventory.inventory.container.Container;
+import com.smartinventory.inventory.container.ContainerRepository;
 import com.smartinventory.inventory.food.Food;
 import com.smartinventory.inventory.food.FoodRepository;
+import com.smartinventory.inventory.storage.Storage;
+import com.smartinventory.inventory.storage.StorageRepository;
 
 import org.springframework.stereotype.Service;
 
@@ -21,6 +25,8 @@ public class ConsumptionService {
     private final ConsumptionRepository consumptionRepo;
     private final FoodRepository foodRepo;
     private final AppUserRepository userRepo;
+    private final ContainerRepository containerRepo;
+    private final StorageRepository storageRepo;
 
     public List<Consumption> getAllUserConsumptionsFromFood(String username, String foodName) {
         Optional<Food> food = foodRepo.findByName(foodName);
@@ -46,6 +52,14 @@ public class ConsumptionService {
         Optional<AppUser> user = userRepo.findByUsername(username);
 
         Consumption newConsumption = new Consumption(consumptionRequest.getQuantity(), consumptionRequest.getDate(), food.get(), user.get());
+
+        Storage storage = storageRepo.findByUsername(username).get();
+
+        Container container = containerRepo.findByStorageAndFood(storage, food.get()).get();
+
+        container.setQuantity(container.getQuantity() - newConsumption.getQuantity());
+
+        containerRepo.save(container);
 
         return newConsumption;
     }

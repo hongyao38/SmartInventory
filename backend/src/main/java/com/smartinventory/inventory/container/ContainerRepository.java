@@ -19,6 +19,7 @@ public interface ContainerRepository extends JpaRepository<Container, Long>{
     List<Container> findByCapacity(Double capacity);
     Optional<Container> findByIAndJAndStorage(int i, int j, Storage storage);
     Optional<List<Container>> findByStorage(Storage storage);
+    Optional<Container> findByStorageAndFood(Storage storage, Food Food);
     
     @Transactional
     @Modifying
