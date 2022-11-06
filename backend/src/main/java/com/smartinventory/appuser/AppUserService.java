@@ -17,6 +17,7 @@ import com.smartinventory.exceptions.user.UserEmailNotFoundException;
 import com.smartinventory.exceptions.user.UserEmailTakenException;
 import com.smartinventory.exceptions.user.UserIdNotFoundException;
 import com.smartinventory.exceptions.user.UsernameTakenException;
+import com.smartinventory.inventory.storage.StorageService;
 import com.smartinventory.security.config.JwtUtil;
 import com.smartinventory.security.token.ConfirmationToken;
 import com.smartinventory.security.token.ConfirmationTokenService;
@@ -30,6 +31,7 @@ public class AppUserService implements UserDetailsService {
     private final AppUserRepository userRepository;
     private final ConfirmationTokenService tokenService;
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
+    private final StorageService storageService;
 
     public List<AppUser> listAppUsers() {
         return userRepository.findAll();
@@ -90,6 +92,9 @@ public class AppUserService implements UserDetailsService {
 
         // Add user to database
         userRepository.save(user);
+
+        // Create a storage for user
+        storageService.addStorage(user);
 
         // Create a confirmationToken object to match to user
         ConfirmationToken confirmationToken = new ConfirmationToken(user);

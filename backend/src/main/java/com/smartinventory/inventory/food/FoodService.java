@@ -1,12 +1,6 @@
 package com.smartinventory.inventory.food;
 
-import java.util.List;
 import java.util.Optional;
-
-import com.smartinventory.exceptions.inventory.FoodNotFoundException;
-import com.smartinventory.inventory.container.ContainerRepository;
-import com.smartinventory.inventory.container.ContainerService;
-import com.smartinventory.exceptions.inventory.FoodExistsException;
 
 import org.springframework.stereotype.Service;
 
@@ -16,74 +10,23 @@ import lombok.AllArgsConstructor;
 @AllArgsConstructor
 public class FoodService {
     
-    private final ContainerService containerService;
     private final FoodRepository foodRepo;
-    private final ContainerRepository containerRepo;
 
-    public List<Food> listFood() {
-        return foodRepo.findAll();
-    }
+    /**
+     * Creates a new listing for food if food has not yet been added by any user
+     * If food already exists, return existing food
+     * @param foodRequest
+     * @return Food that has been saved
+     */
+    public Food addNewFood(FoodDTO foodRequest) {
+        Optional<Food> food = foodRepo.findByName(foodRequest.getName());
 
-    public List<Food> listFoodbyCategory(String category) {
-        return foodRepo.findByCategory(category);
-    }
-
-    public Food getFood(Long foodId) {
-        String foodName = foodRepo.findById(foodId).get().getFoodName();
-        return getFood(foodName);
-    }
-
-    public Food getFood(String foodName) throws FoodNotFoundException {
-        return (foodRepo.findByFoodName(foodName)).orElseThrow(() -> new FoodNotFoundException(foodName));
-    }
-
-    //add new food
-    public Food addFood(Food food) throws FoodExistsException {
-        if (foodRepo.findByFoodName(food.getFoodName()).isPresent()) {
-            throw new FoodExistsException(food.getFoodName());
+        // If food already exists, get existing food
+        if (food.isPresent()) {
+            return food.get();
         }
-        return foodRepo.save(food);
-    }
-
-    public Food updateFood(Long foodId, Food newFood) {
-        Optional<Food> food = foodRepo.findById(foodId);
-
-        if (food.isEmpty()) {
-            throw new FoodNotFoundException(newFood.getFoodName());
-        }
-
-        Food updatedFood = food.get();
-        updatedFood.setCurrentQuantity(newFood.getCurrentQuantity());
-        
-        if (updatedFood.getContainer() != null) {
-            containerService.updateContainer(updatedFood.getContainer(), updatedFood.getCurrentQuantity());
-        }
-        
-
-        return foodRepo.save(updatedFood);
-    }
-
-    public Food updateCurrentQuantity(Long foodId, Double quantity) {
-        Optional<Food> food = foodRepo.findById(foodId);
-
-        if (food.isEmpty()) {
-            return null;
-        }
-
-        Food updatedFood = food.get();
-        updatedFood.setCurrentQuantity(quantity);
-
-        if (updatedFood.getContainer() != null) {
-            containerService.updateContainer(updatedFood.getContainer(), updatedFood.getCurrentQuantity());
-        }
-        return foodRepo.save(updatedFood);
-    }
-
-    public void deleteFood(Long foodId) {
-        foodRepo.deleteById(foodId);
-    }
-
-    public void deleteFood(String foodName) {
-        foodRepo.deleteByfoodName(foodName);;
+        // Create new listing of food
+        Food newFood = new Food(foodRequest.getName());
+        return foodRepo.save(newFood);
     }
 }

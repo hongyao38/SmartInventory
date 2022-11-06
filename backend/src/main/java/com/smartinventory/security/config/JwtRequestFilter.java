@@ -31,7 +31,6 @@ public class JwtRequestFilter extends OncePerRequestFilter {
         }
         
         String authorizationHeader = request.getHeader("Authorization");
-        System.out.println("Auth Header: " + authorizationHeader);
 
         // If authorization header does not start with "Bearer ", just continue
         if (authorizationHeader == null || !authorizationHeader.startsWith("Bearer ")) {
@@ -56,7 +55,7 @@ public class JwtRequestFilter extends OncePerRequestFilter {
 
         } catch (Exception e) {
             response.setHeader("Error: ", e.getMessage());
-            response.sendError(403, "Invalid token"); // FORBIDDEN
+            response.sendError(403, "Invalid jwt token"); // FORBIDDEN
         }
     }
 }

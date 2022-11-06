@@ -7,20 +7,16 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
-import javax.persistence.PostLoad;
 import javax.persistence.SequenceGenerator;
-import javax.persistence.Transient;
 import javax.validation.constraints.NotNull;
 
-import com.smartinventory.inventory.container.Container;
-import com.smartinventory.inventory.food.Food;
+import com.smartinventory.inventory.block.Block;
 
-import org.hibernate.annotations.Formula;
 import org.springframework.boot.jackson.JsonComponent;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.smartinventory.inventory.container.Container;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -34,21 +30,28 @@ import lombok.Setter;
 @NoArgsConstructor
 @JsonComponent
 public class Storage {
-    
+
     @Id
     @SequenceGenerator(name = "storage_sequence", sequenceName = "storage_sequence", allocationSize = 1)
     @GeneratedValue(strategy = GenerationType.IDENTITY, generator = "storage_sequence")
-    private Long storageId;
+    private Long id;
 
-    //total number of boxes available
     @NotNull
-    private int size;
+    private String username;
 
-    //total number of boxes left
-    private int storageLeft;
-
+    @JsonIgnore
     @OneToMany(mappedBy = "storage",
                 orphanRemoval = true,
                 cascade = CascadeType.ALL)
     private List<Container> containers;
+
+    @JsonIgnore
+    @OneToMany(mappedBy = "storage", 
+                orphanRemoval = true, 
+                cascade = CascadeType.ALL)
+    private List<Block> blocks;
+
+    public Storage(String username) {
+        this.username = username;
+    }
 }

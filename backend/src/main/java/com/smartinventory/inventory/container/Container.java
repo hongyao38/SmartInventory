@@ -1,7 +1,5 @@
 package com.smartinventory.inventory.container;
 
-import java.util.List;
-
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -9,19 +7,14 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
-import javax.persistence.PostLoad;
 import javax.persistence.SequenceGenerator;
-import javax.persistence.Transient;
 import javax.validation.constraints.NotNull;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
+import org.springframework.boot.jackson.JsonComponent;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.smartinventory.inventory.food.Food;
 import com.smartinventory.inventory.storage.Storage;
-
-import org.hibernate.annotations.Formula;
-import org.springframework.boot.jackson.JsonComponent;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -35,34 +28,43 @@ import lombok.Setter;
 @NoArgsConstructor
 @JsonComponent
 public class Container {
-    
+
     @Id
     @SequenceGenerator(name = "container_sequence", sequenceName = "container_sequence", allocationSize = 1)
     @GeneratedValue(strategy = GenerationType.IDENTITY, generator = "container_sequence")
-    private Long containerId;
+    private Long id;
 
     @NotNull
     private Double capacity;
 
     @NotNull
-    private int rowIndex;
+    private Integer i;
 
     @NotNull
-    private int colIndex;
+    private Integer j;
 
     @NotNull
-    private Double threshold;
+    private Double quantity;
 
-    private Double percentageFilled;
-
-    @OneToOne
-    @JoinColumn(name = "foodId", 
+    @NotNull
+    @JsonIgnore
+    @ManyToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "storage",
                 referencedColumnName = "id")
+    private Storage storage;
+
+    @NotNull
+    @JsonIgnore
+    @ManyToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "food",
+                referencedColumnName = "name")
     private Food food;
 
-    @ManyToOne
-    @JsonBackReference
-    @JoinColumn(name="storageId",
-                referencedColumnName = "storageId")
-    private Storage storage;
+    public Container(Double capacity, Integer i, Integer j, Storage storage) {
+        this.capacity = capacity;
+        this.i = i;
+        this.j = j;
+        this.storage = storage;
+        this.quantity = 0.0;
+    }
 }

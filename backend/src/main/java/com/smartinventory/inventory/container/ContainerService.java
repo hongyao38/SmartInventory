@@ -3,76 +3,121 @@ package com.smartinventory.inventory.container;
 import java.util.List;
 import java.util.Optional;
 
-import com.smartinventory.exceptions.inventory.ContainerNotFoundException;
-import com.smartinventory.inventory.food.Food;
-import com.smartinventory.inventory.storage.Storage;
-
 import org.springframework.stereotype.Service;
+
+import com.smartinventory.exceptions.inventory.container.ContainerNotFoundException;
+import com.smartinventory.exceptions.inventory.container.ContainerTooSmallException;
+import com.smartinventory.exceptions.inventory.storage.StorageNotFoundException;
+import com.smartinventory.inventory.food.Food;
+import com.smartinventory.inventory.food.FoodDTO;
+import com.smartinventory.inventory.food.FoodService;
+import com.smartinventory.inventory.storage.Storage;
+import com.smartinventory.inventory.storage.StorageRepository;
 
 import lombok.AllArgsConstructor;
 
 @Service
 @AllArgsConstructor
 public class ContainerService {
-    
+
+    private final StorageRepository storageRepo;
     private final ContainerRepository containerRepo;
+    private final FoodService foodService;
 
-    //list all containers
-    public List<Container> listContainer() {
-        return containerRepo.findAll();
+
+    /**
+     * Find storage belonging to username
+     * @param username
+     * @return storage
+     */
+    private Storage getStorageByUsername(String username) {
+        Optional<Storage> storage = storageRepo.findByUsername(username);
+        if (storage.isEmpty()) {
+            throw new StorageNotFoundException(username);
+        }
+        return storage.get();
     }
 
-    //find container by capacity
-    public List<Container> listContainerbyCapacity(Double capacity) {
-        return containerRepo.findByCapacity(capacity);
+
+    /**
+     * Add new container for user
+     * @param username
+     * @param containerRequest
+     * @return
+     */
+    public Container addContainer(String username, ContainerDTO containerRequest) {
+        // TODO: Might need to check optional isEmpty()
+        Storage storage = getStorageByUsername(username);
+
+        // Creating new container
+        Container newContainer = new Container(containerRequest.getCapacity(),
+                                                containerRequest.getI(),
+                                                containerRequest.getJ(),
+                                                storage);
+
+        return containerRepo.save(newContainer);
     }
 
-    //find container by id
-    public Container getContainer(Long containerId) {
-        return containerRepo.findById(containerId).get();
+
+    /**
+     * Takes in username and return a list of container coordinates used for rendering
+     * storage space upon logging in
+     * @param username
+     * @return List<ContainerCoordinates> containerCoords
+     */
+    public List<Container> getAllContainersFromUser(String username) {
+
+        // Find storage to get container coordinates
+        // TODO: Might need to check optional isEmpty()
+        Storage storage = getStorageByUsername(username);
+
+        // Get a list of all container coordinates belonging to user
+        List<Container> containers = containerRepo.findByStorage(storage).get();
+        System.out.println(containers);
+        return containers;
     }
 
-    //find container by row and col idx
-    public Container getContainer(int rowIdx, int colIdx) {
-        Optional<Container> container = containerRepo.findByRowIndexAndColIndex(rowIdx, colIdx);
+    /**
+     * Retrieve a specific container belonging to username
+     * @param username
+     * @param i
+     * @param j
+     * @return Container
+     */
+    public Container getContainer(String username, Integer i, Integer j) {
+        Storage storage = getStorageByUsername(username);
 
+        Optional<Container> container = containerRepo.findByIAndJAndStorage(i, j, storage);
         if (container.isEmpty()) {
             throw new ContainerNotFoundException();
         }
-
         return container.get();
     }
 
-    //add new Container
-    public Container addContainer(Container container) {
-        Double currentQuantity = container.getFood().getCurrentQuantity();
-        Double capacity = container.getCapacity();
-        Double percentageFilled = currentQuantity / capacity * 100;
 
-        container.setPercentageFilled(percentageFilled);
+    /**
+     * Creates a new listing of food if it has yet to exist and adds it to a user's container
+     * @param username
+     * @param i
+     * @param j
+     * @param foodRequest
+     * @return int
+     */
+    public int addFoodToContainer(String username, Integer i, Integer j, FoodDTO foodRequest) {
 
-        return containerRepo.save(container);
-    }
+        // Get Container
+        Container container = getContainer(username, i, j);
 
-    public Container updateContainer(Container container, Double quantity) {
-        Double newPercentage = quantity / container.getCapacity() * 100;
+        // If quantity is larger than container capacity
+        Double newQuantity = foodRequest.getQuantity() + container.getQuantity();
+        if (newQuantity > container.getCapacity()) {
+            throw new ContainerTooSmallException();
+        }
 
-        container.setPercentageFilled(newPercentage);
-        return containerRepo.save(container);
-    }
+        // Get/Add food to list of foods
+        Food food = foodService.addNewFood(foodRequest);
 
-    public Container updateContainer(Long containerId, Container newContainer) {
-        Container currentContainer = containerRepo.findById(containerId).get();
-        Double currentQuantity = currentContainer.getFood().getCurrentQuantity();
-        Double percentageFilled = currentQuantity / newContainer.getCapacity() * 100;
-        currentContainer.setPercentageFilled(percentageFilled);
-
-        currentContainer.setThreshold(newContainer.getThreshold());
-        currentContainer.setCapacity(newContainer.getCapacity());
-        return containerRepo.save(currentContainer);
-    }
-
-    public void deleteContainer(Long ContainerId) {
-        containerRepo.deleteById(ContainerId);
+        // Update food to container
+        return containerRepo.updateContainerWithFood(food, newQuantity, container.getId());
     }
 }

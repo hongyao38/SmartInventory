@@ -34,7 +34,7 @@ function Form() {
                 password: data.password,
             });
             if (isLoggedIn) {
-                navigate("/dashboard");
+                navigate("/grid");
                 setLoadingButton(false);
                 setdisabledButton(false);
             }

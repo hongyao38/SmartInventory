@@ -1,4 +1,4 @@
-package com.smartinventory.inventory.food;
+package com.smartinventory.inventory.block;
 
 import javax.validation.constraints.NotNull;
 
@@ -6,20 +6,18 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import lombok.ToString;
 
 @Getter
 @Setter
+@ToString
 @AllArgsConstructor
 @NoArgsConstructor
-public class FoodDTO {
+public class BlockDTO {
     
     @NotNull
-    private String name;
+    private Integer i;
 
     @NotNull
-    private Double quantity;
-
-    public FoodDTO(String name) {
-        this.name = name;
-    }
+    private Integer j;
 }

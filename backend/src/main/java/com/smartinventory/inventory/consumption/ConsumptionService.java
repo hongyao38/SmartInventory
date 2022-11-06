@@ -1,15 +1,14 @@
 package com.smartinventory.inventory.consumption;
 
-import java.time.LocalDate;
-import java.util.Date;
+import java.time.ZonedDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Optional;
 
-import com.smartinventory.exceptions.inventory.FoodNotFoundException;
-import com.smartinventory.exceptions.inventory.InvalidConsumptionException;
+import com.smartinventory.appuser.AppUser;
+import com.smartinventory.appuser.AppUserRepository;
 import com.smartinventory.inventory.food.Food;
 import com.smartinventory.inventory.food.FoodRepository;
-import com.smartinventory.inventory.food.FoodService;
 
 import org.springframework.stereotype.Service;
 
@@ -19,61 +18,48 @@ import lombok.AllArgsConstructor;
 @AllArgsConstructor
 public class ConsumptionService {
     
-    private final ConsumptionRespository consumptions;
-    private final FoodService foodService;
+    private final ConsumptionRepository consumptionRepo;
+    private final FoodRepository foodRepo;
+    private final AppUserRepository userRepo;
 
-    public List<Consumption> listconsumptions() {
-        return consumptions.findAll();
+    public List<Consumption> getAllUserConsumptionsFromFood(String username, String foodName) {
+        Optional<Food> food = foodRepo.findByName(foodName);
+        Optional<AppUser> user = userRepo.findByUsername(username);
+
+        return consumptionRepo.findByFoodAndUser(food.get(), user.get());
     }
 
-    public List<Consumption> listConsumptionsByFood(Long foodId) {
-        return consumptions.findByFoodId(foodId);
+    public Consumption getConsumption(String username, String foodName, String dateTime) {
+        Optional<Food> food = foodRepo.findByName(foodName);
+        Optional<AppUser> user = userRepo.findByUsername(username);
+
+        DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm:ss VV");
+        ZonedDateTime zonedDateTime = ZonedDateTime.parse(dateTime, dateTimeFormatter);
+
+        Optional<Consumption> consumption = consumptionRepo.findByFoodAndUserAndDateTime(food.get(), user.get(), zonedDateTime);
+
+        return consumption.get();
     }
 
-    public List<Consumption> listConsumptionByDateConsumed(LocalDate dateConsumed) {
-        return consumptions.findByDateConsumed(dateConsumed);
+    public Consumption addConsumption(String username, String foodName, ConsumptionDTO consumptionRequest) {
+        Optional<Food> food = foodRepo.findByName(foodName);
+        Optional<AppUser> user = userRepo.findByUsername(username);
+
+        Consumption newConsumption = new Consumption(consumptionRequest.getQuantity(), consumptionRequest.getDate(), food.get(), user.get());
+
+        return newConsumption;
     }
 
-    public Consumption getConsumption(Long consumptionId) {
-        if (consumptions.findById(consumptionId).isEmpty()) {
-            return null;
-        }
-        return consumptions.findById(consumptionId).get();
+    public Consumption updateConsumption(String username, String foodName, String dateTime, ConsumptionDTO consumptionRequest) {
+        Consumption consumption = getConsumption(username, foodName, dateTime);
+
+        consumption.setDateTime(consumptionRequest.getDate());
+        consumption.setQuantity(consumptionRequest.getQuantity());
+
+        return consumptionRepo.save(consumption);
     }
 
-    //add new consumption
-    // will automatically update total quantity in food
-    public Consumption addConsumption(Consumption consumption) {
-        //Finding the food from the purchase
-        Food food = consumption.getFood();
-        
-        Double newQuantity = food.getCurrentQuantity() - consumption.getAmountConsumed();
+    
 
-        if (newQuantity < 0) {
-            throw new InvalidConsumptionException("Current Quantity Insufficient");
-        }
 
-        foodService.updateCurrentQuantity(food.getId(), newQuantity);
-
-        return consumptions.save(consumption);
-    }
-
-    //edit amount consumed
-    public Consumption updateConsumption(Long consumptionId, Consumption newConsumption) {
-        Consumption currentConsumption = consumptions.findById(consumptionId).get();
-
-        double currentConsumptionAmt = currentConsumption.getAmountConsumed();
-
-        Food food = currentConsumption.getFood();
-        Double newQuantity = food.getCurrentQuantity() - (newConsumption.getAmountConsumed() - currentConsumptionAmt);
-        foodService.updateCurrentQuantity(food.getId(), newQuantity);
-
-        currentConsumption.setAmountConsumed(newConsumption.getAmountConsumed());
-        currentConsumption.setDateConsumed(newConsumption.getDateConsumed());
-        return consumptions.save(currentConsumption);
-    }
-
-    public void deleteConsumption(Long consumptionId) {
-        consumptions.deleteById(consumptionId);
-    }
 }
