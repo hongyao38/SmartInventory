@@ -6,14 +6,14 @@ import org.apache.tomcat.jni.User;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
-@SpringBootTest
+@SpringBootTest(classes = SmartinventoryApplicationTests.class)
 class SmartinventoryApplicationTests {
 
-	// @Test
-	// void contextLoads() {
-	// 	// AppUser user = new AppUser();
-	// 	// user.setUsername("TestUser");
-	// 	// user.setPassword("Hello");
-	// }
+	@Test
+	void contextLoads() {
+		// AppUser user = new AppUser();
+		// user.setUsername("TestUser");
+		// user.setPassword("Hello");
+	}
 
 }
