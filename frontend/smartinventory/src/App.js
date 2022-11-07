@@ -1,15 +1,16 @@
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { BrowserRouter, Route, Routes } from "react-router-dom";
 
-import LoginScreen from "./screens/login/LogInScreen.js";
-import RegistrationScreen from "./screens/registration/RegistrationScreen.js";
-import ResetScreen from "./screens/forgetpassword/ResetScreen.js";
-import RegSuccessScreen from "./screens/registration/RegSuccessScreen.js";
 import ForgetPasswordScreen from "./screens/forgetpassword/ForgetPasswordScreen.js";
-import LoginSuccessScreen from "./screens/login/LoginSuccessScreen.js";
+import ResetScreen from "./screens/forgetpassword/ResetScreen.js";
 import Grid from "./screens/grid/Grid.jsx";
-import DashboardScreen from "./screens/dashboard/DashboardScreen.js"
+import LoginScreen from "./screens/login/LogInScreen.js";
+import LoginSuccessScreen from "./screens/login/LoginSuccessScreen.js";
+import RegistrationScreen from "./screens/registration/RegistrationScreen.js";
+import RegSuccessScreen from "./screens/registration/RegSuccessScreen.js";
+import SidePanel from "./screens/sidePanel/SidePanel.js";
 
 function App() {
+
   return (
     <BrowserRouter>
       <Routes>
@@ -22,7 +23,7 @@ function App() {
         <Route path="/dashboard" element={<LoginSuccessScreen />} />
 
         <Route path="/grid" element={<Grid/>} />
-        <Route path="/additem" element={<DashboardScreen />}  />
+        <Route path="/additem" element={<SidePanel />}  />
       </Routes>
     </BrowserRouter>
   );

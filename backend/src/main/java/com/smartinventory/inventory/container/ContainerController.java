@@ -5,6 +5,7 @@ import java.util.List;
 import javax.validation.Valid;
 
 import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -20,6 +21,7 @@ import lombok.AllArgsConstructor;
 
 @RestController
 @AllArgsConstructor
+@CrossOrigin
 @RequestMapping("/api/v1")
 public class ContainerController {
 
@@ -55,5 +57,12 @@ public class ContainerController {
                                         @PathVariable("j") Integer j,
                                         @RequestBody FoodDTO foodRequest) {
         return containerService.addFoodToContainer(username, i, j, foodRequest);
+    }
+
+    // Update Container Capacity
+    @PutMapping("/containers/{username}")
+    public int updateContainerCapacity(@PathVariable("username") String username,
+                                        @RequestBody ContainerDTO containerRequest) {
+        return containerService.updateContainerCapacity(username, containerRequest);
     }
 }

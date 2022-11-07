@@ -4,7 +4,11 @@
   box-shadow: 0px 5px 10px 0px rgba(0, 0, 0, 0.5);
   padding-top: 8px; /* Place content 60px from the top */
   padding-bottom: 8px; /* Place content 60px from the top */
-
+  position: fixed;
+  top: 0;
+  left:0;
+  z-index: 9999;
+  width: 100%;
 }
 
 img {
