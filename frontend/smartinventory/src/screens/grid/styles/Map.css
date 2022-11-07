@@ -6,6 +6,10 @@
     grid-template-rows: repeat(100, 115px);
 }
 
+.box-side-panel {
+    transition: 0.5s;
+}
+
 ::-webkit-scrollbar {
     background-color: rgb(0,0,0);
     width: 0.8em;

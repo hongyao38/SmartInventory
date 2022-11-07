@@ -1,3 +1,5 @@
+import { useState } from "react";
+import SidePanel from "../sidePanel/SidePanel.js";
 import Cell from "./Cell.jsx";
 import "./styles/Map.css";
 
@@ -9,12 +11,22 @@ function Map({
   rows = 100,
   cols = 100,
 }) {
+
+  // Map States
+  const [isViewingBox, setIsViewingBox] = useState(false);
+
   // Setting of active cell
   const handleCellClick = (row, col) => {
 
     // Set active cell
+    setIsViewingBox(false);
     setActiveCell({ row, col });
-    
+
+    // Bring up the side-panel if clicked on box
+    if (checkIsBox(row, col)) {
+      setIsViewingBox(true);
+    }
+
   };
 
   // Iterates through the list of blocks and determine if cell is a block
@@ -27,7 +39,7 @@ function Map({
     return false;
   };
 
-  // Iterates through the list of boxes and determine if cell is a container
+  // Iterates through the list of boxes and determine if cell is a box
   const checkIsBox = (row, col) => {
     for (let i = 0; i < boxes.length; i++) {
       if (row === boxes[i][0] && col === boxes[i][1]) {
@@ -39,6 +51,8 @@ function Map({
 
   return (
     <div className="map">
+
+      {/* 2D Array of all Cells */}
       {Array(rows)
         .fill(null)
         .map((_, row) =>
@@ -56,6 +70,9 @@ function Map({
               />
             ))
         )}
+
+      {/* Side Panel */}
+      {isViewingBox ? <SidePanel class="box-side-panel" setIsViewingBox={setIsViewingBox}/> : ""}
     </div>
   );
 }
