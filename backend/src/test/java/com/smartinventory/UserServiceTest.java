@@ -52,21 +52,21 @@ public class UserServiceTest {
     @Mock
     private ConfirmationToken token;
 
-    @Test
-    void registerUser_NewUsername_SavedUser() {
+    // @Test
+    // void registerUser_NewUsername_SavedUser() {
 
-        AppUser user = new AppUser("a@gmail.com", "user", "password");
+    //     AppUser user = new AppUser("a@gmail.com", "user", "password");
 
-        Optional<AppUser> userOptional = Optional.empty();
-        when(users.findByUsername(any(String.class))).thenReturn(userOptional);
-        when(users.findByEmailIgnoreCase(any(String.class))).thenReturn(userOptional);
+    //     Optional<AppUser> userOptional = Optional.empty();
+    //     when(users.findByUsername(any(String.class))).thenReturn(userOptional);
+    //     when(users.findByEmailIgnoreCase(any(String.class))).thenReturn(userOptional);
 
-        String regUser = userService.registerUser(user);
-        assertNotNull(regUser);
+    //     String regUser = userService.registerUser(user);
+    //     assertNotNull(regUser);
 
-        verify(users).findByUsername(user.getUsername());
-        verify(users).findByEmailIgnoreCase(user.getEmail());
-    }
+    //     verify(users).findByUsername(user.getUsername());
+    //     verify(users).findByEmailIgnoreCase(user.getEmail());
+    // }
 
 
     @Test
@@ -146,25 +146,25 @@ public class UserServiceTest {
     // verify(users).findByUsername(user.getUsername());
     // }
 
-    @Test
-    void loginUser_IncorrectUsername() {
+    // @Test
+    // void loginUser_IncorrectUsername() {
 
-        // arrange
-        AppUser user = new AppUser("a@gmail.com", "user", "password");
-        userService.registerUser(user);
-        userService.enableUser(user.getEmail());
-        AppUser wrongUsername = new AppUser("a@gmail.com", "user1", "password");
+    //     // arrange
+    //     AppUser user = new AppUser("a@gmail.com", "user", "password");
+    //     userService.registerUser(user);
+    //     userService.enableUser(user.getEmail());
+    //     AppUser wrongUsername = new AppUser("a@gmail.com", "user1", "password");
 
-        // mock
-        when(users.findByUsername(any(String.class))).thenThrow(new InvalidCredentialsException());
+    //     // mock
+    //     when(users.findByUsername(any(String.class))).thenThrow(new InvalidCredentialsException());
 
-        // act
-        assertThrows(InvalidCredentialsException.class,
-                () -> userService.loginUser(wrongUsername.getUsername(), wrongUsername.getPassword()));
+    //     // act
+    //     assertThrows(InvalidCredentialsException.class,
+    //             () -> userService.loginUser(wrongUsername.getUsername(), wrongUsername.getPassword()));
 
-        // assert
-        verify(users).findByUsername(wrongUsername.getUsername());
-    }
+    //     // assert
+    //     verify(users).findByUsername(wrongUsername.getUsername());
+    // }
 
     @Test
     void loginUser_IncorrectPassword() {

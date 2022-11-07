@@ -23,14 +23,14 @@ public class PurchaseController {
     private final PurchaseService purchaseService;
 
     //Get a list of all purchases according to food and user
-    @GetMapping("/{username}/{foodName}")
+    @GetMapping("/{username}/purchases/{foodName}")
     public List<Purchase> getAllUserPurchasesFromFood(@PathVariable("username") String username, 
                                                         @PathVariable("foodName") String foodName) {
         return purchaseService.getAllUserPurchasesFromFood(username, foodName);
     }
 
     //Get a specific purchase for user
-    @GetMapping("/{username}/{foodName}/{dateTime}")
+    @GetMapping("/{username}/{foodName}/purchases/{dateTime}")
     public Purchase getPurchase(@PathVariable("username") String username, 
                                 @PathVariable("foodName") String foodName,
                                 @PathVariable("dateTime") String dateTime) {
@@ -39,7 +39,7 @@ public class PurchaseController {
 
     //Add new purchase
     @ResponseStatus(HttpStatus.CREATED)
-    @PostMapping("/{username}/{foodName}")
+    @PostMapping("/{username}/purchases/{foodName}")
     public Purchase addPurchase(@PathVariable("username") String username,
                                 @PathVariable("foodName") String foodName,
                                 @Valid @RequestBody PurchaseDTO purchaseRequest) {
@@ -48,7 +48,7 @@ public class PurchaseController {
 
     //Update consumption
     @ResponseStatus(HttpStatus.CREATED)
-    @PutMapping("/{username}/{foodName}/{dateTime}")
+    @PutMapping("/{username}/purchases/{foodName}/{dateTime}")
     public Purchase updatePurchase(@PathVariable("username") String username,
                                         @PathVariable("foodName") String foodName,
                                         @PathVariable("dateTime") String dateTime,

@@ -158,39 +158,39 @@ public class ContainerServiceTest {
         verify(storageRepo).findByUsername("TestUser");
     }
 
-    @Test
-    void addFoodToContainer_StorageFound_ReturnContainer() {
-        //Create objects
-        Storage storage = new Storage();
-        storage.setUsername("TestUser");
-        Optional<Storage> optionalStorage = Optional.of(storage);
+    // @Test
+    // void addFoodToContainer_StorageFound_ReturnContainer() {
+    //     //Create objects
+    //     Storage storage = new Storage();
+    //     storage.setUsername("TestUser");
+    //     Optional<Storage> optionalStorage = Optional.of(storage);
 
-        FoodDTO foodRequest = new FoodDTO("Milk", 2.0);
-        Food food = new Food("Milk");
+    //     FoodDTO foodRequest = new FoodDTO("Milk", 2.0);
+    //     Food food = new Food("Milk");
 
-        Container container = new Container();
-        container.setId((long) 1);
-        container.setI(1);
-        container.setJ(1);
-        container.setQuantity(0.0);
-        container.setCapacity(10.0);
-        // container.setFood(food);
-        Optional<Container> optionalContainer = Optional.of(container);
+    //     Container container = new Container();
+    //     container.setId((long) 1);
+    //     container.setI(1);
+    //     container.setJ(1);
+    //     container.setQuantity(0.0);
+    //     container.setCapacity(10.0);
+    //     // container.setFood(food);
+    //     Optional<Container> optionalContainer = Optional.of(container);
 
-        // Mock methods
-        when(storageRepo.findByUsername("TestUser")).thenReturn(optionalStorage);
-        when(containerRepo.findByIAndJAndStorage(any(Integer.class), any(Integer.class), any(Storage.class))).thenReturn(optionalContainer);
-        when(containerRepo.updateContainerWithFood(any(Food.class), any(Double.class), anyLong())).thenReturn(1);
+    //     // Mock methods
+    //     when(storageRepo.findByUsername("TestUser")).thenReturn(optionalStorage);
+    //     when(containerRepo.findByIAndJAndStorage(any(Integer.class), any(Integer.class), any(Storage.class))).thenReturn(optionalContainer);
+    //     when(containerRepo.updateContainerWithFood(any(Food.class), any(Double.class), anyLong())).thenReturn(1);
 
-        //Assert
-        int returnQuantity = containerService.addFoodToContainer("TestUser", container.getI(), container.getJ(), foodRequest);
-        assertEquals(1, returnQuantity);
+    //     //Assert
+    //     int returnQuantity = containerService.addFoodToContainer("TestUser", container.getI(), container.getJ(), foodRequest);
+    //     assertEquals(1, returnQuantity);
 
-        //verify
-        verify(storageRepo).findByUsername("TestUser");
-        verify(containerRepo).findByIAndJAndStorage(container.getI(), container.getJ(), storage);
-        verify(containerRepo).updateContainerWithFood(food, 2.0, container.getId());
-    }
+    //     //verify
+    //     verify(storageRepo).findByUsername("TestUser");
+    //     verify(containerRepo).findByIAndJAndStorage(container.getI(), container.getJ(), storage);
+    //     verify(containerRepo).updateContainerWithFood(food, 2.0, container.getId());
+    // }
 
     @Test
     void addFoodToContainer_storageNotFound_throwException() {

@@ -24,14 +24,14 @@ public class ConsumptionController {
     private final ConsumptionService consumptionService;
 
     //Get a list of all consumptions according to food and user
-    @GetMapping("/{username}/{foodName}")
+    @GetMapping("/{username}/{foodName}/consumptions")
     public List<Consumption> getAllUserConsumptionsFromFood(@PathVariable("username") String username, 
                                                             @PathVariable("foodName") String foodName) {
         return consumptionService.getAllUserConsumptionsFromFood(username, foodName);
     }
 
     //Get a specific consumption for user
-    @GetMapping("/{username}/{foodName}/{dateTime}")
+    @GetMapping("/{username}/{foodName}/consumptions/{dateTime}")
     public Consumption getConsumption(@PathVariable("username") String username, 
                                             @PathVariable("foodName") String foodName,
                                             @PathVariable("dateTime") String dateTime) {
@@ -40,7 +40,7 @@ public class ConsumptionController {
 
     //Add new consumption
     @ResponseStatus(HttpStatus.CREATED)
-    @PostMapping("/{username}/{foodName}")
+    @PostMapping("/{username}/{foodName}/consumptions")
     public Consumption addConsumption(@PathVariable("username") String username,
                                         @PathVariable("foodName") String foodName,
                                         @Valid @RequestBody ConsumptionDTO consumptionRequest) {
@@ -49,7 +49,7 @@ public class ConsumptionController {
 
     //Update consumption
     @ResponseStatus(HttpStatus.CREATED)
-    @PutMapping("/{username}/{foodName}/{dateTime}")
+    @PutMapping("/{username}/{foodName}/consumptions/{dateTime}")
     public Consumption updateConsumption(@PathVariable("username") String username,
                                         @PathVariable("foodName") String foodName,
                                         @PathVariable("dateTime") String dateTime,
