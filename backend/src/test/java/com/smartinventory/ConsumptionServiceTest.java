@@ -5,12 +5,17 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
-import java.time.DateTimeException;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.junit.jupiter.MockitoExtension;
 
 import com.smartinventory.appuser.AppUser;
 import com.smartinventory.appuser.AppUserRepository;
@@ -24,12 +29,6 @@ import com.smartinventory.inventory.food.Food;
 import com.smartinventory.inventory.food.FoodRepository;
 import com.smartinventory.inventory.storage.Storage;
 import com.smartinventory.inventory.storage.StorageRepository;
-
-import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
-import org.mockito.junit.jupiter.MockitoExtension;
 
 @ExtendWith(MockitoExtension.class)
 public class ConsumptionServiceTest {

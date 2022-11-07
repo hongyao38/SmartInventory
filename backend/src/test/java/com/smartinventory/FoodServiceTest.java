@@ -1,27 +1,24 @@
 package com.smartinventory;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 import java.util.Optional;
 
-import com.smartinventory.exceptions.inventory.food.FoodExistsException;
-import com.smartinventory.inventory.container.Container;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.junit.jupiter.MockitoExtension;
+
 import com.smartinventory.inventory.container.ContainerRepository;
 import com.smartinventory.inventory.container.ContainerService;
 import com.smartinventory.inventory.food.Food;
 import com.smartinventory.inventory.food.FoodDTO;
 import com.smartinventory.inventory.food.FoodRepository;
 import com.smartinventory.inventory.food.FoodService;
-
-import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
-import org.mockito.junit.jupiter.MockitoExtension;
 
 
 

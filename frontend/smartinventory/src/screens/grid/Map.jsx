@@ -74,7 +74,6 @@ function Map({
   const checkIsBox = (row, col) => {
     for (let i = 0; i < boxes.length; i++) {
       if (row === boxes[i][0] && col === boxes[i][1]) {
-        getStockLevel(row, col);
         return true;
       }
     }
