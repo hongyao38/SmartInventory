@@ -1,41 +1,54 @@
 import React, { useState } from "react";
+import { addFoodToBox, updateBoxCapacity } from "../../services/InventoryService";
 import "../style/SidePanel.css";
 
-function SidePanel({ setIsViewingBox }) {
+function SidePanel({ activeCell, setIsViewingBox }) {
 
-    const [name, setName] = useState({ name: "" });
-    const [expiryDate, setExpiryDate] = useState({ expiryDate: "" });
-    const [quantity, setQuantity] = useState({ quantity: "" });
-    const [modal, setModal] = useState(false);
+    // Add Food Attributes
+    const [foodName, setFoodName] = useState("");
+    const [capacity, setCapacity] = useState(0);
+    const [quantity, setQuantity] = useState(0);
 
-    const [tempName, saveName] = useState({ name: "" });
-    const [tempExpiryDate, saveExpiryDate] = useState({ tempExpiryDate: "" });
-    const [tempQuantity, saveQuantity] = useState({ tempQuantity: "" });
-
-    const inputName = (e) => {
-        saveName({ tempName });
+    
+    const inputCapacity = (e) => {
+        setCapacity( parseFloat(e.target.value, 10) );
     };
 
-    const inputExpiryDate = (e) => {
-        saveExpiryDate({ tempExpiryDate });
+    const inputName = (e) => {
+        setFoodName( e.target.value );
     };
 
     const inputQuantity = (e) => {
-        saveQuantity({ tempQuantity });
+        setQuantity( parseFloat(e.target.value, 10) );
     };
 
-    const saveData = (e) => {
-        setName({ tempName });
-        setExpiryDate({ tempExpiryDate });
-        setQuantity({ tempQuantity });
-        closeNav({});
-        <h1>saved!</h1>
-    };
+    const sendAddFoodRequest = async (e) => {
+        // Update Box capacity
+        try {
+            await updateBoxCapacity({
+                capacity: capacity,
+                i: activeCell?.row,
+                j: activeCell?.col
+            })
+        } catch (e) {
+            alert("Cannot update container capacity");
+        }
 
-    const openNav = () => { document.getElementById('mySidenav').style.width = "250px" }
+        // Add Food to Box
+        try {
+            await addFoodToBox(activeCell?.row, activeCell?.col, {
+                name: foodName,
+                quantity: quantity,
+            })
+        } catch (e) {
+            alert("Cannot add food to container");
+        } 
+    }
+
+    const openSidePanel = () => { document.getElementById('mySidenav').style.width = "250px" }
+
     const closeNav = () => {
         setIsViewingBox(false);
-        document.getElementById('mySidenav').style.width = "0px" ;
     }
 
     return (
@@ -46,21 +59,21 @@ function SidePanel({ setIsViewingBox }) {
                 <div class="form_container">
                     <div class="capacity-field">
                         <label for="inputName" class="form-label">Box Capacity</label>
-                        <input type="name" class="form-control" id="inputName" onChange={inputName} ></input>
+                        <input type="text" name="capacity" class="form-control" id="inputName" onChange={inputCapacity} ></input>
                     </div>
 
                     <div class="name-field">
                         <label for="inputExpiryDate" class="form-label">Item Name</label>
-                        <input type="name" class="form-control" id="inputExpiryDate" onChange={inputExpiryDate} ></input>
+                        <input type="text" name="foodName" class="form-control" id="inputExpiryDate" onChange={inputName} ></input>
                     </div>
 
                     <div class="quantity-field">
                         <label for="inputQuantity" class="form-label">Item Quantity</label>
-                        <input type="name" class="form-control" id="inputQuantity" onChange={inputQuantity} ></input>
+                        <input type="text" name="quantity" class="form-control" id="inputQuantity" onChange={inputQuantity} ></input>
                     </div>
                     
-                    <button class="savebtn" onClick={saveData} type="button">Save</button>
-                    <button class="cancelbtn" onClick={saveData} type="button">Cancel</button>
+                    <button class="savebtn" type="button" onClick={sendAddFoodRequest}>Save</button>
+                    <button class="cancelbtn" onClick={closeNav} type="button">Cancel</button>
                 </div>
             </div>
 

@@ -38,9 +38,31 @@ const getAllBoxes = async () => {
   return res.data;
 };
 
+// Send request to update a container's capacity
+const updateBoxCapacity = async (container) => {
+  const res = await axiosInstance({
+    method: "put",
+    url: "containers/" + sessionStorage.getItem("name"),
+    data: container
+  });
+  return res.status === 200;
+}
+
+// Send request to add food to container
+const addFoodToBox = async (i, j, food) => {
+  const res = await axiosInstance({
+    method: "put",
+    url: "containers/" + sessionStorage.getItem("name") + "/" + i + "_" + j,
+    data: food
+  })
+  return res.status === 200;
+}
+
 export {
   newBlock,
   getAllBlocks,
   newBox,
   getAllBoxes,
+  updateBoxCapacity,
+  addFoodToBox,
 };

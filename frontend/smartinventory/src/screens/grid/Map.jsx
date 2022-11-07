@@ -29,6 +29,16 @@ function Map({
 
   };
 
+  const getStockLevel = (row, col) => {
+
+    // Get container from backend
+
+    // calculate quantity / capacity
+
+    // Return a string stating the stock level
+
+  }
+
   // Iterates through the list of blocks and determine if cell is a block
   const checkIsBlock = (row, col) => {
     for (let i = 0; i < blocks.length; i++) {
@@ -72,7 +82,7 @@ function Map({
         )}
 
       {/* Side Panel */}
-      {isViewingBox ? <SidePanel class="box-side-panel" setIsViewingBox={setIsViewingBox}/> : ""}
+      {isViewingBox ? <SidePanel class="box-side-panel" activeCell={activeCell} setIsViewingBox={setIsViewingBox}/> : ""}
     </div>
   );
 }
