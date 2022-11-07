@@ -29,4 +29,5 @@ public class FoodService {
         Food newFood = new Food(foodRequest.getName());
         return foodRepo.save(newFood);
     }
+
 }
