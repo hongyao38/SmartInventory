@@ -8,6 +8,7 @@ import LoginSuccessScreen from "./screens/login/LoginSuccessScreen.js";
 import RegistrationScreen from "./screens/registration/RegistrationScreen.js";
 import RegSuccessScreen from "./screens/registration/RegSuccessScreen.js";
 import SidePanel from "./screens/sidePanel/SidePanel.js";
+import Alerts from "./screens/alerts/Alerts.jsx"
 
 function App() {
 
@@ -23,7 +24,8 @@ function App() {
         <Route path="/dashboard" element={<LoginSuccessScreen />} />
 
         <Route path="/grid" element={<Grid/>} />
-        <Route path="/additem" element={<SidePanel />}  />
+        <Route path="/additem" element={<SidePanel />} />
+        <Route path="/alerts" element={<Alerts />} />
       </Routes>
     </BrowserRouter>
   );

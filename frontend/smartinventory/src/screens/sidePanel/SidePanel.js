@@ -1,13 +1,16 @@
 import React, { useState } from "react";
-import { addFoodToBox, updateBoxCapacity } from "../../services/InventoryService";
+import { addFoodToBox, getBox, updateBoxCapacity } from "../../services/InventoryService";
 import "../style/SidePanel.css";
 
-function SidePanel({ activeCell, setIsViewingBox, setIsRetrievingBoxes }) {
+function SidePanel({ activeCell, boxesQuantities, setIsViewingBox, setIsRetrievingBoxes }) {
 
     // Add Food Attributes
     const [foodName, setFoodName] = useState("");
     const [capacity, setCapacity] = useState(0);
     const [quantity, setQuantity] = useState(0);
+
+    // Box Information Attributes
+    const [boxInfo, setBoxInfo] = useState({item: "", capacity: 0, quantity: 0})
 
 
     const inputCapacity = (e) => {
@@ -46,6 +49,14 @@ function SidePanel({ activeCell, setIsViewingBox, setIsRetrievingBoxes }) {
         setIsRetrievingBoxes(true);
     }
 
+    const getBoxInfo = (row, col) => {
+        
+    }
+
+    const getItem = (row, col) => {
+        return boxInfo.item;
+    }
+
     const openSidePanel = () => { document.getElementById('mySidenav').style.width = "250px" }
 
     const closeNav = () => {
@@ -56,8 +67,15 @@ function SidePanel({ activeCell, setIsViewingBox, setIsRetrievingBoxes }) {
         <>
             <div id="mySidenav" class="sidenav">
                 {/* <button class="closebtn" onClick={() => closeNav()}><img src="close_button.png" style={{ width: "35px" }} alt="Close Button" /></button> */}
-                
-                <div class="form_container">
+                <div class="box-info-container">
+                    <div class="box-info-title"><strong>Box Information</strong></div>
+                    <div class="box-info-itm">Item: {getItem(activeCell?.row, activeCell?.col)}</div>
+                    <div class="box-info-qty">Quantity: {boxInfo.quantity}</div>
+                    <div class="box-info-cap">Capacity: {boxInfo.capacity}</div>
+                </div>
+
+                <div class="form-container">
+                    <div class="form-title"><strong>Add New Item</strong></div>
                     <div class="capacity-field">
                         <label class="form-label">Box Capacity</label>
                         <input type="text" name="capacity" class="form-control" id="inputName" onChange={inputCapacity} ></input>
@@ -74,7 +92,7 @@ function SidePanel({ activeCell, setIsViewingBox, setIsRetrievingBoxes }) {
                     </div>
                     
                     <button class="savebtn" type="button" onClick={sendAddFoodRequest}>Save</button>
-                    <button class="cancelbtn" onClick={closeNav} type="button">Cancel</button>
+                    <button class="cancelbtn" onClick={closeNav} type="button">Close</button>
                 </div>
             </div>
 

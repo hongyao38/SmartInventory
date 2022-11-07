@@ -6,4 +6,4 @@ COPY . .
 
 RUN ./mvnw install
 
-CMD ["./mvnw", "spring-boot:run"]
+CMD ["./mvnw", "spring-boot:run","main.env"]

@@ -94,6 +94,7 @@ function Map({
         <SidePanel 
           class="box-side-panel" 
           activeCell={activeCell} 
+          boxesQuantities={boxesQuantities}
           setIsViewingBox={setIsViewingBox}
           setIsRetrievingBoxes={setIsRetrievingBoxes}
         /> : ""}

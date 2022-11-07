@@ -19,6 +19,7 @@ function Grid() {
   const [blocks, setBlocks] = useState([]);
   const [boxes, setBoxes] = useState([]);
   const [boxesQuantities, setBoxesQuantities] = useState([]);
+  const [lowItems, setLowItems] = useState([]);
 
   /**
    * Sends a request to backend API to retrieve all users persisted blocks
@@ -56,7 +57,7 @@ function Grid() {
 
       let percentage = ctn.quantity / ctn.capacity;
       if (ctn.quantity === 0) percentage = 0;
-      quantitiesArr[i] = [ctn.i, ctn.j, percentage, ctn.food];
+      quantitiesArr[i] = [ctn.i, ctn.j, percentage, ctn.food, ctn.quantity, ctn.capacity];
     }
 
     // Update application parameters
@@ -65,6 +66,16 @@ function Grid() {
     setIsRetrievingBoxes(false);
     return containerCoords;
   };
+
+  const getAlerts = () => {
+    for (let i = 0; i < boxesQuantities.length; i++) {
+      let qty = boxesQuantities[i];
+      if (qty[2] < 0.1) {
+        lowItems.push(qty[3]);
+        setLowItems(lowItems);
+      }
+    }
+  }
 
   return (
     <div>

@@ -49,9 +49,9 @@ function NavBar() {
 
       <div id="mySideNav" class="mainSideNav">
         {/* <a class="closebtn" onClick={() =>closeNav()}><img src ="close.png" style={{ width: "35px" }}/></a> */}
-        <a href="/">Account</a>
         <a href="/">Dashboard</a>
-        <a href="/">Alerts</a>
+        <a href="/grid">Inventory</a>
+        <a href="/alerts">Alerts</a>
         <a href="/">Logout</a>
       </div>
     </>
