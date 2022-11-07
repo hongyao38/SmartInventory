@@ -31,23 +31,23 @@ import com.smartinventory.appuser.AppUserService;
 
 @ExtendWith(MockitoExtension.class)
 public class ResetPasswordTest {
-    @LocalServerPort
-    private int port;
+    // @LocalServerPort
+    // private int port;
 
-    @InjectMocks
-    private AppUserService userService;
+    // @InjectMocks
+    // private AppUserService userService;
 
-    @Mock
-    private AppUserRepository users;
+    // @Mock
+    // private AppUserRepository users;
 
-    @Mock
-    private AuthService authService;
+    // @Mock
+    // private AuthService authService;
 
-    @Mock
-    private ConfirmationTokenRepository tokens;
+    // @Mock
+    // private ConfirmationTokenRepository tokens;
 
-    @Autowired
-    private BCryptPasswordEncoder encoder;
+    // @Autowired
+    // private BCryptPasswordEncoder encoder;
 
 
     // @Test
