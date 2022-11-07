@@ -7,11 +7,16 @@ const BOX_LEVEL_CLASSES = {
   HIGH: "box-high",
 };
 
-function Cell({ row, col, isBlock, isActive, handleCellClick }) {
+function Cell({ row, col, isBlock, isActive, isBox, handleCellClick }) {
 
   return (
     <div
-      className={`cell ${isActive ? "active" : ""} ${isBlock ? "block" : ""}`}
+      className={
+        `cell 
+        ${isActive ? "active" : ""} 
+        ${isBlock ? "block" : ""} 
+        ${isBox ? "box" : ""}`
+      }
       onClick={() => handleCellClick(row, col)}
     ></div>
   );

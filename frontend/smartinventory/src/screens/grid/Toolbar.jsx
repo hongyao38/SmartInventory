@@ -1,20 +1,37 @@
 import "./styles/Toolbar.css";
-import { newBlock } from "../../services/InventoryService";
+import { newBlock, newBox } from "../../services/InventoryService";
 
-function Toolbar({ activeCell, blocks, setBlocks }) {
+function Toolbar({ activeCell, setActiveCell, blocks, setBlocks, boxes, setBoxes }) {
 
+  // After selecting a cell, clicking New Block will create a new block
   const handleClickNewBlock = async (e) => {
     try {
       await newBlock({
         i: activeCell?.row,
         j: activeCell?.col
-      })
+      });
     } catch (e) {
-      alert("Could not send request to add block")
+      alert("Could not send request to add block");
     }
-    blocks.push([activeCell?.row, activeCell?.col])
-    setBlocks(blocks)
-    console.log("Blocks: ", blocks)
+    setActiveCell({ row: null, col: null });
+    blocks.push([activeCell?.row, activeCell?.col]);
+    setBlocks(blocks);
+  }
+
+  // TODO: Implement initialising of container capacity
+  const handleClickNewContainer = async (e) => {
+    try {
+      await newBox({
+        capacity: 0,
+        i: activeCell?.row,
+        j: activeCell?.col
+      });
+    } catch (e) {
+      alert("Could not send request to add container");
+    }
+    setActiveCell({ row: null, col: null });
+    boxes.push([activeCell?.row, activeCell?.col]);
+    setBoxes(boxes);
   }
 
   return (
@@ -30,7 +47,12 @@ function Toolbar({ activeCell, blocks, setBlocks }) {
         </button>
 
         {/* New Container Button */}
-        <button className="newContainerBtn">New Container</button>
+        <button 
+          className="newContainerBtn"
+          onClick={() => handleClickNewContainer()}
+        >
+          New Container
+        </button>
 
         {/* Delete Block Button */}
         <button className="deleteBlockBtn">Delete Block</button>

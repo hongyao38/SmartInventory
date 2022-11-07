@@ -30,7 +30,7 @@ function NavBar() {
             <div>
               <MDBNavbarNav className="me-auto mt-1 mb-lg-0">
                 <MDBNavbarItem onClick={() => toggleNav()}>
-                  <img src="hamburgerIcon.png" />
+                  <img src="hamburgerIcon.png" alt="Hamburger Icon"/>
                 </MDBNavbarItem>
               </MDBNavbarNav>
             </div>
@@ -39,11 +39,11 @@ function NavBar() {
               <MDBNavbarNav className="mx-auto mt-1">
                 <div class="flexrow1">
                   <MDBNavbarItem>
-                    <h5>Welcome, user</h5>
+                    <h5>Welcome, {sessionStorage.getItem("name")}</h5>
                   </MDBNavbarItem>
 
                   <MDBNavbarItem>
-                    <img src="/user.png" style={{ width: "35px" }} />
+                    <img src="/user.png" style={{ width: "35px" }} alt="User Profile Picture" />
                   </MDBNavbarItem>
                 </div>
               </MDBNavbarNav>
