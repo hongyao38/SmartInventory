@@ -17,6 +17,24 @@
     transition: all .15s ease-in-out;
 }
 
+.high {
+    background-image: url("../assets/box_high.png");
+    background-size: 115px 115px;
+    transition: all .15s ease-in-out;
+}
+
+.med {
+    background-image: url("../assets/box_med.png");
+    background-size: 115px 115px;
+    transition: all .15s ease-in-out;
+}
+
+.low {
+    background-image: url("../assets/box_low.png");
+    background-size: 115px 115px;
+    transition: all .15s ease-in-out;
+}
+
 .cell:hover {
     border: rgb(72, 93, 213) solid 3px;
     opacity: 75%;
@@ -26,24 +44,4 @@
     /* background-color: rgba(108, 219, 127, 0.4); */
     border: rgb(108, 232, 113) solid 3px;
     transition: all .15s ease-in-out;
-}
-
-.box-empty {
-    background-image: url("../assets/BoxHigh.png");
-    background-size: contain;
-}
-
-.box-low {
-    background-image: url("../assets/BoxLow.png");
-    background-size: contain;
-}
-
-.box-medium {
-    background-image: url("../assets/BoxMed.png");
-    background-size: contain;
-}
-
-.box-high {
-    background-image: url("../assets/BoxHigh.png");
-    background-size: contain;
 }

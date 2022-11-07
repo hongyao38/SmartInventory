@@ -7,7 +7,9 @@ const BOX_LEVEL_CLASSES = {
   HIGH: "box-high",
 };
 
-function Cell({ row, col, isBlock, isActive, isBox, handleCellClick }) {
+function Cell({ row, col, isBlock, isActive, isBox, stockLevel, handleCellClick }) {
+
+  if (row === 1 && col === 4) console.log("STOCK LEVEL: ", stockLevel);
 
   return (
     <div
@@ -15,7 +17,8 @@ function Cell({ row, col, isBlock, isActive, isBox, handleCellClick }) {
         `cell 
         ${isActive ? "active" : ""} 
         ${isBlock ? "block" : ""} 
-        ${isBox ? "box" : ""}`
+        ${isBox ? "box" : ""} 
+        ${stockLevel}`
       }
       onClick={() => handleCellClick(row, col)}
     ></div>

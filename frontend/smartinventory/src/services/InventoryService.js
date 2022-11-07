@@ -29,6 +29,15 @@ const newBox = async (container) => {
   return res.status === 201;
 };
 
+// Send request to get an INDIVIDUAL box
+const getBox = async (i, j) => {
+  const res = await axiosInstance({
+    method: "get",
+    url: "containers/" + sessionStorage.getItem("name") + "/" + i + "_" + j
+  })
+  return res.data;
+}
+
 // Send request to get all containers belonging to user
 const getAllBoxes = async () => {
   const res = await axiosInstance({
@@ -62,6 +71,7 @@ export {
   newBlock,
   getAllBlocks,
   newBox,
+  getBox,
   getAllBoxes,
   updateBoxCapacity,
   addFoodToBox,

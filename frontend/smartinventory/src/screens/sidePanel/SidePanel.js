@@ -2,14 +2,14 @@ import React, { useState } from "react";
 import { addFoodToBox, updateBoxCapacity } from "../../services/InventoryService";
 import "../style/SidePanel.css";
 
-function SidePanel({ activeCell, setIsViewingBox }) {
+function SidePanel({ activeCell, setIsViewingBox, setStockUpdateNeeded }) {
 
     // Add Food Attributes
     const [foodName, setFoodName] = useState("");
     const [capacity, setCapacity] = useState(0);
     const [quantity, setQuantity] = useState(0);
 
-    
+
     const inputCapacity = (e) => {
         setCapacity( parseFloat(e.target.value, 10) );
     };
@@ -42,7 +42,8 @@ function SidePanel({ activeCell, setIsViewingBox }) {
             })
         } catch (e) {
             alert("Cannot add food to container");
-        } 
+        }
+        setStockUpdateNeeded(true);
     }
 
     const openSidePanel = () => { document.getElementById('mySidenav').style.width = "250px" }
