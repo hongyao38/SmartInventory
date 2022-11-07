@@ -1,3 +1,6 @@
+import { useState } from "react";
+import { useEffect } from "react";
+import { getBox } from "../../services/InventoryService";
 import "./styles/Cell.css";
 
 const BOX_LEVEL_CLASSES = {
@@ -7,19 +10,23 @@ const BOX_LEVEL_CLASSES = {
   HIGH: "box-high",
 };
 
-function Cell({ row, col, isBlock, isActive, isBox, stockLevel, handleCellClick }) {
-
-  if (row === 1 && col === 4) console.log("STOCK LEVEL: ", stockLevel);
+function Cell({
+  row,
+  col,
+  isBlock,
+  isActive,
+  isBox,
+  stockLevel,
+  handleCellClick,
+}) {
 
   return (
     <div
-      className={
-        `cell 
+      className={`cell 
         ${isActive ? "active" : ""} 
         ${isBlock ? "block" : ""} 
         ${isBox ? "box" : ""} 
-        ${stockLevel}`
-      }
+        ${stockLevel}`}
       onClick={() => handleCellClick(row, col)}
     ></div>
   );

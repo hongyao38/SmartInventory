@@ -1,24 +1,19 @@
-import * as mdb from "mdb-react-ui-kit"; // lib
 import "./NavBar.css";
 
-import React, { useState } from "react";
 import {
-  MDBNavbar,
-  MDBContainer,
-  MDBNavbarNav,
-  MDBNavbarItem,
+  MDBContainer, MDBNavbar, MDBNavbarItem, MDBNavbarNav
 } from "mdb-react-ui-kit";
+import React, { useState } from "react";
 
 function NavBar() {
   const [sideNav, SetSideNav] = useState(true);
 
   const toggleNav = () => {
-    // console.log("hello")
     SetSideNav(!sideNav);
     if (sideNav) {
-      document.getElementById("mySidenav").style.width = "250px";
+      document.getElementById("mySideNav").style.width = "250px";
     } else {
-      document.getElementById("mySidenav").style.width = "0px";
+      document.getElementById("mySideNav").style.width = "0px";
     }
   };
 
@@ -30,7 +25,7 @@ function NavBar() {
             <div>
               <MDBNavbarNav className="me-auto mt-1 mb-lg-0">
                 <MDBNavbarItem onClick={() => toggleNav()}>
-                  <img src="hamburgerIcon.png" alt="Hamburger Icon"/>
+                  <img src="/hamburgerIcon.png" alt="Hamburger Icon"/>
                 </MDBNavbarItem>
               </MDBNavbarNav>
             </div>
@@ -43,7 +38,7 @@ function NavBar() {
                   </MDBNavbarItem>
 
                   <MDBNavbarItem>
-                    <img src="/user.png" style={{ width: "35px" }} alt="User Profile Picture" />
+                    <img src="/user.png" style={{ width: "35px" }} alt="User Profile" />
                   </MDBNavbarItem>
                 </div>
               </MDBNavbarNav>
@@ -52,12 +47,12 @@ function NavBar() {
         </MDBContainer>
       </MDBNavbar>
 
-      <div id="mySidenav" class="sidenav">
+      <div id="mySideNav" class="mainSideNav">
         {/* <a class="closebtn" onClick={() =>closeNav()}><img src ="close.png" style={{ width: "35px" }}/></a> */}
-        <a href="#">Account</a>
-        <a href="#">dashboard</a>
-        <a href="#">Clients</a>
-        <a href="#">Contact</a>
+        <a href="/">Account</a>
+        <a href="/">Dashboard</a>
+        <a href="/">Alerts</a>
+        <a href="/">Logout</a>
       </div>
     </>
   );

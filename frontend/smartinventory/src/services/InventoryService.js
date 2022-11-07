@@ -31,6 +31,7 @@ const newBox = async (container) => {
 
 // Send request to get an INDIVIDUAL box
 const getBox = async (i, j) => {
+  console.log("Called getbox");
   const res = await axiosInstance({
     method: "get",
     url: "containers/" + sessionStorage.getItem("name") + "/" + i + "_" + j

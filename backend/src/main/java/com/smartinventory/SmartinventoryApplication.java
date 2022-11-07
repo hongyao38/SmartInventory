@@ -17,16 +17,16 @@ public class SmartinventoryApplication {
 		ApplicationContext ctx =  SpringApplication.run(SmartinventoryApplication.class, args);
 		AuthService authService = ctx.getBean(AuthService.class);
 
-		// // Testing email (CHANGE IF NEEDED)
-		// String email = "hello@live.com.sg";
+		// Testing email (CHANGE IF NEEDED)
+		String email = "hello@live.com.sg";
 
-		// // Register User
-		// RegistrationDTO regDTO = new RegistrationDTO(email, "xiaodidi", "12345");
-		// String confirmationToken = authService.register(regDTO);
+		// Register User
+		RegistrationDTO regDTO = new RegistrationDTO(email, "xiaodidi", "12345");
+		String confirmationToken = authService.register(regDTO);
 
-		// // Confirm email
-		// authService.confirmToken(confirmationToken);
-		// System.out.println("User email confirmed, ready for testing");
+		// Confirm email
+		authService.confirmToken(confirmationToken);
+		System.out.println("User email confirmed, ready for testing");
 
 		// // Login
 		// System.out.println(authService.login(new CredDTO("xiaodidi", "12345")).getBody().getJwt());

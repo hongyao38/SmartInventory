@@ -18,6 +18,7 @@ function Grid() {
   const [activeCell, setActiveCell] = useState(null);
   const [blocks, setBlocks] = useState([]);
   const [boxes, setBoxes] = useState([]);
+  const [boxesQuantities, setBoxesQuantities] = useState([]);
 
   /**
    * Sends a request to backend API to retrieve all users persisted blocks
@@ -41,20 +42,28 @@ function Grid() {
   };
 
   const loadBoxes = async () => {
-    const containerCoords = await getAllBoxes();
+    const allContainers = await getAllBoxes();
+
+    const n = allContainers.length;
 
     // Get the coordinates of all containers
-    const n = containerCoords.length;
-    let allContainers = Array(n);
-
+    let containerCoords = Array(n);
+    let quantitiesArr = Array(n);
     for (let i = 0; i < n; i++) {
-      allContainers[i] = [containerCoords[i].i, containerCoords[i].j];
+
+      let ctn = allContainers[i];
+      containerCoords[i] = [ctn.i, ctn.j];
+
+      let percentage = ctn.quantity / ctn.capacity;
+      if (ctn.quantity === 0) percentage = 0;
+      quantitiesArr[i] = [ctn.i, ctn.j, percentage, ctn.food];
     }
 
     // Update application parameters
-    setBoxes(allContainers);
+    setBoxes(containerCoords);
+    setBoxesQuantities(quantitiesArr);
     setIsRetrievingBoxes(false);
-    return allContainers;
+    return containerCoords;
   };
 
   return (
@@ -65,8 +74,10 @@ function Grid() {
         <Map
           blocks={isRetrievingBlocks ? loadBlocks() : blocks}
           boxes={isRetrievingBoxes ? loadBoxes() : boxes}
+          boxesQuantities={boxesQuantities}
           activeCell={activeCell}
           setActiveCell={setActiveCell}
+          setIsRetrievingBoxes={setIsRetrievingBoxes}
         />
         <Toolbar
           activeCell={activeCell}

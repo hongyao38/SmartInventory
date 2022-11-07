@@ -1,6 +1,5 @@
 package com.smartinventory.inventory.purchase;
 
-import java.time.LocalDate;
 import java.time.ZonedDateTime;
 
 import javax.persistence.Entity;
@@ -13,12 +12,12 @@ import javax.persistence.OneToOne;
 import javax.persistence.SequenceGenerator;
 import javax.validation.constraints.NotNull;
 
+import org.springframework.boot.jackson.JsonComponent;
+
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.smartinventory.appuser.AppUser;
 import com.smartinventory.inventory.food.Food;
-
-import org.springframework.boot.jackson.JsonComponent;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

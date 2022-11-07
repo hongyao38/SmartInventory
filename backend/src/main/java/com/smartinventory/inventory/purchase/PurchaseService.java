@@ -6,17 +6,16 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+import org.springframework.stereotype.Service;
+
 import com.smartinventory.appuser.AppUser;
 import com.smartinventory.appuser.AppUserRepository;
-import com.smartinventory.inventory.consumption.Consumption;
 import com.smartinventory.inventory.container.Container;
 import com.smartinventory.inventory.container.ContainerRepository;
 import com.smartinventory.inventory.food.Food;
 import com.smartinventory.inventory.food.FoodRepository;
 import com.smartinventory.inventory.storage.Storage;
 import com.smartinventory.inventory.storage.StorageRepository;
-
-import org.springframework.stereotype.Service;
 
 import lombok.AllArgsConstructor;
 

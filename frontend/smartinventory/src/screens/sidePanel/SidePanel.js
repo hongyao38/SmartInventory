@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { addFoodToBox, updateBoxCapacity } from "../../services/InventoryService";
 import "../style/SidePanel.css";
 
-function SidePanel({ activeCell, setIsViewingBox, setStockUpdateNeeded }) {
+function SidePanel({ activeCell, setIsViewingBox, setIsRetrievingBoxes }) {
 
     // Add Food Attributes
     const [foodName, setFoodName] = useState("");
@@ -43,7 +43,7 @@ function SidePanel({ activeCell, setIsViewingBox, setStockUpdateNeeded }) {
         } catch (e) {
             alert("Cannot add food to container");
         }
-        setStockUpdateNeeded(true);
+        setIsRetrievingBoxes(true);
     }
 
     const openSidePanel = () => { document.getElementById('mySidenav').style.width = "250px" }
@@ -59,17 +59,17 @@ function SidePanel({ activeCell, setIsViewingBox, setStockUpdateNeeded }) {
                 
                 <div class="form_container">
                     <div class="capacity-field">
-                        <label for="inputName" class="form-label">Box Capacity</label>
+                        <label class="form-label">Box Capacity</label>
                         <input type="text" name="capacity" class="form-control" id="inputName" onChange={inputCapacity} ></input>
                     </div>
 
                     <div class="name-field">
-                        <label for="inputExpiryDate" class="form-label">Item Name</label>
+                        <label class="form-label">Item Name</label>
                         <input type="text" name="foodName" class="form-control" id="inputExpiryDate" onChange={inputName} ></input>
                     </div>
 
                     <div class="quantity-field">
-                        <label for="inputQuantity" class="form-label">Item Quantity</label>
+                        <label class="form-label">Item Quantity</label>
                         <input type="text" name="quantity" class="form-control" id="inputQuantity" onChange={inputQuantity} ></input>
                     </div>
                     

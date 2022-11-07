@@ -1,5 +1,4 @@
 import { useState } from "react";
-import { getBox } from "../../services/InventoryService.js";
 import SidePanel from "../sidePanel/SidePanel.js";
 import Cell from "./Cell.jsx";
 import "./styles/Map.css";
@@ -7,16 +6,16 @@ import "./styles/Map.css";
 function Map({
   blocks,
   boxes,
+  boxesQuantities,
   activeCell,
   setActiveCell,
+  setIsRetrievingBoxes,
   rows = 100,
   cols = 100,
 }) {
 
   // Map States
   const [isViewingBox, setIsViewingBox] = useState(false);
-  const [stockUpdateNeeded, setStockUpdateNeeded] = useState(false);
-  const [stockLevel, setStockLevel] = useState("");
 
   // Setting of active cell
   const handleCellClick = (row, col) => {
@@ -31,34 +30,6 @@ function Map({
     }
 
   };
-
-  const getStockLevel = async (row, col) => {
-
-    // No need to send request to backend if nothing changed / not box
-    if (!stockUpdateNeeded) return;
-    if (!checkIsBox(row, col)) return;
-
-    // Get container from backend
-    let container = null;
-    try {
-      container = await getBox(row, col);
-    } catch (e) {
-      // console.log("No container found");
-      return;
-    }
-
-    // calculate quantity / capacity
-    let stockPercentage = container.quantity / container.capacity;
-    if (row === 99 && col === 99) {
-      setStockUpdateNeeded(false);
-    }
-
-    // Return a string stating the stock level
-    if (stockPercentage === 0) setStockLevel("");
-    else if (stockPercentage > 0.5) setStockLevel("high");
-    else if (stockPercentage > 0.2) setStockLevel("med");
-    else setStockLevel("low");
-  }
 
   // Iterates through the list of blocks and determine if cell is a block
   const checkIsBlock = (row, col) => {
@@ -80,6 +51,21 @@ function Map({
     return false;
   };
 
+  // Iterates through the list of quantities
+  const getStockLevel = (row, col) => {
+    for (let i = 0; i < boxesQuantities.length; i++) {
+      let qty = boxesQuantities[i];
+      if (row === qty[0] && col === qty[1]) {
+        console.log("QTY: ", qty[2]);
+        if (qty[2] === 0) return "";
+        if (qty[2] > 0.5) return "high";
+        if (qty[2] > 0.2) return "med";
+        return "low";
+      }
+    }
+    return "";
+  };
+
   return (
     <div className="map">
 
@@ -96,7 +82,7 @@ function Map({
                 isBlock={checkIsBlock(row, col)}
                 isActive={row === activeCell?.row && col === activeCell?.col}
                 isBox={checkIsBox(row, col)}
-                stockLevel={stockLevel}
+                stockLevel={getStockLevel(row, col)}
                 handleCellClick={handleCellClick}
                 key={`${row}-${col}`}
               />
@@ -109,7 +95,7 @@ function Map({
           class="box-side-panel" 
           activeCell={activeCell} 
           setIsViewingBox={setIsViewingBox}
-          setStockUpdateNeeded={setStockUpdateNeeded}
+          setIsRetrievingBoxes={setIsRetrievingBoxes}
         /> : ""}
     </div>
   );
