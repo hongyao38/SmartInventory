@@ -25,4 +25,9 @@ public interface ContainerRepository extends JpaRepository<Container, Long>{
     @Modifying
     @Query("UPDATE Container c SET c.food = ?1, c.quantity = ?2 WHERE c.id = ?3")
     int updateContainerWithFood(Food food, Double quantity, Long containerId);
+
+    @Transactional
+    @Modifying
+    @Query("UPDATE Container c SET c.capacity = ?2 WHERE c.id = ?1")
+    int updateContainerCapacity(Long containerId, Double capacity);
 }

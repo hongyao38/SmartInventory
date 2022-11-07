@@ -1,19 +1,8 @@
 package com.smartinventory;
 
-import com.smartinventory.exceptions.inventory.block.BlockExistsException;
-import com.smartinventory.exceptions.inventory.block.BlockNotFoundException;
-import com.smartinventory.exceptions.inventory.storage.StorageNotFoundException;
-import com.smartinventory.inventory.block.Block;
-import com.smartinventory.inventory.block.BlockDTO;
-import com.smartinventory.inventory.block.BlockRepository;
-import com.smartinventory.inventory.block.BlockService;
-import com.smartinventory.inventory.storage.Storage;
-import com.smartinventory.inventory.storage.StorageRepository;
-
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.lenient;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
@@ -26,6 +15,16 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+
+import com.smartinventory.exceptions.inventory.block.BlockExistsException;
+import com.smartinventory.exceptions.inventory.block.BlockNotFoundException;
+import com.smartinventory.exceptions.inventory.storage.StorageNotFoundException;
+import com.smartinventory.inventory.block.Block;
+import com.smartinventory.inventory.block.BlockDTO;
+import com.smartinventory.inventory.block.BlockRepository;
+import com.smartinventory.inventory.block.BlockService;
+import com.smartinventory.inventory.storage.Storage;
+import com.smartinventory.inventory.storage.StorageRepository;
 
 @ExtendWith(MockitoExtension.class)
 public class BlockServiceTest {

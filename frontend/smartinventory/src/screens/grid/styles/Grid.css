@@ -1,0 +1,17 @@
+
+.Grid {
+    padding: 0;
+    top: 50px;
+    margin-top: 0px;
+}
+
+/* .window.scrollTo {
+    top: 500;
+    left: 500
+} */
+
+.map {
+    display: grid;
+    justify-content: center;
+    overflow: hidden;
+}

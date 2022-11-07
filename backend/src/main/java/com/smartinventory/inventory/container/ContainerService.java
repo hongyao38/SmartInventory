@@ -120,4 +120,16 @@ public class ContainerService {
         // Update food to container
         return containerRepo.updateContainerWithFood(food, newQuantity, container.getId());
     }
+
+
+    /**
+     * Update the capacity of a container
+     * @param username
+     * @param containerRequest
+     * @return int, 0 or 1
+     */
+    public int updateContainerCapacity(String username, ContainerDTO containerRequest) {
+        Container container = getContainer(username, containerRequest.getI(), containerRequest.getJ());
+        return containerRepo.updateContainerCapacity(container.getId(), containerRequest.getCapacity());
+    }
 }
