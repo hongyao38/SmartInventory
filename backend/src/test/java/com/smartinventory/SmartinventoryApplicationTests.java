@@ -11,9 +11,7 @@ class SmartinventoryApplicationTests {
 
 	@Test
 	void contextLoads() {
-		// AppUser user = new AppUser();
-		// user.setUsername("TestUser");
-		// user.setPassword("Hello");
+
 	}
 
 }
