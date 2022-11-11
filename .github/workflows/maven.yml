@@ -50,7 +50,7 @@ jobs:
           #username: ${{ secrets.DOCKER_HUB_USERNAME }}
           #password: ${{ secrets.DOCKER_HUB_ACCESS_TOKEN }}
           username: ynseah
-          password: 012345678
+          password: Js_271102
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v2
       - name: Build and push
